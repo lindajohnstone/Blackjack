@@ -1,4 +1,3 @@
-using System;
 using Xunit;
 
 namespace Blackjack.Tests
@@ -20,5 +19,16 @@ namespace Blackjack.Tests
             Assert.True(result);
         }
 
+        [Theory]
+        [MemberData(nameof(TestData.GetCardFromDataGenerator), MemberType = typeof(TestData))]
+        public void NotBeEquivalent_GivenSameRankAndSuit(CardRank rank1, CardSuit suit1, CardRank rank2, CardSuit suit2)
+        {
+            var card1 = new Card(rank1, suit1);
+            var card2 = new Card(rank2, suit2);
+
+            var result = BlackjackHelper.CardsAreEqual(card1, card2);
+
+            Assert.False(result);
+        }    
     }
 }
