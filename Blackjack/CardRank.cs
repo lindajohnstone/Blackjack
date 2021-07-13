@@ -5,7 +5,7 @@ namespace Blackjack
 {
     public enum CardRank
     {
-        Ace,
+        Ace = 0,
         [Description("2")]
         Two,
         [Description("3")]

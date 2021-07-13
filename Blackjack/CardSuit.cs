@@ -2,7 +2,7 @@ namespace Blackjack
 {
     public enum CardSuit
     {
-        Diamonds,
+        Diamonds = 0,
         Hearts,
         Clubs,
         Spades
