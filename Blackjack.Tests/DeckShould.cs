@@ -99,5 +99,8 @@ namespace Blackjack.Tests
 
             Assert.False(result);
         }
+        // test to check number of cards
+        // check there are 13 cards with same suit
+        // 4 cards with different suits
     }
 }
