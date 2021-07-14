@@ -12,7 +12,7 @@ namespace Blackjack
             Initialize(cards);
         }
 
-        private List<Card> Initialize(List<Card> cards) // TODO: is there a way to set this via a loop?
+        private List<Card> Initialize(List<Card> cards) 
         {
             foreach (CardRank rank in Enum.GetValues(typeof(CardRank)))
             {
@@ -21,13 +21,7 @@ namespace Blackjack
                     cards.Add(new Card(rank, suit));
                 }
             }
-            // for (var rank = 0; rank < 13; rank++)
-            // {
-            //     for (var suit = 0; suit < 4; suit++)
-            //     {
-            //         cards.Add(new Card((CardRank)rank, (CardSuit) suit));
-            //     }
-            // }
+            
             return cards;
         }
     }

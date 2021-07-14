@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace Blackjack.Tests
@@ -7,100 +8,17 @@ namespace Blackjack.Tests
     public class DeckShould
     {
         [Fact]
-        public void BeEquivalent_GivenTwoListsOfCards()
+        public void BeInitialized()
         {
-            var cards1 = new List<Card>()
-            {
-                new Card(CardRank.Ace, CardSuit.Clubs),
-                new Card(CardRank.Ace, CardSuit.Diamonds),
-                new Card(CardRank.Ace, CardSuit.Hearts),
-                new Card(CardRank.Ace, CardSuit.Spades)
-            };
-            var cards2 = new List<Card>()
-            {
-                new Card(CardRank.Ace, CardSuit.Clubs),
-                new Card(CardRank.Ace, CardSuit.Diamonds),
-                new Card(CardRank.Ace, CardSuit.Hearts),
-                new Card(CardRank.Ace, CardSuit.Spades)
-            };
+            var cards = new List<Card>();
+            var deck = new Deck(cards);
 
-            var result = BlackjackHelper.ListsOfCardsAreEqual(cards1, cards2);
+            var numberOfCardsInSuit = deck.Cards.Count(x => x.Suit == CardSuit.Clubs);
+            var numberOfCardsOfRank = deck.Cards.Count(x => x.Rank == CardRank.Ace);
 
-            Assert.True(result);
+            Assert.Equal(52, deck.Cards.Count);
+            Assert.Equal(13, numberOfCardsInSuit);
+            Assert.Equal(4, numberOfCardsOfRank);
         }
-
-        [Fact]
-        public void NotBeEquivalent_GivenTwoDifferentLists_ofCards()
-        {
-            var cards1 = new List<Card>()
-            {
-                new Card(CardRank.Two, CardSuit.Clubs),
-                new Card(CardRank.Ace, CardSuit.Diamonds),
-                new Card(CardRank.Ace, CardSuit.Hearts),
-                new Card(CardRank.Ace, CardSuit.Spades)
-            };
-            var cards2 = new List<Card>()
-            {
-                new Card(CardRank.Ace, CardSuit.Clubs),
-                new Card(CardRank.Ace, CardSuit.Diamonds),
-                new Card(CardRank.Ace, CardSuit.Hearts),
-                new Card(CardRank.Ace, CardSuit.Spades)
-            };
-
-            var result = BlackjackHelper.ListsOfCardsAreEqual(cards1, cards2);
-
-            Assert.False(result);
-        }
-
-        [Fact]
-        public void BeEquivalent_GivenTwoDecksOfCards()
-        {
-            var cards1 = new List<Card>()
-            {
-                new Card(CardRank.Ace, CardSuit.Clubs),
-                new Card(CardRank.Ace, CardSuit.Diamonds),
-                new Card(CardRank.Ace, CardSuit.Hearts),
-                new Card(CardRank.Ace, CardSuit.Spades)
-            };
-            var cards2 = new List<Card>()
-            {
-                new Card(CardRank.Ace, CardSuit.Clubs),
-                new Card(CardRank.Ace, CardSuit.Diamonds),
-                new Card(CardRank.Ace, CardSuit.Hearts),
-                new Card(CardRank.Ace, CardSuit.Spades)
-            };
-            var deck1 = new Deck(cards1);
-            var deck2 = new Deck(cards2);
-
-            var result = BlackjackHelper.DecksOfCardsAreEqual(deck1, deck2);
-
-            Assert.True(result);
-        }
-
-        [Fact]
-        public void NotBeEquivalent_GivenTwoDifferentDecks()
-        {
-            var cards1 = new List<Card>()
-            {
-                new Card(CardRank.Two, CardSuit.Clubs),
-                new Card(CardRank.Ace, CardSuit.Diamonds),
-                new Card(CardRank.Ace, CardSuit.Hearts),
-                new Card(CardRank.Ace, CardSuit.Spades)
-            };
-            var cards2 = new List<Card>()
-            {
-                new Card(CardRank.Ace, CardSuit.Clubs),
-                new Card(CardRank.Ace, CardSuit.Diamonds),
-                new Card(CardRank.Ace, CardSuit.Hearts),
-                new Card(CardRank.Ace, CardSuit.Spades)
-            };
-
-            var result = BlackjackHelper.ListsOfCardsAreEqual(cards1, cards2);
-
-            Assert.False(result);
-        }
-        // test to check number of cards
-        // check there are 13 cards with same suit
-        // 4 cards with different suits
     }
 }
