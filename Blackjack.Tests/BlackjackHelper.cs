@@ -6,7 +6,13 @@ namespace Blackjack.Tests
 {
     public static class BlackjackHelper
     {
-        public static bool ListsOfCardsAreEqual(List<Card> cards1, List<Card> cards2)
+        public static bool DecksOfCardsAreEqual(Deck deck1, Deck deck2)
+        {
+            if (deck1 == null || deck2 == null) return false;
+            return ListsOfCardsAreEqual(deck1.Cards, deck2.Cards);
+        }        
+        
+        private static bool ListsOfCardsAreEqual(List<Card> cards1, List<Card> cards2)
         {
             if (cards1 == null || cards2 == null) return false;
             if (cards1.Count != cards2.Count)
@@ -26,13 +32,7 @@ namespace Blackjack.Tests
             return true;
         }
 
-        public static bool DecksOfCardsAreEqual(Deck deck1, Deck deck2)
-        {
-            if (deck1 == null || deck2 == null) return false;
-            return ListsOfCardsAreEqual(deck1.Cards, deck2.Cards);
-        }
-
-        public static bool CardsAreEqual(Card card1, Card card2)
+        private static bool CardsAreEqual(Card card1, Card card2)
         {
             if (card1 == null || card2 == null) return false;
             var isRankSame = RanksAreEqual(card1.Rank, card2.Rank);
