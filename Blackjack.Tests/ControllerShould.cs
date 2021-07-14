@@ -13,10 +13,10 @@ namespace Blackjack.Tests
             var deck = new Deck(new List<Card>());
             var controller = new Controller(deck);
 
-            var numberOfCardsInSuit = deck.Cards.Count(x => x.Suit == CardSuit.Clubs);
-            var numberOfCardsOfRank = deck.Cards.Count(x => x.Rank == CardRank.Ace);
+            var numberOfCardsInSuit = controller.Deck.Cards.Count(x => x.Suit == CardSuit.Clubs);
+            var numberOfCardsOfRank = controller.Deck.Cards.Count(x => x.Rank == CardRank.Ace);
 
-            Assert.Equal(52, deck.Cards.Count);
+            Assert.Equal(52, controller.Deck.Cards.Count);
             Assert.Equal(13, numberOfCardsInSuit);
             Assert.Equal(4, numberOfCardsOfRank);
         }
