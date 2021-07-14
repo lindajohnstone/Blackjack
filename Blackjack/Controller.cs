@@ -1,9 +1,10 @@
+using System;
+using System.Collections.Generic;
+
 namespace Blackjack
 {
     public class Controller
     {
-        // Game logic
-
         //     1.	Game starts
         //     2.	Deck is created
         //     3.	Deck is shuffled
@@ -29,5 +30,17 @@ namespace Blackjack
         //     23.	Dealer score = 22
         //     24.	Dealer goes ‘bust’
         
+        public Deck Deck { get; private set; }
+
+        public Controller(Deck deck)
+        {
+            Deck = deck;
+            Initialize();
+        }
+
+        private void Initialize()
+        {
+            Deck = new Deck(new List<Card>());
+        }
     }
 }
