@@ -42,5 +42,29 @@ namespace Blackjack
         {
             Deck = new Deck(new List<Card>());
         }
+
+        public void Play()
+        {
+            var shuffledDeck = Shuffle();
+            
+        }
+
+        public Deck Shuffle()
+        {
+            // based on Fisher-Yates Shuffle algorithm
+            var count = Deck.Cards.Count;
+            Random rand = new Random();
+            var shuffledDeck = new Deck(new List<Card>());
+
+            for (int i = count - 1; i > 0; i--)
+            {
+                int j = rand.Next(0, i + 1);
+
+                var temp = Deck.Cards[i];
+                Deck.Cards[i] = shuffledDeck.Cards[j];
+                Deck.Cards[j] = temp;
+            }
+            return shuffledDeck;
+        }
     }
 }

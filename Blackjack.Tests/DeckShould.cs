@@ -12,7 +12,6 @@ namespace Blackjack.Tests
         {
             var cards = new List<Card>();
             var deck = new Deck(cards);
-
             var numberOfCardsInSuit = deck.Cards.Count(x => x.Suit == CardSuit.Clubs);
             var numberOfCardsOfRank = deck.Cards.Count(x => x.Rank == CardRank.Ace);
 
