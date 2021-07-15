@@ -1,8 +1,10 @@
+using System.Collections.Generic;
+
 namespace Blackjack
 {
     public interface IPlayer
     {
-        public Hand Hand { get; }
+        public List<Card> ReceiveCard(Card card);
 
         public bool ChooseHit();
 
