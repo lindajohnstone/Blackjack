@@ -1,10 +1,13 @@
+using System.Collections.Generic;
+
 namespace Blackjack
 {
     public class Player : IPlayer
     {
-        public Hand Hand { get; private set; }
+        public List<Card> Hand { get; private set; }
         public Player()
         {
+            Hand = new List<Card>();
         }
 
 
@@ -16,6 +19,12 @@ namespace Blackjack
         public bool ChooseStay()
         {
             throw new System.NotImplementedException();
+        }
+
+        public List<Card> ReceiveCard(Card card)
+        {
+            Hand.Add(card);
+            return Hand;
         }
     }
 }

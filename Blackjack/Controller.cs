@@ -29,7 +29,9 @@ namespace Blackjack
         //     22.	Dealer draws[9, 'SPADE']
         //     23.	Dealer score = 22
         //     24.	Dealer goes ‘bust’
-        
+
+        public List<IPlayer> Players { get; private set; }
+
         public Deck Deck { get; private set; }
 
         public Controller(Deck deck)
@@ -41,15 +43,37 @@ namespace Blackjack
         private void Initialize()
         {
             Deck = new Deck(new List<Card>());
+            Players = GetPlayers();
+        }
+
+        private List<IPlayer> GetPlayers()
+        {
+            var player = new Player();
+            var dealer = new Dealer();
+            return Players = new List<IPlayer> { player, dealer };
         }
 
         public void Play()
         {
             var shuffledDeck = Shuffle();
-            
+            // deal cards - 2 cards to each player
+            Deal(shuffledDeck);
         }
 
-        public Deck Shuffle()
+        private void Deal(Deck shuffledDeck)
+        {
+            var index = 0;
+            foreach (var player in Players)
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    player.ReceiveCard(shuffledDeck.Cards[index]);
+                    index++;
+                }
+            }
+        }
+
+        public Deck Shuffle() // TODO: how to test if private?
         {
             // based on Fisher-Yates Shuffle algorithm
             var count = Deck.Cards.Count;
