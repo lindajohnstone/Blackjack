@@ -34,9 +34,8 @@ namespace Blackjack
 
         public Deck Deck { get; private set; }
 
-        public Controller(Deck deck)
+        public Controller()
         {
-            Deck = deck;
             Initialize();
         }
 
