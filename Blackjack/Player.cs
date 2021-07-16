@@ -21,10 +21,9 @@ namespace Blackjack
             throw new System.NotImplementedException();
         }
 
-        public List<Card> ReceiveCard(Card card)
+        public void ReceiveCard(Card card)
         {
             Hand.Add(card);
-            return Hand;
         }
     }
 }
