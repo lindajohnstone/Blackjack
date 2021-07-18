@@ -7,15 +7,14 @@ namespace Blackjack
     {
         public List<Card> Cards { get; private set; }
 
-        public Hand(List<Card> cards)
+        public Hand()
         {
-            Cards = cards;
-            Initialize(cards);
+            Cards = new List<Card>();
         }
 
-        private void Initialize(List<Card> cards)
+        public void AddCard(Card card)
         {
-            cards = new List<Card>();
+            Cards.Add(card);
         }
     }
 }

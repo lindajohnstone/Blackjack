@@ -34,9 +34,8 @@ namespace Blackjack
 
         public Deck Deck { get; private set; }
 
-        public Controller(Deck deck)
+        public Controller()
         {
-            Deck = deck;
             Initialize();
         }
 
@@ -48,9 +47,7 @@ namespace Blackjack
 
         private List<IPlayer> GetPlayers()
         {
-            var player = new Player();
-            var dealer = new Dealer();
-            return Players = new List<IPlayer> { player, dealer };
+            return Players = new List<IPlayer> { new Player(), new Dealer() };
         }
 
         public void Play()
@@ -73,7 +70,7 @@ namespace Blackjack
             }
         }
 
-        public Deck Shuffle() // TODO: how to test if private?
+        public Deck Shuffle() // TODO: how to test if private? can use Moq if method is virtual protected
         {
             // based on Fisher-Yates Shuffle algorithm
             var count = Deck.Cards.Count;

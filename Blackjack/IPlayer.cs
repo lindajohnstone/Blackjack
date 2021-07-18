@@ -4,11 +4,12 @@ namespace Blackjack
 {
     public interface IPlayer
     {
-        public List<Card> ReceiveCard(Card card);
+        List<Card> Hand { get; }
+        void ReceiveCard(Card card);
 
-        public bool ChooseHit();
+        bool ChooseHit();
 
-        public bool ChooseStay();
+        bool ChooseStay();
 
     }
 }
