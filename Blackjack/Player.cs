@@ -4,10 +4,10 @@ namespace Blackjack
 {
     public class Player : IPlayer
     {
-        public List<Card> Hand { get; private set; }
+        public Hand Hand { get; private set; }
         public Player()
         {
-            Hand = new List<Card>();
+            Hand = new Hand();
         }
 
 
@@ -23,7 +23,7 @@ namespace Blackjack
 
         public void ReceiveCard(Card card)
         {
-            Hand.Add(card);
+            Hand.AddCard(card);
         }
     }
 }
