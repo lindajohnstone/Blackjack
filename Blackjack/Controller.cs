@@ -29,13 +29,15 @@ namespace Blackjack
         //     22.	Dealer draws[9, 'SPADE']
         //     23.	Dealer score = 22
         //     24.	Dealer goes ‘bust’
+        IInput _input;
 
         public List<IPlayer> Players { get; private set; }
 
         public Deck Deck { get; private set; }
 
-        public Controller()
+        public Controller(IInput input)
         {
+            _input = input;
             Initialize();
         }
 
@@ -55,22 +57,12 @@ namespace Blackjack
             var shuffledDeck = Shuffle();
             // deal cards - 2 cards to each player
             Deal(shuffledDeck);
+            var input = _input.ReadLine();
+            // TODO: if input is valid InputParser.ParseChoice();
+            //          else validate ?? what to return if input not valid
         }
 
-        private void Deal(Deck shuffledDeck)
-        {
-            var index = 0;
-            foreach (var player in Players)
-            {
-                for (int i = 0; i < 2; i++)
-                {
-                    player.ReceiveCard(shuffledDeck.Cards[index]);
-                    index++;
-                }
-            }
-        }
-
-        public Deck Shuffle() // TODO: how to test if private? can use Moq if method is virtual protected
+        private Deck Shuffle() 
         {
             // based on Fisher-Yates Shuffle algorithm
             var count = Deck.Cards.Count;
@@ -86,6 +78,19 @@ namespace Blackjack
                 Deck.Cards[j] = temp;
             }
             return shuffledDeck;
+        }
+
+        private void Deal(Deck shuffledDeck)
+        {
+            var index = 0;
+            foreach (var player in Players)
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    player.ReceiveCard(shuffledDeck.Cards[index]);
+                    index++;
+                }
+            }
         }
     }
 }
