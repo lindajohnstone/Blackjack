@@ -10,7 +10,6 @@ namespace Blackjack
             Hand = new Hand();
         }
 
-
         public bool ChooseHit()
         {
             throw new System.NotImplementedException();

@@ -70,7 +70,7 @@ namespace Blackjack
             }
         }
 
-        public Deck Shuffle() // TODO: how to test if private? can use Moq if method is virtual protected
+        public Deck Shuffle() 
         {
             // based on Fisher-Yates Shuffle algorithm
             var count = Deck.Cards.Count;

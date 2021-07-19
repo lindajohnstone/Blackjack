@@ -3,7 +3,7 @@ using Xunit;
 
 namespace Blackjack.Tests
 {
-    public class HandShould
+    public class HandShould // TODO: should i be testing anything else?
     {
         [Fact]
         public void Initially_Have2Cards()
