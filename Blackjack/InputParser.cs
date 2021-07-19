@@ -18,6 +18,7 @@ namespace Blackjack
         private static int IsValid(string input)
         {
             var isValidNumber = Int32.TryParse(input, out var number);
+            // if (number < 0 || number > 1) return ; // what to return if input not valid
             return number;
         }
     }
