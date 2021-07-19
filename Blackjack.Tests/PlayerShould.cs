@@ -24,6 +24,8 @@ namespace Blackjack.Tests
             mockPlayer.Object.ReceiveCard(card2);
 
             mockPlayer.Verify(x => x.ReceiveCard(It.IsAny<Card>()), Times.Exactly(2));
+            Assert.True(BlackjackHelper.ListsOfCardsAreEqual(cards, new List<Card> { new Card(CardRank.Ace, CardSuit.Hearts), 
+                                                                    new Card(CardRank.Two, CardSuit.Diamonds)}));
         }
     }
 }

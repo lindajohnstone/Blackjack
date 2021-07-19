@@ -12,7 +12,7 @@ namespace Blackjack.Tests
             return ListsOfCardsAreEqual(deck1.Cards, deck2.Cards);
         }        
         
-        private static bool ListsOfCardsAreEqual(List<Card> cards1, List<Card> cards2)
+        public static bool ListsOfCardsAreEqual(List<Card> cards1, List<Card> cards2)
         {
             if (cards1 == null || cards2 == null) return false;
             if (cards1.Count != cards2.Count)
