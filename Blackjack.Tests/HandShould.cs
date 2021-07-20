@@ -3,10 +3,18 @@ using Xunit;
 
 namespace Blackjack.Tests
 {
-    public class HandShould // TODO: should i be testing anything else?
+    public class HandShould 
     {
         [Fact]
-        public void Initially_Have2Cards()
+        public void HaveNoCards_WhenFirstSetUp()
+        {
+            var hand = new Hand();
+
+            Assert.Equal(0, hand.Cards.Count);
+        }
+
+        [Fact]
+        public void Have2Cards_Given2CarsAdded()
         {
             var hand = new Hand();
             var rank1 = CardRank.Ace;
