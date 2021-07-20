@@ -2,11 +2,11 @@ using System;
 
 namespace Blackjack
 {
-    public class Validator
+    public static class Validator
     {
         // validate input is an integer
         // specifically 0 or 1
-        public bool IsValid(string input)
+        public static bool IsValid(string input)
         {
             try
             {

@@ -30,7 +30,6 @@ namespace Blackjack
         //     23.	Dealer score = 22
         //     24.	Dealer goes ‘bust’
         IInput _input;
-
         public List<IPlayer> Players { get; private set; }
 
         public Deck Deck { get; private set; }
@@ -58,8 +57,14 @@ namespace Blackjack
             // deal cards - 2 cards to each player
             Deal(shuffledDeck);
             var input = _input.ReadLine();
-            // TODO: if input is valid InputParser.ParseChoice();
-            //          else validate ?? what to return if input not valid
+            var isValid = Validator.IsValid(input);
+
+            while (!isValid)
+            {
+                input = _input.ReadLine();
+                isValid = Validator.IsValid(input);
+            }
+            InputParser.ParseChoice(input);
         }
 
         private Deck Shuffle() 

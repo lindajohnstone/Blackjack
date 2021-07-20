@@ -10,9 +10,7 @@ namespace Blackjack.Tests
         [InlineData("1")]
         public void ReturnTrue_GivenValidInput(string input) // TODO string or input as part of name. line 24 also
         {
-            var validator = new Validator();
-
-            var result = validator.IsValid(input);
+            var result = Validator.IsValid(input);
 
             Assert.True(result);
         }
@@ -23,9 +21,7 @@ namespace Blackjack.Tests
         [InlineData("2")]
         public void ReturnFalse_GivenInvalidInput(string input)
         {
-            var validator = new Validator();
-
-            var result = validator.IsValid(input);
+            var result = Validator.IsValid(input);
 
             Assert.False(result);
         }
