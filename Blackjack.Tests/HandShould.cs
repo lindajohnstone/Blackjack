@@ -7,11 +7,13 @@ namespace Blackjack.Tests
     public class HandShould 
     {
         [Fact]
-        public void HaveNoCards_WhenFirstSetUp()
+        public void HaveNoCards_WhenFirstSetUp() 
         {
             var hand = new Hand();
 
-            Assert.Equal(0, hand.Cards.Count);
+            // Assert.Equal(0, hand.Cards.Count); //TODO: remove line - 'warning xUnit2013: Do not use Assert.Equal() to check for collection size.'
+            Assert.IsType<Hand>(hand);
+            Assert.Empty(hand.Cards);
         }
 
         [Fact]

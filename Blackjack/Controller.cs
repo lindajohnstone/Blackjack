@@ -92,7 +92,7 @@ namespace Blackjack
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    player.ReceiveCard(shuffledDeck.Cards[index]);
+                    player.Hand.AddCard(shuffledDeck.Cards[index]);
                     index++;
                 }
             }

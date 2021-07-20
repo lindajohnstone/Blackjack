@@ -8,5 +8,7 @@ namespace Blackjack.Tests
     public class PlayerShould
     {
         
+        // test if hand has number of cards after player.receivecard?
+        // 
     }
 }
