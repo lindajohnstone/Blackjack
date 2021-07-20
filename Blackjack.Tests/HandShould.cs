@@ -16,7 +16,7 @@ namespace Blackjack.Tests
         }
 
         [Fact]
-        public void Have2Cards_Given2CarsAdded()
+        public void Have2Cards_Given2CardsAdded()
         {
             var hand = new Hand();
             
