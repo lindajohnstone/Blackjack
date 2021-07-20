@@ -11,7 +11,6 @@ namespace Blackjack.Tests
         {
             var hand = new Hand();
 
-            // Assert.Equal(0, hand.Cards.Count); //TODO: remove line - 'warning xUnit2013: Do not use Assert.Equal() to check for collection size.'
             Assert.IsType<Hand>(hand);
             Assert.Empty(hand.Cards);
         }
