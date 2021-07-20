@@ -1,4 +1,5 @@
 using System;
+using Moq;
 using Xunit;
 
 namespace Blackjack.Tests
@@ -17,15 +18,9 @@ namespace Blackjack.Tests
         public void Have2Cards_Given2CarsAdded()
         {
             var hand = new Hand();
-            var rank1 = CardRank.Ace;
-            var suit1 = CardSuit.Hearts;
-            var card1 = new Card(rank1, suit1);
-            var rank2 = CardRank.Two;
-            var suit2 = CardSuit.Diamonds;
-            var card2 = new Card(rank2, suit2);
-
-            hand.AddCard(card1);
-            hand.AddCard(card2);
+            
+            hand.AddCard(It.IsAny<Card>());
+            hand.AddCard(It.IsAny<Card>());
 
             Assert.Equal(2, hand.Cards.Count);
         }
