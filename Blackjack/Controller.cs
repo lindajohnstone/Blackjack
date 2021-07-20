@@ -64,7 +64,7 @@ namespace Blackjack
                 input = _input.ReadLine();
                 isValid = Validator.IsValid(input);
             }
-            InputParser.ParseChoice(input);
+            ChoiceParser.ParseChoice(input);
         }
 
         private Deck Shuffle() 
