@@ -32,9 +32,9 @@ namespace Blackjack
         IInput _input;
         public List<IPlayer> Players { get; private set; }
 
-        public Deck Deck { get; private set; }
+        public IDeck Deck { get; private set; }
 
-        public Controller(IInput input, List<IPlayer> players, Deck deck)
+        public Controller(IInput input, List<IPlayer> players, IDeck deck)
         {
             _input = input;
             Players = players;

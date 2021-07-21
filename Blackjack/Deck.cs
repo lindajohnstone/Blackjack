@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Blackjack
 {
-    public class Deck
+    public class Deck : IDeck
     {
         public List<Card> Cards { get; private set; }
         public Deck()
