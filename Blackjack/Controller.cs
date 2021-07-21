@@ -64,7 +64,7 @@ namespace Blackjack
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    player.Hand.AddCard(shuffledDeck.Cards[index]);
+                    player.ReceiveCard(shuffledDeck.Cards[index]);
                     index++;
                 }
             }

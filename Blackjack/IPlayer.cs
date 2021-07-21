@@ -10,5 +10,6 @@ namespace Blackjack
 
         bool ChooseStay();
 
+        void ReceiveCard(Card card);
     }
 }
