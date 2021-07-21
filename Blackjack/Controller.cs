@@ -34,15 +34,17 @@ namespace Blackjack
 
         public Deck Deck { get; private set; }
 
-        public Controller(IInput input)
+        public Controller(IInput input, List<IPlayer> players, Deck deck)
         {
             _input = input;
+            Players = players;
+            Deck = deck; // may need interface
             Initialize();
         }
 
         private void Initialize()
         {
-            Deck = new Deck(new List<Card>());
+            Deck = new Deck();
             Players = GetPlayers();
         }
 
@@ -53,7 +55,7 @@ namespace Blackjack
 
         public void Play()
         {
-            var shuffledDeck = Shuffle();
+            var shuffledDeck = Deck.Shuffle();
             // deal cards - 2 cards to each player
             Deal(shuffledDeck);
             var input = _input.ReadLine();
@@ -67,23 +69,7 @@ namespace Blackjack
             ChoiceParser.ParseChoice(input);
         }
 
-        private Deck Shuffle() 
-        {
-            // based on Fisher-Yates Shuffle algorithm
-            var count = Deck.Cards.Count;
-            Random rand = new Random();
-            var shuffledDeck = new Deck(new List<Card>());
 
-            for (int i = count - 1; i > 0; i--)
-            {
-                int j = rand.Next(0, i + 1);
-
-                var temp = Deck.Cards[i];
-                Deck.Cards[i] = shuffledDeck.Cards[j];
-                Deck.Cards[j] = temp;
-            }
-            return shuffledDeck;
-        }
 
         private void Deal(Deck shuffledDeck)
         {

@@ -51,5 +51,18 @@ namespace Blackjack.Tests
             if (suit1 != suit2) return false;
             return true;
         }
+
+        public static List<Card> Cards(string[] sourceData)
+        {
+            var cards = new List<Card>();
+            foreach (var source in sourceData)
+            {
+                var cardValues = source.Split(" ");
+                var rank = cardValues[0];
+                var suit = cardValues[2];
+                //var card = new Card(Enum.Parse(typeof(CardRank), rank), );
+            }
+            return cards;
+        }
     }
 }

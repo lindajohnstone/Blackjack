@@ -11,7 +11,6 @@ namespace Blackjack.Tests
         {
             var hand = new Hand();
 
-            Assert.IsType<Hand>(hand);
             Assert.Empty(hand.Cards);
         }
 

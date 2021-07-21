@@ -10,8 +10,7 @@ namespace Blackjack.Tests
         [Fact]
         public void BeInitialized()
         {
-            var cards = new List<Card>();
-            var deck = new Deck(cards);
+            var deck = new Deck();
             var numberOfCardsInSuit = deck.Cards.Count(x => x.Suit == CardSuit.Clubs);
             var numberOfCardsOfRank = deck.Cards.Count(x => x.Rank == CardRank.Ace);
 

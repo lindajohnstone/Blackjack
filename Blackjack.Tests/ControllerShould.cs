@@ -12,8 +12,8 @@ namespace Blackjack.Tests
         Controller _controller;
         IInput _input;
         public ControllerShould()
-        {   
-            _controller = new Controller(_input);
+        {
+            _controller = new Controller(_input, new List<IPlayer>(), new Deck());
         }
         [Fact]
         public void HasFullDeck_WhenInitialized()
