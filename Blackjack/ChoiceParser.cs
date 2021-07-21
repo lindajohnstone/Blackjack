@@ -2,7 +2,7 @@ using System;
 
 namespace Blackjack
 {
-    public static class InputParser
+    public static class ChoiceParser
     {
         // return enum choice
         // rename to ChoiceParser

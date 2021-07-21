@@ -18,5 +18,10 @@ namespace Blackjack
         {
             throw new System.NotImplementedException();
         }
+
+        public void ReceiveCard(Card card)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

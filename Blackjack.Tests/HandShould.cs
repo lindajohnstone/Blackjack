@@ -11,12 +11,11 @@ namespace Blackjack.Tests
         {
             var hand = new Hand();
 
-            Assert.IsType<Hand>(hand);
             Assert.Empty(hand.Cards);
         }
 
         [Fact]
-        public void Have2Cards_Given2CarsAdded()
+        public void Have2Cards_Given2CardsAdded()
         {
             var hand = new Hand();
             

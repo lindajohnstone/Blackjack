@@ -19,5 +19,10 @@ namespace Blackjack
         {
             throw new System.NotImplementedException();
         }
+
+        public void ReceiveCard(Card card)
+        {
+            Hand.AddCard(card);
+        }
     }
 }
