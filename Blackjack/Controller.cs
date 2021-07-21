@@ -39,18 +39,6 @@ namespace Blackjack
             _input = input;
             Players = players;
             Deck = deck; // may need interface
-            Initialize();
-        }
-
-        private void Initialize()
-        {
-            Deck = new Deck();
-            Players = GetPlayers();
-        }
-
-        private List<IPlayer> GetPlayers()
-        {
-            return Players = new List<IPlayer> { new Player(), new Dealer() };
         }
 
         public void Play()
@@ -68,8 +56,6 @@ namespace Blackjack
             }
             ChoiceParser.ParseChoice(input);
         }
-
-
 
         private void Deal(Deck shuffledDeck)
         {

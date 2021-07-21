@@ -10,10 +10,13 @@ namespace Blackjack.Tests
     public class ControllerShould
     {
         Controller _controller;
-        IInput _input;
+        Mock<IInput> _mockInput;
+        List<IPlayer> _players;
         public ControllerShould()
         {
-            _controller = new Controller(_input, new List<IPlayer>(), new Deck());
+            _mockInput = new Mock<IInput>();
+            _players = new List<IPlayer>();
+            _controller = new Controller(_mockInput.Object, new List<IPlayer>(), new Deck());
         }
         [Fact]
         public void HasFullDeck_WhenInitialized()
