@@ -12,7 +12,7 @@ namespace Blackjack.Tests
             return ListsOfCardsAreEqual(deck1.Cards, deck2.Cards);
         }        
         
-        public static bool ListsOfCardsAreEqual(List<Card> cards1, List<Card> cards2)
+        private static bool ListsOfCardsAreEqual(List<Card> cards1, List<Card> cards2)
         {
             if (cards1 == null || cards2 == null) return false;
             if (cards1.Count != cards2.Count)
@@ -50,19 +50,6 @@ namespace Blackjack.Tests
         {
             if (suit1 != suit2) return false;
             return true;
-        }
-
-        public static List<Card> Cards(string[] sourceData)
-        {
-            var cards = new List<Card>();
-            foreach (var source in sourceData)
-            {
-                var cardValues = source.Split(" ");
-                var rank = cardValues[0];
-                var suit = cardValues[2];
-                //var card = new Card(Enum.Parse(typeof(CardRank), rank), );
-            }
-            return cards;
         }
     }
 }
