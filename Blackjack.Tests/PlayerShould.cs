@@ -19,7 +19,7 @@ namespace Blackjack.Tests
 
             for (var i = 0; i < expected; i++)
             {
-                hand.AddCard(It.IsAny<Card>());
+                player.ReceiveCard(It.IsAny<Card>());
             }
 
             Assert.Equal(expected, hand.Cards.Count);

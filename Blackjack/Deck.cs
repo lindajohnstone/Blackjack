@@ -23,22 +23,20 @@ namespace Blackjack
             }
         }
 
-        public Deck Shuffle()
+        public void Shuffle()
         {
             // based on Fisher-Yates Shuffle algorithm
             var count = Cards.Count;
             Random rand = new Random();
-            var shuffledDeck = new Deck();
 
             for (int i = count - 1; i > 0; i--)
             {
                 int j = rand.Next(0, i + 1);
 
                 var temp = Cards[i];
-                Cards[i] = shuffledDeck.Cards[j];
+                Cards[i] = Cards[j];
                 Cards[j] = temp;
             }
-            return shuffledDeck;
         }
     }
 }

@@ -38,14 +38,14 @@ namespace Blackjack
         {
             _input = input;
             Players = players;
-            Deck = deck; // may need interface
+            Deck = deck; 
         }
 
         public void Play()
         {
-            var shuffledDeck = Deck.Shuffle();
+            Deck.Shuffle();
             // deal cards - 2 cards to each player
-            Deal(shuffledDeck);
+            Deal();
             var input = _input.ReadLine();
             var isValid = Validator.IsValid(input);
 
@@ -57,15 +57,15 @@ namespace Blackjack
             ChoiceParser.ParseChoice(input);
         }
 
-        private void Deal(Deck shuffledDeck)
+        private void Deal()
         {
-            var index = 0;
             foreach (var player in Players)
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    player.ReceiveCard(shuffledDeck.Cards[index]);
-                    index++;
+                    var card = Deck.Cards[i];
+                    player.ReceiveCard(card);
+                    Deck.Cards.Remove(card);
                 }
             }
         }
