@@ -4,7 +4,7 @@ namespace Blackjack
 {
     public class Dealer : IPlayer
     {
-        public Hand Hand { get; private set; }
+        public IHand Hand { get; private set; }
         public Dealer()
         {
             Hand = new Hand();

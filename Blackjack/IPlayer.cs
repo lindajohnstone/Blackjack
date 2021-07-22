@@ -4,7 +4,7 @@ namespace Blackjack
 {
     public interface IPlayer
     {
-        Hand Hand { get; }
+        IHand Hand { get; }
         
         bool ChooseHit();
 

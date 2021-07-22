@@ -31,7 +31,7 @@ namespace Blackjack.Tests
         }
 
         [Fact]
-        public void VerifyReceiveCardIsCalled() // Players (List<Card>) on Controller is empty
+        public void PlayerReceives2Card_WhenGameStarts() // Players (List<Card>) on Controller is empty
         {
             _mockInput.Setup(x => x.ReadLine()).Returns("0");
             var mockPlayer = new Mock<IPlayer>();

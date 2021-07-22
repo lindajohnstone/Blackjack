@@ -4,10 +4,10 @@ namespace Blackjack
 {
     public class Player : IPlayer
     {
-        public Hand Hand { get; private set; }
-        public Player()
+        public IHand Hand { get; private set; }
+        public Player(IHand hand)
         {
-            Hand = new Hand();
+            Hand = hand;
         }
 
         public bool ChooseHit()

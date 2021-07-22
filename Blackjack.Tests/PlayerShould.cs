@@ -12,19 +12,17 @@ namespace Blackjack.Tests
         [InlineData(2)]
         [InlineData(3)]
         [InlineData(4)]
-        public void HaveHandWithCards_GivenCardsAdded(int expected) // TODO: should this test be test the Hand prop or the ReceiveCard method
+        public void HaveHandWithCards_GivenCardsAdded(int expected) 
         {
-            var player = new Player();
-            var hand = player.Hand;
+            var mockHand = new Mock<IHand>();
+            var player = new Player(mockHand.Object);
 
             for (var i = 0; i < expected; i++)
             {
                 player.ReceiveCard(It.IsAny<Card>());
             }
 
-            Assert.Equal(expected, hand.Cards.Count);
+            mockHand.Verify(x => x.AddCard(It.IsAny<Card>()), Times.Exactly(expected));
         }
-
-        // should there be a test for ReceiveCard also?
     }
 }
