@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Moq;
 using Xunit;
 
 namespace Blackjack.Tests
@@ -32,6 +33,17 @@ namespace Blackjack.Tests
             Assert.Equal(52, result.Count);
             Assert.Equal(13, numberOfCardsInSuit);
             Assert.Equal(4, numberOfCardsOfRank);
+        }
+
+        [Fact]
+        public void HaveLessCards_AfterDealingCard()
+        {
+            var deck = new Deck();
+
+            Assert.Equal(52, deck.Cards.Count);
+            deck.DealCard();
+
+            Assert.Equal(51, deck.Cards.Count);
         }
     }
 }
