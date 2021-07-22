@@ -24,12 +24,12 @@ namespace Blackjack.Tests
         {
             var deck = new Deck();
             
-            var result = deck.Shuffle();
-            var numberOfCardsInSuit = result.Cards.Count(x => x.Suit == CardSuit.Clubs);
-            var numberOfCardsOfRank = result.Cards.Count(x => x.Rank == CardRank.Ace);
+            deck.Shuffle();
+            var result = deck.Cards;
+            var numberOfCardsInSuit = result.Count(x => x.Suit == CardSuit.Clubs);
+            var numberOfCardsOfRank = result.Count(x => x.Rank == CardRank.Ace);
 
-            //Assert.True(BlackjackHelper.DecksOfCardsAreEqual(deck, result));// TODO: is it shuffling properly 
-            Assert.Equal(52, result.Cards.Count);
+            Assert.Equal(52, result.Count);
             Assert.Equal(13, numberOfCardsInSuit);
             Assert.Equal(4, numberOfCardsOfRank);
         }

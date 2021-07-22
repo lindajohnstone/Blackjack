@@ -24,5 +24,22 @@ namespace Blackjack.Tests
 
             Assert.Equal(2, hand.Cards.Count);
         }
+
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        [InlineData(3)]
+        [InlineData(4)]
+        public void HaveCards_GivenCardsAdded(int expected) 
+        {
+            var hand = new Hand();
+
+            for (var i = 0; i < expected; i++)
+            {
+                hand.AddCard(It.IsAny<Card>());
+            }
+
+            Assert.Equal(expected, hand.Cards.Count);
+        }
     }
 }

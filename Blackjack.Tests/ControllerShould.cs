@@ -16,7 +16,7 @@ namespace Blackjack.Tests
         {
             _mockInput = new Mock<IInput>();
             _players = new List<IPlayer>();
-            _controller = new Controller(_mockInput.Object, new List<IPlayer>(), new Deck());
+            _controller = new Controller(_mockInput.Object, _players, new Deck());
         }
         [Fact]
         public void HasFullDeck_WhenInitialized()
@@ -28,6 +28,30 @@ namespace Blackjack.Tests
             Assert.Equal(52, cards.Count);
             Assert.Equal(13, numberOfCardsInSuit);
             Assert.Equal(4, numberOfCardsOfRank);
+        }
+
+        [Fact]
+        public void GivePlayer2Cards_WhenGameStarts() 
+        {
+            _mockInput.Setup(x => x.ReadLine()).Returns("0");
+            var mockPlayer = new Mock<IPlayer>();
+            _players.Add(mockPlayer.Object);
+            
+            _controller.Play();
+
+            mockPlayer.Verify(x => x.ReceiveCard(It.IsAny<Card>()), Times.Exactly(2));
+        }
+
+        [Fact]
+        public void GivePlayerAnotherCard_WhenPlayerHits()
+        {
+            _mockInput.Setup(x => x.ReadLine()).Returns("1"); 
+            var mockPlayer = new Mock<IPlayer>();
+            _players.Add(mockPlayer.Object);
+
+            _controller.Play();
+
+            mockPlayer.Verify(x => x.ReceiveCard(It.IsAny<Card>()), Times.Exactly(3));
         }
     }
 }
