@@ -31,7 +31,7 @@ namespace Blackjack.Tests
         }
 
         [Fact]
-        public void PlayerReceives2Card_WhenGameStarts() // Players (List<Card>) on Controller is empty
+        public void GivePlayer2Cards_WhenGameStarts() 
         {
             _mockInput.Setup(x => x.ReadLine()).Returns("0");
             var mockPlayer = new Mock<IPlayer>();
@@ -40,6 +40,18 @@ namespace Blackjack.Tests
             _controller.Play();
 
             mockPlayer.Verify(x => x.ReceiveCard(It.IsAny<Card>()), Times.Exactly(2));
+        }
+
+        [Fact]
+        public void GivePlayerAnotherCard_WhenPlayerHits()
+        {
+            _mockInput.Setup(x => x.ReadLine()).Returns("1"); 
+            var mockPlayer = new Mock<IPlayer>();
+            _players.Add(mockPlayer.Object);
+
+            _controller.Play();
+
+            mockPlayer.Verify(x => x.ReceiveCard(It.IsAny<Card>()), Times.Exactly(3));
         }
     }
 }

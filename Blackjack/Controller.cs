@@ -45,29 +45,37 @@ namespace Blackjack
         {
             Deck.Shuffle();
             // deal cards - 2 cards to each player
-            Deal();
+            DealHand();
+            // this logic is for player
             var input = _input.ReadLine();
             var isValid = Validator.IsValid(input);
-
             while (!isValid)
             {
                 input = _input.ReadLine();
                 isValid = Validator.IsValid(input);
             }
-            ChoiceParser.ParseChoice(input);
+            // need to assign to a variable so player can either hit or stay
+            var choice = ChoiceParser.ParseChoice(input);
+            if (choice == Choice.Hit) DealCard(Players[0], Deck.Cards[0]);
+            // different logic for dealer
         }
 
-        private void Deal()
+        private void DealHand()
         {
             foreach (var player in Players)
             {
                 for (int i = 0; i < 2; i++)
                 {
                     var card = Deck.Cards[i];
-                    player.ReceiveCard(card);
-                    Deck.Cards.Remove(card);
+                    DealCard(player, card);
                 }
             }
+        }
+
+        private void DealCard(IPlayer player, Card card) // split out so that when player/dealer 'hit' only one card is given
+        {
+            player.ReceiveCard(card);
+            Deck.Cards.Remove(card);
         }
     }
 }
