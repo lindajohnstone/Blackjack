@@ -30,13 +30,15 @@ namespace Blackjack
         //     23.	Dealer score = 22
         //     24.	Dealer goes ‘bust’
         IInput _input;
+        IOutput _output;
         public List<IPlayer> Players { get; private set; }
 
         public IDeck Deck { get; private set; }
 
-        public Controller(IInput input, List<IPlayer> players, IDeck deck)
+        public Controller(IInput input, IOutput output, List<IPlayer> players, IDeck deck)
         {
             _input = input;
+            _output = output;
             Players = players;
             Deck = deck; 
         }
@@ -47,6 +49,7 @@ namespace Blackjack
             // deal cards - 2 cards to each player
             DealHand();
             // this logic is for player
+            _output.WriteLine(Messages.Choice);
             var input = _input.ReadLine();
             var isValid = Validator.IsValid(input);
             while (!isValid)
@@ -57,6 +60,8 @@ namespace Blackjack
             // need to assign to a variable so player can either hit or stay
             var choice = ChoiceParser.ParseChoice(input);
             if (choice == Choice.Hit) DealCard(Players[0]);
+            // calculate player's score
+            
             // different logic for dealer
         }
 

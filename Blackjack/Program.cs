@@ -12,13 +12,14 @@ namespace Blackjack
             // create your deck
             // create your controller and pass the input, players, deck into controller
             var input = new ConsoleInput();
+            var output = new ConsoleOutput();
             var playerHand = new Hand();
             var player = new Player(playerHand);
             var dealer = new Dealer();
             var players = new List<IPlayer> { player, dealer };
             var deck = new Deck();
-            var controller = new Controller(input, players, deck);
-
+            var controller = new Controller(input, output, players, deck);
+            controller.Play();
         }
     }
 }
