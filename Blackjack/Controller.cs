@@ -56,7 +56,7 @@ namespace Blackjack
             }
             // need to assign to a variable so player can either hit or stay
             var choice = ChoiceParser.ParseChoice(input);
-            if (choice == Choice.Hit) DealCard(Players[0], Deck.Cards[0]);
+            if (choice == Choice.Hit) DealCard(Players[0]);
             // different logic for dealer
         }
 
@@ -66,16 +66,15 @@ namespace Blackjack
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    var card = Deck.Cards[i];
-                    DealCard(player, card);
+                    DealCard(player);
                 }
             }
         }
 
-        private void DealCard(IPlayer player, Card card) // split out so that when player/dealer 'hit' only one card is given
+        private void DealCard(IPlayer player) // split out so that when player/dealer 'hit' only one card is given
         {
+            var card = Deck.DealCard();
             player.ReceiveCard(card);
-            Deck.Cards.Remove(card);
         }
     }
 }
