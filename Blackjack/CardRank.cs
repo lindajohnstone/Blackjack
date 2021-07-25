@@ -5,6 +5,7 @@ namespace Blackjack
 {
     public enum CardRank
     {
+        [Description("Ace")]
         Ace = 0,
         [Description("2")]
         Two,
@@ -24,8 +25,11 @@ namespace Blackjack
         Nine,
         [Description("10")]
         Ten,
+        [Description("Jack")]
         Jack,
+        [Description("Queen")]
         Queen,
+        [Description("King")]
         King
     }
 }

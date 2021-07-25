@@ -6,5 +6,6 @@ namespace Blackjack
     {
         List<Card> Cards { get; }
         void Shuffle();
+        Card DealCard();
     }
 }

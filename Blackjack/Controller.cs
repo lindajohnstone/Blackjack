@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Blackjack
@@ -30,33 +31,49 @@ namespace Blackjack
         //     23.	Dealer score = 22
         //     24.	Dealer goes ‘bust’
         IInput _input;
+        IOutput _output;
         public List<IPlayer> Players { get; private set; }
-
         public IDeck Deck { get; private set; }
 
-        public Controller(IInput input, List<IPlayer> players, IDeck deck)
+        public Controller(IInput input, IOutput output, List<IPlayer> players, IDeck deck)
         {
             _input = input;
+            _output = output;
             Players = players;
-            Deck = deck; 
+            Deck = deck;
         }
 
         public void Play()
         {
+            // game starts
+            _output.WriteLine(Messages.Welcome);
+            // deck shuffled
             Deck.Shuffle();
             // deal cards - 2 cards to each player
             DealHand();
             // this logic is for player
+            // player score calculated
+            // write messages.score
+            // hit or stay
+            // loop start - what is the end condition?
+            _output.WriteLine(Messages.Choice);
+            // receive input
             var input = _input.ReadLine();
+            // validate input
             var isValid = Validator.IsValid(input);
             while (!isValid)
             {
                 input = _input.ReadLine();
                 isValid = Validator.IsValid(input);
             }
-            // need to assign to a variable so player can either hit or stay
+            // parse input
             var choice = ChoiceParser.ParseChoice(input);
-            if (choice == Choice.Hit) DealCard(Players[0], Deck.Cards[0]);
+            // give another card
+            if (choice == Choice.Hit) DealCard(Players[0]);
+            // 
+            // calculate player's score
+            // loop ends
+            // loop again - line 56 - 70 - until player stays - input == "0"
             // different logic for dealer
         }
 
@@ -66,16 +83,15 @@ namespace Blackjack
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    var card = Deck.Cards[i];
-                    DealCard(player, card);
+                    DealCard(player);
                 }
             }
         }
 
-        private void DealCard(IPlayer player, Card card) // split out so that when player/dealer 'hit' only one card is given
+        private void DealCard(IPlayer player) // split out so that when player/dealer 'hit' only one card is given
         {
+            var card = Deck.DealCard();
             player.ReceiveCard(card);
-            Deck.Cards.Remove(card);
         }
     }
 }

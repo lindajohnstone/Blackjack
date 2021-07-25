@@ -6,9 +6,7 @@ namespace Blackjack
     {
         IHand Hand { get; }
         
-        bool ChooseHit();
-
-        bool ChooseStay();
+        bool Choice();
 
         void ReceiveCard(Card card);
     }

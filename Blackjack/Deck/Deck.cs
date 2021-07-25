@@ -38,5 +38,12 @@ namespace Blackjack
                 Cards[j] = temp;
             }
         }
+
+        public Card DealCard()
+        {
+            var card = Cards[^1];
+            Cards.Remove(card);
+            return card;
+        }
     }
 }

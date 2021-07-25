@@ -9,17 +9,13 @@ namespace Blackjack
         {
             Hand = new Hand();
         }        
-        public bool ChooseHit()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public bool ChooseStay()
-        {
-            throw new System.NotImplementedException();
-        }
 
         public void ReceiveCard(Card card)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public bool Choice()
         {
             throw new System.NotImplementedException();
         }
