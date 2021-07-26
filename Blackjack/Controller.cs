@@ -52,20 +52,21 @@ namespace Blackjack
             // deal cards - 2 cards to each player
             DealHand();
             // this logic is for player
-            _output.WriteLine(Messages.Choice);
-            // receive input
-            var input = _input.ReadLine();
-            // validate input
-            var isValid = Validator.IsValid(input);
-            while (!isValid)
-            {
-                input = _input.ReadLine();
-                isValid = Validator.IsValid(input);
-            }
-            // parse input
-            var choice = ChoiceParser.ParseChoice(input);
+            var choice = Choice.None;
             do
             {
+                _output.WriteLine(Messages.Choice);
+                // receive input
+                var input = _input.ReadLine();
+                // validate input
+                var isValid = Validator.IsValid(input);
+                while (!isValid)
+                {
+                    input = _input.ReadLine();
+                    isValid = Validator.IsValid(input);
+                }
+                // parse input
+                choice = ChoiceParser.ParseChoice(input);
                 DealCard(Players[0]);
                 _output.WriteLine(Messages.Choice);
                 // receive input
