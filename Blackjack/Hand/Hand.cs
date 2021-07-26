@@ -11,6 +11,10 @@ namespace Blackjack
         {
             Cards = new List<Card>();
         }
+        public Hand(List<Card> cards)
+        {
+            Cards = cards;
+        }
 
         public void AddCard(Card card)
         {
