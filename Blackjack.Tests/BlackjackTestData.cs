@@ -43,5 +43,19 @@ namespace Blackjack.Tests
                     "Jack of Diamonds, 6 of Spades"
                 }
             };
+
+       public static TheoryData<Hand, int> NumberCards =
+            new TheoryData<Hand, int>
+            {
+                {
+                    new Hand(new List<Card>
+                    {
+                        new Card(CardRank.Seven, CardSuit.Hearts),
+                        new Card(CardRank.Six, CardSuit.Spades),
+                        new Card(CardRank.Two, CardSuit.Clubs)
+                    }),
+                    15
+                }
+            };
     }
 }
