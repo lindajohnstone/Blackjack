@@ -38,7 +38,7 @@ namespace Blackjack.Tests
         [Fact]
         public void GivePlayerAnotherCard_WhenPlayerHits()
         {
-            _mockInput.Setup(x => x.ReadLine()).Returns("1");
+            _mockInput.SetupSequence(x => x.ReadLine()).Returns("1").Returns("0");
             _mockDeck.Setup(x => x.DealCard()).Returns(It.IsAny<Card>());
             var mockPlayer = new Mock<IPlayer>();
             _players.Add(mockPlayer.Object);
@@ -50,8 +50,7 @@ namespace Blackjack.Tests
         }
 
         [Fact]
-        public void GivePlayer2MoreCards_WhenPlayerHitsTwice() 
-        // TODO: failing - need to fix logic so player can make a choice more than once - what is the end condition (while loop)?
+        public void GivePlayer2MoreCards_WhenPlayerHitsTwice()
         {
             _mockInput.SetupSequence(x => x.ReadLine()).Returns("1").Returns("1").Returns("0");
             var mockPlayer = new Mock<IPlayer>();

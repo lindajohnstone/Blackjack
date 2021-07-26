@@ -52,28 +52,26 @@ namespace Blackjack
             // deal cards - 2 cards to each player
             DealHand();
             // this logic is for player
-            // player score calculated
-            // write messages.score
-            // hit or stay
-            // loop start - what is the end condition?
-            _output.WriteLine(Messages.Choice);
-            // receive input
-            var input = _input.ReadLine();
-            // validate input
-            var isValid = Validator.IsValid(input);
-            while (!isValid)
+            var choice = Choice.None;
+            do
             {
-                input = _input.ReadLine();
-                isValid = Validator.IsValid(input);
+                _output.WriteLine(Messages.Choice);
+                // receive input
+                var input = _input.ReadLine();
+                // validate input
+                var isValid = Validator.IsValid(input);
+                while (!isValid)
+                {
+                    input = _input.ReadLine();
+                    isValid = Validator.IsValid(input);
+                }
+                // parse input
+                choice = ChoiceParser.ParseChoice(input);
+                if (choice == Choice.Hit) DealCard(Players[0]);
+                // calculate player's score
             }
-            // parse input
-            var choice = ChoiceParser.ParseChoice(input);
-            // give another card
-            if (choice == Choice.Hit) DealCard(Players[0]);
-            // 
-            // calculate player's score
-            // loop ends
-            // loop again - line 56 - 70 - until player stays - input == "0"
+            while (choice != Choice.Stay);
+
             // different logic for dealer
         }
 
