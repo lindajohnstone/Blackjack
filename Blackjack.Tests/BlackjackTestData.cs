@@ -119,6 +119,15 @@ namespace Blackjack.Tests
                     }),
                     13
                 },
+                {
+                    new Hand(new List<Card>
+                    {
+                        new Card(CardRank.Ace, CardSuit.Diamonds),
+                        new Card(CardRank.Two, CardSuit.Clubs),
+                        new Card(CardRank.Eight, CardSuit.Spades)
+                    }),
+                    21
+                }
             };
         }
 }
