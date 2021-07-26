@@ -44,7 +44,7 @@ namespace Blackjack.Tests
                 }
             };
 
-       public static TheoryData<Hand, int> NumberCards =
+       public static TheoryData<Hand, int> HandsWithNumberCardsData =
             new TheoryData<Hand, int>
             {
                 {
@@ -74,6 +74,37 @@ namespace Blackjack.Tests
                         new Card(CardRank.Four, CardSuit.Spades)
                     }),
                     14
+                }
+            };
+
+        public static TheoryData<Hand, int> HandsWithFaceCardsNoAcesData =
+        new TheoryData<Hand, int>
+        {
+                {
+                    new Hand(new List<Card>
+                    {
+                        new Card(CardRank.Jack, CardSuit.Hearts),
+                        new Card(CardRank.Six, CardSuit.Spades),
+                        new Card(CardRank.Two, CardSuit.Clubs)
+                    }),
+                    18
+                },
+                {
+                    new Hand(new List<Card>
+                    {
+                        new Card(CardRank.Jack, CardSuit.Spades),
+                        new Card(CardRank.Ten, CardSuit.Clubs)
+                    }),
+                    20
+                },
+                {
+                    new Hand(new List<Card>
+                    {
+                        new Card(CardRank.King, CardSuit.Diamonds),
+                        new Card(CardRank.Six, CardSuit.Spades),
+                        new Card(CardRank.Queen, CardSuit.Clubs)
+                    }),
+                    26
                 }
             };
     }
