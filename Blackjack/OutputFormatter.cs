@@ -11,12 +11,13 @@ namespace Blackjack
             var cards = hand.Cards;
             for (var i = 0; i < hand.Cards.Count; i++)
             {
-                stringBuilder.Append(cards[i].Rank); // TODO: cast as int; if statement if face card return the value else int + 1 // check out Yatzy CategoryExtensions
+                stringBuilder.Append(cards[i].Rank.GetDescription()); 
                 stringBuilder.Append(" of ");
                 stringBuilder.Append(cards[i].Suit);
                 stringBuilder.Append(", ");
             }
-            return stringBuilder.ToString().Trim(',');
+            stringBuilder.Length--;
+            return stringBuilder.ToString().TrimEnd(',');
         }
     }
 }
