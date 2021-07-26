@@ -67,7 +67,7 @@ namespace Blackjack
                 }
                 // parse input
                 choice = ChoiceParser.ParseChoice(input);
-                DealCard(Players[0]);
+                if (choice == Choice.Hit) DealCard(Players[0]);
                 // calculate player's score
             }
             while (choice != Choice.Stay);
