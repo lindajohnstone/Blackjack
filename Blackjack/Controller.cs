@@ -68,18 +68,6 @@ namespace Blackjack
                 // parse input
                 choice = ChoiceParser.ParseChoice(input);
                 DealCard(Players[0]);
-                _output.WriteLine(Messages.Choice);
-                // receive input
-                input = _input.ReadLine();
-                // validate input
-                isValid = Validator.IsValid(input);
-                while (!isValid)
-                {
-                    input = _input.ReadLine();
-                    isValid = Validator.IsValid(input);
-                }
-                // parse input
-                choice = ChoiceParser.ParseChoice(input);
                 // calculate player's score
             }
             while (choice != Choice.Stay);
