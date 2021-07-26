@@ -27,5 +27,16 @@ namespace Blackjack.Tests
 
             Assert.Equal(expected, result);
         }
+
+        [Theory]
+        [MemberData(nameof(BlackjackTestData.HandsWithFaceCardsIncludingAcesData), MemberType = typeof(BlackjackTestData))]
+        public void CalculateSum_OfHandsWithNumbersFaceCardIncludingAce(Hand hand, int expected)
+        {
+            var score = new Score();
+
+            var result = score.Calculate(hand);
+
+            Assert.Equal(expected, result);
+        }
     }
 }

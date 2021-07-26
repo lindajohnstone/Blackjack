@@ -78,8 +78,8 @@ namespace Blackjack.Tests
             };
 
         public static TheoryData<Hand, int> HandsWithFaceCardsNoAcesData =
-        new TheoryData<Hand, int>
-        {
+            new TheoryData<Hand, int>
+            {
                 {
                     new Hand(new List<Card>
                     {
@@ -107,5 +107,18 @@ namespace Blackjack.Tests
                     26
                 }
             };
-    }
+
+        public static TheoryData<Hand, int> HandsWithFaceCardsIncludingAcesData =
+            new TheoryData<Hand, int>
+            {
+                {
+                    new Hand(new List<Card>
+                    {
+                        new Card(CardRank.Ace, CardSuit.Diamonds),
+                        new Card(CardRank.Two, CardSuit.Clubs)
+                    }),
+                    13
+                },
+            };
+        }
 }

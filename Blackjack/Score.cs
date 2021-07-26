@@ -11,12 +11,9 @@ namespace Blackjack
             for (var i = 0; i < hand.Cards.Count; i++)
             {
                 var rank = (int)hand.Cards[i].Rank;
-                if (rank < 10) sum += rank;
-                sum += 10;
-                /*
-                if rank is less than 10 - add rank to sum
-                if rank is greater than 10 - add 10 to sum
-                */
+                if (rank > 10) sum += 10;
+                if (rank > 1 && rank <= 10) sum += rank;
+                if (rank == 1) sum += 11;
             }
 
             return sum;
