@@ -1,6 +1,3 @@
-using System;
-using System.Linq;
-
 namespace Blackjack
 {
     public class Score
@@ -8,15 +5,27 @@ namespace Blackjack
         public int Calculate(Hand hand)
         {
             var sum = 0;
-            for (var i = 0; i < hand.Cards.Count; i++)
+            var aceCount = 0;
+            foreach (Card card in hand.Cards)
             {
-                var rank = (int)hand.Cards[i].Rank;
-                if (rank > 10) sum += 10;
+                var rank = (int)card.Rank;
                 if (rank > 1 && rank <= 10) sum += rank;
-                if (rank == 1 && sum > 10) sum += 1;
-                if (rank == 1 && sum < 11) sum += 11;
+                if (rank > 10) sum += 10;
+                if (rank == 1) 
+                {
+                    sum += 1;
+                    aceCount++;   
+                }
             }
-
+            for (var count = 0; count <= aceCount; count++)
+            {
+                if (sum <= 11 && aceCount > 0)
+                {
+                    sum += 10;
+                    aceCount--;
+                    if (sum > 21) sum -= 10;
+                }
+            }
             return sum;
         }
     }
