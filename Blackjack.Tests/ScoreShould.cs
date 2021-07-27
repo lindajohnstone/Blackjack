@@ -7,7 +7,7 @@ namespace Blackjack.Tests
     public class ScoreShould
     {
         [Theory]
-        [MemberData(nameof(BlackjackTestData.HandsWithNumberCardsData), MemberType = typeof(BlackjackTestData))]
+        [MemberData(nameof(ScoreShouldTestData.HandsWithNumberCardsData), MemberType = typeof(ScoreShouldTestData))]
         public void CalculateSum_OfHandHoldingNumberCards(Hand hand, int expected)
         {
             var score = new Score();
@@ -18,7 +18,7 @@ namespace Blackjack.Tests
         }
 
         [Theory]
-        [MemberData(nameof(BlackjackTestData.HandsWithFaceCardsNoAcesData), MemberType = typeof(BlackjackTestData))]
+        [MemberData(nameof(ScoreShouldTestData.HandsWithFaceCardsNoAcesData), MemberType = typeof(ScoreShouldTestData))]
         public void CalculateSum_OfHandsWithNumbersAndFaceCards_NoAces(Hand hand, int expected)
         {
             var score = new Score();
@@ -29,7 +29,7 @@ namespace Blackjack.Tests
         }
 
         [Theory]
-        [MemberData(nameof(BlackjackTestData.HandsWithFaceCardsIncludingAcesData), MemberType = typeof(BlackjackTestData))]
+        [MemberData(nameof(ScoreShouldTestData.HandsWithFaceCardsIncludingAcesData), MemberType = typeof(ScoreShouldTestData))]
         public void CalculateSum_OfHandsWithNumbersFaceCardIncludingAce(Hand hand, int expected)
         {
             var score = new Score();
