@@ -10,5 +10,10 @@ namespace Blackjack
         {
             return score > 21 ? true : false;
         }
+
+        public bool IsBlackjack(int score)
+        {
+            return score == 21 ? true : false;
+        }
     }
 }
