@@ -1,8 +1,8 @@
 namespace Blackjack
 {
-    public class Score
+    public static class Score
     {
-        public int Calculate(Hand hand)
+        public static int Calculate(Hand hand)
         {
             var sum = 0;
             var aceCount = 0;

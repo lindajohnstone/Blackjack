@@ -52,6 +52,7 @@ namespace Blackjack
             // deal cards - 2 cards to each player
             DealHand();
             // this logic is for player
+            var player = Players[0];
             var choice = Choice.None;
             do
             {
@@ -67,8 +68,10 @@ namespace Blackjack
                 }
                 // parse input
                 choice = ChoiceParser.ParseChoice(input);
-                if (choice == Choice.Hit) DealCard(Players[0]);
+                if (choice == Choice.Hit) DealCard(player);
                 // calculate player's score
+                // var score = Score.Calculate(Players[0].Hand); 
+                // TODO: how to add the players' hand. 'Players[0].Hand' - error = cannot convert from 'Blackjack.IHand' to 'Blackjack.Hand'
             }
             while (choice != Choice.Stay);
 
