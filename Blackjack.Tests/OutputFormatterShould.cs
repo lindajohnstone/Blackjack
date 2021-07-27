@@ -6,7 +6,7 @@ namespace Blackjack.Tests
     public class OutputFormatterShould
     {
         [Theory]
-        [MemberData(nameof(BlackjackTestData.HandData), MemberType = typeof(BlackjackTestData))]
+        [MemberData(nameof(OutputFormatterShouldTestData.HandData), MemberType = typeof(OutputFormatterShouldTestData))]
         public void FormatHandAsString_GivenHand(Hand hand, string expected)
         {
             var result = OutputFormatter.DisplayHand(hand);
