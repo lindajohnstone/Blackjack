@@ -14,12 +14,19 @@ namespace Blackjack.Tests
         Mock<IOutput> _mockOutput;
         Mock<IDeck> _mockDeck;
         List<IPlayer> _players;
+        Mock<IHand> _mockHand;
+        Mock<IPlayer> _mockPlayer;
         public ControllerShould()
         {
             _mockInput = new Mock<IInput>();
             _mockOutput = new Mock<IOutput>();
-            _players = new List<IPlayer>();
             _mockDeck = new Mock<IDeck>();
+            _mockPlayer = new Mock<IPlayer>();
+            _mockHand = new Mock<IHand>();
+            _mockHand.SetupGet(h => h.Cards).Returns(new List<Card>());
+            _mockPlayer.SetupGet(p => p.Hand).Returns(_mockHand.Object);
+            // add dealer here
+            _players = new List<IPlayer> { _mockPlayer.Object };
             _controller = new Controller(_mockInput.Object, _mockOutput.Object, _players, _mockDeck.Object);
         }
 
@@ -27,12 +34,10 @@ namespace Blackjack.Tests
         public void GivePlayer2Cards_WhenGameStarts() 
         {
             _mockInput.Setup(x => x.ReadLine()).Returns("0");
-            var mockPlayer = new Mock<IPlayer>();
-            _players.Add(mockPlayer.Object);
             
             _controller.Play();
 
-            mockPlayer.Verify(x => x.ReceiveCard(It.IsAny<Card>()), Times.Exactly(2));
+            _mockPlayer.Verify(x => x.ReceiveCard(It.IsAny<Card>()), Times.Exactly(2));
         }
 
         [Fact]
@@ -40,25 +45,21 @@ namespace Blackjack.Tests
         {
             _mockInput.SetupSequence(x => x.ReadLine()).Returns("1").Returns("0");
             _mockDeck.Setup(x => x.DealCard()).Returns(It.IsAny<Card>());
-            var mockPlayer = new Mock<IPlayer>();
-            _players.Add(mockPlayer.Object);
 
             _controller.Play();
 
             _mockDeck.Verify(x => x.DealCard(), Times.Exactly(3));
-            mockPlayer.Verify(x => x.ReceiveCard(It.IsAny<Card>()), Times.Exactly(3));
+            _mockPlayer.Verify(x => x.ReceiveCard(It.IsAny<Card>()), Times.Exactly(3));
         }
 
         [Fact]
         public void GivePlayer2MoreCards_WhenPlayerHitsTwice()
         {
             _mockInput.SetupSequence(x => x.ReadLine()).Returns("1").Returns("1").Returns("0");
-            var mockPlayer = new Mock<IPlayer>();
-            _players.Add(mockPlayer.Object);
 
             _controller.Play();
 
-            mockPlayer.Verify(x => x.ReceiveCard(It.IsAny<Card>()), Times.Exactly(4));
+            _mockPlayer.Verify(x => x.ReceiveCard(It.IsAny<Card>()), Times.Exactly(4));
         }
     }
 }

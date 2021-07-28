@@ -70,8 +70,7 @@ namespace Blackjack
                 choice = ChoiceParser.ParseChoice(input);
                 if (choice == Choice.Hit) DealCard(player);
                 // calculate player's score
-                // var score = Score.Calculate(Players[0].Hand); 
-                // TODO: how to add the players' hand. 'Players[0].Hand' - error = cannot convert from 'Blackjack.IHand' to 'Blackjack.Hand'
+                var score = Score.Calculate(Players[0].Hand); 
             }
             while (choice != Choice.Stay);
 
