@@ -62,17 +62,11 @@ namespace Blackjack.Tests
         public void GivePlayerAnotherCard_WhenPlayerHits() // TODO: failing
         {
             _mockInput.SetupSequence(x => x.ReadLine()).Returns("1").Returns("0");
-            _mockPlayerHand.SetupSequence(p => p.Cards)
+            _mockPlayerHand.Setup(p => p.Cards)
                 .Returns(new List<Card>
                 {
                     new Card(CardRank.Ace, CardSuit.Spades),
                     new Card(CardRank.Three, CardSuit.Hearts)
-                })
-                .Returns(new List<Card>
-                {
-                    new Card(CardRank.Ace, CardSuit.Spades),
-                    new Card(CardRank.Three, CardSuit.Hearts),
-                    new Card(CardRank.Seven, CardSuit.Diamonds)
                 });
             _mockDealerHand.Setup(h => h.Cards)
                 .Returns(new List<Card>

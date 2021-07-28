@@ -73,7 +73,7 @@ namespace Blackjack
                 if (choice == Choice.Hit) 
                 {
                     var playerCard = DealCard(player);
-                    _output.WriteLine(String.Format(Messages.PlayerCard, OutputFormatter.DisplayCard(playerCard)));
+                    _output.WriteLine(String.Format(Messages.PlayerCard, OutputFormatter.DisplayCard(playerCard))); // TODO: in test card is null
                 }
                 // calculate player's score
                 playerScore = Score.Calculate(player.Hand);
