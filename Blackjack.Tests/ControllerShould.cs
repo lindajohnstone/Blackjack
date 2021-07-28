@@ -36,13 +36,20 @@ namespace Blackjack.Tests
         }
 
         [Fact]
-        public void GivePlayer2Cards_WhenGameStarts() 
+        public void GivePlayerAndDealer2Cards_WhenGameStarts() 
         {
             _mockInput.Setup(x => x.ReadLine()).Returns("0");
-            
+            _mockDealerHand.Setup(h => h.Cards)
+                .Returns(new List<Card>
+                    {
+                        new Card(CardRank.Eight, CardSuit.Diamonds),
+                        new Card(CardRank.Ten, CardSuit.Diamonds)
+                    });
+
             _controller.Play();
 
             _mockPlayer.Verify(x => x.ReceiveCard(It.IsAny<Card>()), Times.Exactly(2));
+            _mockDealer.Verify(x => x.ReceiveCard(It.IsAny<Card>()), Times.Exactly(2));
         }
 
         [Fact]
@@ -50,6 +57,12 @@ namespace Blackjack.Tests
         {
             _mockInput.SetupSequence(x => x.ReadLine()).Returns("1").Returns("0");
             _mockDeck.Setup(x => x.DealCard()).Returns(It.IsAny<Card>());
+            _mockDealerHand.Setup(h => h.Cards)
+                .Returns(new List<Card>
+                    {
+                        new Card(CardRank.Eight, CardSuit.Diamonds),
+                        new Card(CardRank.Ten, CardSuit.Diamonds)
+                    });
 
             _controller.Play();
 
@@ -61,14 +74,24 @@ namespace Blackjack.Tests
         public void GivePlayer2MoreCards_WhenPlayerHitsTwice()
         {
             _mockInput.SetupSequence(x => x.ReadLine()).Returns("1").Returns("1").Returns("0");
+            _mockDealerHand.SetupSequence(h => h.Cards)
+                .Returns(new List<Card>
+                    {
+                        new Card(CardRank.Two, CardSuit.Diamonds),
+                        new Card(CardRank.Ten, CardSuit.Diamonds)
+                    })
+                .Returns(new List<Card>
+                    {
+                        new Card(CardRank.Two, CardSuit.Diamonds),
+                        new Card(CardRank.Ten, CardSuit.Diamonds),
+                        new Card(CardRank.Six, CardSuit.Clubs)
+                    });
 
             _controller.Play();
 
             _mockPlayer.Verify(x => x.ReceiveCard(It.IsAny<Card>()), Times.Exactly(4));
         }
 
-        // test dealer receives 2 cards when game starts?
-        // test dealer 'hits' until score greater than or equal to 17
         [Fact]
         public void GiveDealerMoreCards_WhenScoreLessThan17()
         {
