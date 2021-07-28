@@ -2,7 +2,7 @@ namespace Blackjack
 {
     public static class Score
     {
-        public static int Calculate(Hand hand)
+        public static int Calculate(IHand hand)
         {
             var sum = 0;
             var aceCount = 0;

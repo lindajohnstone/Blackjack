@@ -15,7 +15,8 @@ namespace Blackjack
             var output = new ConsoleOutput();
             var playerHand = new Hand();
             var player = new Player(playerHand);
-            var dealer = new Dealer();
+            var dealerHand = new Hand();
+            var dealer = new Dealer(dealerHand);
             var players = new List<IPlayer> { player, dealer };
             var deck = new Deck();
             var controller = new Controller(input, output, players, deck);
