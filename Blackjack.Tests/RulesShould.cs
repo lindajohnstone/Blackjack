@@ -6,8 +6,11 @@ namespace Blackjack.Tests
     public class RulesShould
     {
         [Theory]
-        [MemberData(nameof(RulesShouldTestData.HandScoreBustTrueData), MemberType = typeof(RulesShouldTestData))]
-        public void ReturnTrue_GivenScoreGreaterThan21(Hand hand, int score)
+        [InlineData(24)]
+        [InlineData(26)]
+        [InlineData(22)]
+        [InlineData(30)]
+        public void ReturnTrue_GivenScoreGreaterThan21(int score)
         {
             var rules= new Rules();
 
@@ -17,8 +20,12 @@ namespace Blackjack.Tests
         }
 
         [Theory]
-        [MemberData(nameof(RulesShouldTestData.HandData), MemberType = typeof(RulesShouldTestData))]
-        public void ReturnFalse_GivenScoreLessThan21(Hand hand, int score)
+        [InlineData(15)]
+        [InlineData(21)]
+        [InlineData(10)]
+        [InlineData(5)]
+        [InlineData(13)]
+        public void ReturnFalse_GivenScoreLessThan21(int score)
         {
             var rules = new Rules();
 
@@ -27,11 +34,11 @@ namespace Blackjack.Tests
             Assert.False(result);
         }
 
-        [Theory]
-        [MemberData(nameof(RulesShouldTestData.HandScoreBlackjackData), MemberType = typeof(RulesShouldTestData))]
-        public void ReturnTrue_GivenScoreOf21(Hand hand, int score)
+        [Fact]
+        public void ReturnTrue_GivenScoreOf21()
         {
             var rules = new Rules();
+            var score = 21;
 
             var result = rules.IsBlackjack(score);
 
@@ -39,8 +46,12 @@ namespace Blackjack.Tests
         }
 
         [Theory]
-        [MemberData(nameof(RulesShouldTestData.HandData), MemberType = typeof(RulesShouldTestData))]
-        public void ReturnFalse_GivenScoreNotEqualTo21(Hand hand, int score)
+        [InlineData(22)]
+        [InlineData(15)]
+        [InlineData(10)]
+        [InlineData(5)]
+        [InlineData(13)]
+        public void ReturnFalse_GivenScoreNotEqualTo21(int score)
         {
             var rules = new Rules();
 
