@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace Blackjack
@@ -9,15 +10,22 @@ namespace Blackjack
         {
             StringBuilder stringBuilder = new StringBuilder();
             var cards = hand.Cards;
-            for (var i = 0; i < hand.Cards.Count; i++)
+            for (var count = 0; count < hand.Cards.Count; count++)
             {
-                stringBuilder.Append(cards[i].Rank.GetDescription()); 
-                stringBuilder.Append(" of ");
-                stringBuilder.Append(cards[i].Suit);
+                stringBuilder.Append(DisplayCard(cards[count]));
                 stringBuilder.Append(", ");
             }
             stringBuilder.Length--;
             return stringBuilder.ToString().TrimEnd(',');
+        }
+
+        public static string DisplayCard(Card card)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.Append(card.Rank.GetDescription());
+            stringBuilder.Append(" of ");
+            stringBuilder.Append(card.Suit);
+            return stringBuilder.ToString();
         }
     }
 }

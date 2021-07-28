@@ -59,14 +59,20 @@ namespace Blackjack.Tests
         }
 
         [Fact]
-        public void GivePlayerAnotherCard_WhenPlayerHits()
+        public void GivePlayerAnotherCard_WhenPlayerHits() // TODO: failing
         {
             _mockInput.SetupSequence(x => x.ReadLine()).Returns("1").Returns("0");
-            _mockPlayerHand.Setup(p => p.Cards)
+            _mockPlayerHand.SetupSequence(p => p.Cards)
                 .Returns(new List<Card>
                 {
                     new Card(CardRank.Ace, CardSuit.Spades),
                     new Card(CardRank.Three, CardSuit.Hearts)
+                })
+                .Returns(new List<Card>
+                {
+                    new Card(CardRank.Ace, CardSuit.Spades),
+                    new Card(CardRank.Three, CardSuit.Hearts),
+                    new Card(CardRank.Seven, CardSuit.Diamonds)
                 });
             _mockDealerHand.Setup(h => h.Cards)
                 .Returns(new List<Card>
@@ -82,7 +88,7 @@ namespace Blackjack.Tests
         }
 
         [Fact]
-        public void GivePlayer2MoreCards_WhenPlayerHitsTwice()
+        public void GivePlayer2MoreCards_WhenPlayerHitsTwice() // TODO: failing
         {
             _mockInput.SetupSequence(x => x.ReadLine()).Returns("1").Returns("1").Returns("0");
             _mockPlayerHand.Setup(p => p.Cards)
@@ -110,7 +116,7 @@ namespace Blackjack.Tests
         }
 
         [Fact]
-        public void GiveDealerMoreCards_WhenScoreLessThan17()
+        public void GiveDealerMoreCards_WhenScoreLessThan17() // TODO: failing
         {
             _mockInput.Setup(x => x.ReadLine()).Returns("0");
             _mockPlayerHand.Setup(p => p.Cards)

@@ -54,11 +54,11 @@ namespace Blackjack
             // this logic is for player
             var player = Players[0];
             var choice = Choice.None;
-            var playerScore = 0;
-            OutputFormatter.DisplayHand(player.Hand);
+            var playerScore = Score.Calculate(player.Hand);
+            _output.WriteLine(String.Format(Messages.PlayerScore, playerScore, OutputFormatter.DisplayHand(player.Hand)));
             do
             {
-                _output.WriteLine(Messages.Choice);
+                _output.Write(Messages.Choice);
                 // receive input
                 var input = _input.ReadLine();
                 // validate input
@@ -70,9 +70,14 @@ namespace Blackjack
                 }
                 // parse input
                 choice = ChoiceParser.ParseChoice(input);
-                if (choice == Choice.Hit) DealCard(player);
+                if (choice == Choice.Hit) 
+                {
+                    var playerCard = DealCard(player);
+                    _output.WriteLine(String.Format(Messages.PlayerCard, OutputFormatter.DisplayCard(playerCard)));
+                }
                 // calculate player's score
                 playerScore = Score.Calculate(player.Hand);
+                _output.WriteLine(String.Format(Messages.PlayerScore, playerScore, OutputFormatter.DisplayHand(player.Hand)));
             }
             while (choice != Choice.Stay);
 
@@ -80,10 +85,13 @@ namespace Blackjack
             var dealer = Players[1];
             // must hit if score < 17
             var dealerScore = Score.Calculate(dealer.Hand);
+            _output.WriteLine(String.Format(Messages.DealerScore, dealerScore, OutputFormatter.DisplayHand(dealer.Hand)));
             while (dealerScore <= 17)
             {
-                DealCard(dealer);
+                var dealerCard = DealCard(dealer);
                 dealerScore = Score.Calculate(dealer.Hand);
+                _output.WriteLine(String.Format(Messages.DealerCard, OutputFormatter.DisplayCard(dealerCard)));
+                _output.WriteLine(String.Format(Messages.DealerScore, dealerScore, OutputFormatter.DisplayHand(dealer.Hand)));
             }
         }
 
@@ -98,10 +106,11 @@ namespace Blackjack
             }
         }
 
-        private void DealCard(IPlayer player) // split out so that when player/dealer 'hit' only one card is given
+        private Card DealCard(IPlayer player) // split out so that when player/dealer 'hit' only one card is given
         {
             var card = Deck.DealCard();
             player.ReceiveCard(card);
+            return card;
         }
     }
 }
