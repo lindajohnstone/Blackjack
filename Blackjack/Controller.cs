@@ -55,6 +55,7 @@ namespace Blackjack
             var player = Players[0];
             var choice = Choice.None;
             var playerScore = 0;
+            OutputFormatter.DisplayHand(player.Hand);
             do
             {
                 _output.WriteLine(Messages.Choice);

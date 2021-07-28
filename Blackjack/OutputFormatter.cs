@@ -5,7 +5,7 @@ namespace Blackjack
 {
     public static class OutputFormatter
     {
-        public static string DisplayHand(Hand hand)
+        public static string DisplayHand(IHand hand)
         {
             StringBuilder stringBuilder = new StringBuilder();
             var cards = hand.Cards;

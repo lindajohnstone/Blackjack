@@ -39,6 +39,12 @@ namespace Blackjack.Tests
         public void GivePlayerAndDealer2Cards_WhenGameStarts() 
         {
             _mockInput.Setup(x => x.ReadLine()).Returns("0");
+            _mockPlayerHand.Setup(p => p.Cards)
+                .Returns(new List<Card>
+                {
+                    new Card(CardRank.Ace, CardSuit.Spades),
+                    new Card(CardRank.Three, CardSuit.Hearts)
+                });
             _mockDealerHand.Setup(h => h.Cards)
                 .Returns(new List<Card>
                     {
@@ -56,7 +62,12 @@ namespace Blackjack.Tests
         public void GivePlayerAnotherCard_WhenPlayerHits()
         {
             _mockInput.SetupSequence(x => x.ReadLine()).Returns("1").Returns("0");
-            _mockDeck.Setup(x => x.DealCard()).Returns(It.IsAny<Card>());
+            _mockPlayerHand.Setup(p => p.Cards)
+                .Returns(new List<Card>
+                {
+                    new Card(CardRank.Ace, CardSuit.Spades),
+                    new Card(CardRank.Three, CardSuit.Hearts)
+                });
             _mockDealerHand.Setup(h => h.Cards)
                 .Returns(new List<Card>
                     {
@@ -74,6 +85,12 @@ namespace Blackjack.Tests
         public void GivePlayer2MoreCards_WhenPlayerHitsTwice()
         {
             _mockInput.SetupSequence(x => x.ReadLine()).Returns("1").Returns("1").Returns("0");
+            _mockPlayerHand.Setup(p => p.Cards)
+                .Returns(new List<Card>
+                {
+                    new Card(CardRank.Ace, CardSuit.Spades),
+                    new Card(CardRank.Three, CardSuit.Hearts)
+                });
             _mockDealerHand.SetupSequence(h => h.Cards)
                 .Returns(new List<Card>
                     {
@@ -96,6 +113,12 @@ namespace Blackjack.Tests
         public void GiveDealerMoreCards_WhenScoreLessThan17()
         {
             _mockInput.Setup(x => x.ReadLine()).Returns("0");
+            _mockPlayerHand.Setup(p => p.Cards)
+                .Returns(new List<Card>
+                {
+                    new Card(CardRank.Ace, CardSuit.Spades),
+                    new Card(CardRank.Three, CardSuit.Hearts)
+                });
             _mockDealerHand.SetupSequence(h => h.Cards)
                 .Returns(new List<Card> 
                     { 
