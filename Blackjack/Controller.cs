@@ -54,6 +54,7 @@ namespace Blackjack
             // this logic is for player
             var player = Players[0];
             var choice = Choice.None;
+            var playerScore = 0;
             do
             {
                 _output.WriteLine(Messages.Choice);
@@ -70,11 +71,19 @@ namespace Blackjack
                 choice = ChoiceParser.ParseChoice(input);
                 if (choice == Choice.Hit) DealCard(player);
                 // calculate player's score
-                var score = Score.Calculate(Players[0].Hand); 
+                playerScore = Score.Calculate(player.Hand);
             }
             while (choice != Choice.Stay);
 
             // different logic for dealer
+            var dealer = Players[1];
+            // must hit if score < 17
+            var dealerScore = Score.Calculate(dealer.Hand);
+            while (dealerScore <= 17)
+            {
+                DealCard(dealer);
+                dealerScore = Score.Calculate(dealer.Hand);
+            }
         }
 
         private void DealHand()
