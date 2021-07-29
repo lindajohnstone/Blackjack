@@ -10,7 +10,7 @@ namespace Blackjack.Tests
         [InlineData(26)]
         [InlineData(22)]
         [InlineData(30)]
-        public void ReturnIsBustTrue_GivenScoreGreaterThan21(int score)
+        public void ReturnBustIsTrue_GivenScoreGreaterThan21(int score)
         {
             var result = Rules.IsBust(score);
 
@@ -23,7 +23,7 @@ namespace Blackjack.Tests
         [InlineData(10)]
         [InlineData(5)]
         [InlineData(13)]
-        public void ReturnIsBustFalse_GivenScoreLessThan21(int score)
+        public void ReturnBustIsFalse_GivenScoreLessThan21(int score)
         {
             var result = Rules.IsBust(score);
 
@@ -31,7 +31,7 @@ namespace Blackjack.Tests
         }
 
         [Fact]
-        public void ReturnIsBlackjackTrue_GivenScoreOf21()
+        public void ReturnBlackjackIsTrue_GivenScoreOf21()
         {
             var score = 21;
 
@@ -46,7 +46,7 @@ namespace Blackjack.Tests
         [InlineData(10)]
         [InlineData(5)]
         [InlineData(13)]
-        public void ReturnIsBlackjackFalse_GivenScoreNotEqualTo21(int score)
+        public void ReturnBlackjackIsFalse_GivenScoreNotEqualTo21(int score)
         {
             var result = Rules.IsBlackjack(score);
 
@@ -59,11 +59,23 @@ namespace Blackjack.Tests
         [InlineData(12)]
         [InlineData(8)]
         [InlineData(4)]
-        public void ReturnTrue_GivenDealerScoreLessThan17(int score)
+        public void ReturnDealerShouldHitAgainIsTrue_GivenDealerScoreLessThan17(int score)
         {
             var result = Rules.ShouldDealerHitAgain(score);
 
             Assert.True(result);
+        }
+
+        [Theory]
+        [InlineData(17)]
+        [InlineData(24)]
+        [InlineData(26)]
+        [InlineData(22)]
+        public void ReturnDealerShouldHitAgainIsFalse_GivenDealerScoreGreaterThan17(int score)
+        {
+            var result = Rules.ShouldDealerHitAgain(score);
+
+            Assert.False(result);
         }
     }
 }
