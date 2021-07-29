@@ -23,45 +23,5 @@ namespace Blackjack.Tests
             var players = new List<IPlayer> { player, dealer };
             _controller = new Controller(_mockInput.Object, _mockOutput.Object, players, _mockDeck.Object);
         }
-
-        [Fact]
-        public void ReturnEndTurnTrue_GivenPlayerScoreEqualTo21()
-        {
-            var score = 21;
-
-            var result = _controller.EndTurn(It.IsAny<Choice>(), score);
-
-            Assert.True(result);
-        }
-
-        [Fact]
-        public void ReturnEndTurnFalse_GivenPlayerScoreNotEqualTo21()
-        {
-            var score = 20;
-
-            var result = _controller.EndTurn(It.IsAny<Choice>(), score);
-
-            Assert.False(result);
-        }
-
-        [Fact]
-        public void ReturnEndTurnTrue_GivenPlayerScoreGreaterThan21()
-        {
-            var score = 24;
-
-            var result = _controller.EndTurn(It.IsAny<Choice>(), score);
-
-            Assert.True(result);
-        }
-
-        [Fact]
-        public void ReturnEndTurnTrue_GivenPlayerChoosesToStay() 
-        {
-            var choice = Choice.Stay;
-
-            var result = _controller.EndTurn(choice, It.IsAny<int>());
-
-            Assert.True(result);
-        }
     }
 }

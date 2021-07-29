@@ -79,7 +79,7 @@ namespace Blackjack
                 playerScore = Score.Calculate(player.Hand);
                 _output.WriteLine(String.Format(Messages.PlayerScore, playerScore, OutputFormatter.DisplayHand(player.Hand)));
             }
-            while (choice == Choice.Hit);
+            while (!EndTurn(choice, playerScore));
 
             // different logic for dealer
             var dealer = Players[1];
@@ -113,7 +113,7 @@ namespace Blackjack
             return card;
         }
 
-        public bool EndTurn(Choice choice, int score)
+        private bool EndTurn(Choice choice, int score)
         {
             if (choice == Choice.Stay ) return true; 
             if (Rules.IsBlackjack(score)) return true;
