@@ -10,9 +10,9 @@ namespace Blackjack
         {
             StringBuilder stringBuilder = new StringBuilder();
             var cards = hand.Cards;
-            for (var count = 0; count < hand.Cards.Count; count++)
+            foreach (var card in cards)
             {
-                stringBuilder.Append(DisplayCard(cards[count]));
+                stringBuilder.Append(DisplayCard(card));
                 stringBuilder.Append(", ");
             }
             stringBuilder.Length--;
