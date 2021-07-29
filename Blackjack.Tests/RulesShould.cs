@@ -10,11 +10,9 @@ namespace Blackjack.Tests
         [InlineData(26)]
         [InlineData(22)]
         [InlineData(30)]
-        public void ReturnTrue_GivenScoreGreaterThan21(int score)
+        public void ReturnBustIsTrue_GivenScoreGreaterThan21(int score)
         {
-            var rules= new Rules();
-
-            var result = rules.IsBust(score);
+            var result = Rules.IsBust(score);
 
             Assert.True(result);
         }
@@ -25,22 +23,19 @@ namespace Blackjack.Tests
         [InlineData(10)]
         [InlineData(5)]
         [InlineData(13)]
-        public void ReturnFalse_GivenScoreLessThan21(int score)
+        public void ReturnBustIsFalse_GivenScoreLessThan21(int score)
         {
-            var rules = new Rules();
-
-            var result = rules.IsBust(score);
+            var result = Rules.IsBust(score);
 
             Assert.False(result);
         }
 
         [Fact]
-        public void ReturnTrue_GivenScoreOf21()
+        public void ReturnBlackjackIsTrue_GivenScoreOf21()
         {
-            var rules = new Rules();
             var score = 21;
 
-            var result = rules.IsBlackjack(score);
+            var result = Rules.IsBlackjack(score);
 
             Assert.True(result);
         }
@@ -51,13 +46,40 @@ namespace Blackjack.Tests
         [InlineData(10)]
         [InlineData(5)]
         [InlineData(13)]
-        public void ReturnFalse_GivenScoreNotEqualTo21(int score)
+        public void ReturnBlackjackIsFalse_GivenScoreNotEqualTo21(int score)
         {
-            var rules = new Rules();
-
-            var result = rules.IsBlackjack(score);
+            var result = Rules.IsBlackjack(score);
 
             Assert.False(result);
+        }
+
+        [Theory]
+        [InlineData(10)]
+        [InlineData(16)]
+        [InlineData(12)]
+        [InlineData(8)]
+        [InlineData(4)]
+        public void ReturnDealerShouldHitAgainIsTrue_GivenDealerScoreLessThan17(int score)
+        {
+            var expected = Choice.Hit;
+
+            var result = Rules.ShouldDealerHitAgain(score);
+
+            Assert.Equal(expected, result);
+        }
+
+        [Theory]
+        [InlineData(17)]
+        [InlineData(24)]
+        [InlineData(26)]
+        [InlineData(22)]
+        public void ReturnDealerShouldHitAgainIsFalse_GivenDealerScoreGreaterThan17(int score)
+        {
+            var expected = Choice.Stay;
+
+            var result = Rules.ShouldDealerHitAgain(score);
+
+            Assert.Equal(expected, result);
         }
     }
 }

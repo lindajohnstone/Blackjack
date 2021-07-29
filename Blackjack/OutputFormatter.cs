@@ -8,11 +8,11 @@ namespace Blackjack
     {
         public static string DisplayHand(IHand hand)
         {
-            StringBuilder stringBuilder = new StringBuilder();
+            var stringBuilder = new StringBuilder();
             var cards = hand.Cards;
-            for (var count = 0; count < hand.Cards.Count; count++)
+            foreach (var card in cards)
             {
-                stringBuilder.Append(DisplayCard(cards[count]));
+                stringBuilder.Append(DisplayCard(card));
                 stringBuilder.Append(", ");
             }
             stringBuilder.Length--;
@@ -21,7 +21,7 @@ namespace Blackjack
 
         public static string DisplayCard(Card card)
         {
-            StringBuilder stringBuilder = new StringBuilder();
+            var stringBuilder = new StringBuilder();
             stringBuilder.Append(card.Rank.GetDescription());
             stringBuilder.Append(" of ");
             stringBuilder.Append(card.Suit);
