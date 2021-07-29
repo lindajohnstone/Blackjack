@@ -8,7 +8,7 @@ namespace Blackjack
     {
         public static string DisplayHand(IHand hand)
         {
-            StringBuilder stringBuilder = new StringBuilder();
+            var stringBuilder = new StringBuilder();
             var cards = hand.Cards;
             foreach (var card in cards)
             {
@@ -21,7 +21,7 @@ namespace Blackjack
 
         public static string DisplayCard(Card card)
         {
-            StringBuilder stringBuilder = new StringBuilder();
+            var stringBuilder = new StringBuilder();
             stringBuilder.Append(card.Rank.GetDescription());
             stringBuilder.Append(" of ");
             stringBuilder.Append(card.Suit);

@@ -2,18 +2,24 @@ using System;
 
 namespace Blackjack
 {
-    public class Rules
+    public static class Rules
     {
         // Blackjack if score == 21
         // Bust if score > 21
-        public bool IsBust(int score)
+        // Dealer must 'hit' if score < 17
+        public static bool IsBust(int score)
         {
             return score > 21 ? true : false;
         }
 
-        public bool IsBlackjack(int score)
+        public static bool IsBlackjack(int score)
         {
             return score == 21 ? true : false;
+        }
+
+        public static bool ShouldDealerHitAgain(int score)
+        {
+            return score < 17 ? true : false;
         }
     }
 }

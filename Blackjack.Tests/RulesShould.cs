@@ -10,11 +10,9 @@ namespace Blackjack.Tests
         [InlineData(26)]
         [InlineData(22)]
         [InlineData(30)]
-        public void ReturnTrue_GivenScoreGreaterThan21(int score)
+        public void ReturnIsBustTrue_GivenScoreGreaterThan21(int score)
         {
-            var rules= new Rules();
-
-            var result = rules.IsBust(score);
+            var result = Rules.IsBust(score);
 
             Assert.True(result);
         }
@@ -25,22 +23,19 @@ namespace Blackjack.Tests
         [InlineData(10)]
         [InlineData(5)]
         [InlineData(13)]
-        public void ReturnFalse_GivenScoreLessThan21(int score)
+        public void ReturnIsBustFalse_GivenScoreLessThan21(int score)
         {
-            var rules = new Rules();
-
-            var result = rules.IsBust(score);
+            var result = Rules.IsBust(score);
 
             Assert.False(result);
         }
 
         [Fact]
-        public void ReturnTrue_GivenScoreOf21()
+        public void ReturnIsBlackjackTrue_GivenScoreOf21()
         {
-            var rules = new Rules();
             var score = 21;
 
-            var result = rules.IsBlackjack(score);
+            var result = Rules.IsBlackjack(score);
 
             Assert.True(result);
         }
@@ -51,13 +46,24 @@ namespace Blackjack.Tests
         [InlineData(10)]
         [InlineData(5)]
         [InlineData(13)]
-        public void ReturnFalse_GivenScoreNotEqualTo21(int score)
+        public void ReturnIsBlackjackFalse_GivenScoreNotEqualTo21(int score)
         {
-            var rules = new Rules();
-
-            var result = rules.IsBlackjack(score);
+            var result = Rules.IsBlackjack(score);
 
             Assert.False(result);
+        }
+
+        [Theory]
+        [InlineData(10)]
+        [InlineData(16)]
+        [InlineData(12)]
+        [InlineData(8)]
+        [InlineData(4)]
+        public void ReturnTrue_GivenDealerScoreLessThan17(int score)
+        {
+            var result = Rules.ShouldDealerHitAgain(score);
+
+            Assert.True(result);
         }
     }
 }
