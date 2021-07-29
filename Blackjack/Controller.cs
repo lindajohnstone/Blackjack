@@ -73,24 +73,23 @@ namespace Blackjack
                 if (choice == Choice.Hit) 
                 {
                     var playerCard = DealCard(player);
-                    _output.WriteLine(String.Format(Messages.PlayerCard, OutputFormatter.DisplayCard(playerCard))); // TODO: in test card is null
+                    _output.WriteLine(String.Format(Messages.PlayerCard, OutputFormatter.DisplayCard(playerCard))); 
                 }
                 // calculate player's score
                 playerScore = Score.Calculate(player.Hand);
-                _output.WriteLine(String.Format(Messages.PlayerScore, playerScore, OutputFormatter.DisplayHand(player.Hand)));
             }
-            while (choice != Choice.Stay);
-
+            while (choice == Choice.Hit);
+            
             // different logic for dealer
             var dealer = Players[1];
             // must hit if score < 17
             var dealerScore = Score.Calculate(dealer.Hand);
             _output.WriteLine(String.Format(Messages.DealerScore, dealerScore, OutputFormatter.DisplayHand(dealer.Hand)));
-            while (dealerScore <= 17)
+            while (Rules.ShouldDealerHitAgain(dealerScore))
             {
                 var dealerCard = DealCard(dealer);
-                dealerScore = Score.Calculate(dealer.Hand);
                 _output.WriteLine(String.Format(Messages.DealerCard, OutputFormatter.DisplayCard(dealerCard)));
+                dealerScore = Score.Calculate(dealer.Hand);
                 _output.WriteLine(String.Format(Messages.DealerScore, dealerScore, OutputFormatter.DisplayHand(dealer.Hand)));
             }
         }
