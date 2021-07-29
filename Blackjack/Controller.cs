@@ -116,9 +116,9 @@ namespace Blackjack
         public bool EndTurn(Choice choice, int score)
         {
             if (choice == Choice.Stay ) return true; 
-            if (!Rules.IsBlackjack(score)) return false;
-            if (!Rules.IsBust(score)) return false;
-            return true;
+            if (Rules.IsBlackjack(score)) return true;
+            if (Rules.IsBust(score)) return true;
+            return false;
         }
     }
 }
