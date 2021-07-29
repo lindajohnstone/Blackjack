@@ -77,9 +77,10 @@ namespace Blackjack
                 }
                 // calculate player's score
                 playerScore = Score.Calculate(player.Hand);
+                _output.WriteLine(String.Format(Messages.PlayerScore, playerScore, OutputFormatter.DisplayHand(player.Hand)));
             }
             while (choice == Choice.Hit);
-            
+
             // different logic for dealer
             var dealer = Players[1];
             // must hit if score < 17
@@ -110,6 +111,14 @@ namespace Blackjack
             var card = Deck.DealCard();
             player.ReceiveCard(card);
             return card;
+        }
+
+        public bool EndTurn(Choice choice, int score)
+        {
+            if (!Rules.IsBlackjack(score)) return false;
+            if (!Rules.IsBust(score)) return false;
+            if (choice != Choice.Stay ) return false; 
+            return true;
         }
     }
 }
