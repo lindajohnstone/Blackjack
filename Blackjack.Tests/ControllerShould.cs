@@ -24,9 +24,11 @@ namespace Blackjack.Tests
             _controller = new Controller(_mockInput.Object, _mockOutput.Object, players, _mockDeck.Object);
         }
 
+
         [Fact]
         public void testName() //TODO: failing - not fully setup?
         {
+            _mockInput.Setup(i => i.ReadLine()).Returns("0");
             _mockDeck.SetupSequence(d => d.DealCard())
                 .Returns(new Card(CardRank.Ace, CardSuit.Clubs))
                 .Returns(new Card(CardRank.Ten, CardSuit.Hearts))
@@ -72,7 +74,7 @@ namespace Blackjack.Tests
         }
 
         [Fact]
-        public void ReturnEndTurnTrue_GivenPlayerChoosesToStay() // TODO: failing
+        public void ReturnEndTurnTrue_GivenPlayerChoosesToStay() 
         {
             var choice = Choice.Stay;
 
