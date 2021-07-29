@@ -17,9 +17,9 @@ namespace Blackjack
             return score == 21 ? true : false;
         }
 
-        public static bool ShouldDealerHitAgain(int score)
+        public static Choice ShouldDealerHitAgain(int score)
         {
-            return score < 17 ? true : false;
+            return score < 17 ? Choice.Hit : Choice.Stay;
         }
     }
 }

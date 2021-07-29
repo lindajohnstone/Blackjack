@@ -86,7 +86,8 @@ namespace Blackjack
             // must hit if score < 17
             var dealerScore = Score.Calculate(dealer.Hand);
             _output.WriteLine(String.Format(Messages.DealerScore, dealerScore, OutputFormatter.DisplayHand(dealer.Hand)));
-            while (Rules.ShouldDealerHitAgain(dealerScore))
+            choice = Rules.ShouldDealerHitAgain(dealerScore);
+            while (!EndTurn(choice, dealerScore))
             {
                 var dealerCard = DealCard(dealer);
                 _output.WriteLine(String.Format(Messages.DealerCard, OutputFormatter.DisplayCard(dealerCard)));

@@ -61,9 +61,11 @@ namespace Blackjack.Tests
         [InlineData(4)]
         public void ReturnDealerShouldHitAgainIsTrue_GivenDealerScoreLessThan17(int score)
         {
+            var expected = Choice.Hit;
+
             var result = Rules.ShouldDealerHitAgain(score);
 
-            Assert.True(result);
+            Assert.Equal(expected, result);
         }
 
         [Theory]
@@ -73,9 +75,11 @@ namespace Blackjack.Tests
         [InlineData(22)]
         public void ReturnDealerShouldHitAgainIsFalse_GivenDealerScoreGreaterThan17(int score)
         {
+            var expected = Choice.Stay;
+
             var result = Rules.ShouldDealerHitAgain(score);
 
-            Assert.False(result);
+            Assert.Equal(expected, result);
         }
     }
 }
