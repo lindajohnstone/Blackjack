@@ -75,25 +75,29 @@ namespace Blackjack
                     var playerCard = DealCard(player);
                     _output.WriteLine(String.Format(Messages.PlayerCard, OutputFormatter.DisplayCard(playerCard))); 
                 }
-                // calculate player's score
+                // calculate players score
                 playerScore = Score.Calculate(player.Hand);
                 _output.WriteLine(String.Format(Messages.PlayerScore, playerScore, OutputFormatter.DisplayHand(player.Hand)));
             }
-            while (!EndTurn(choice, playerScore));
+            while (!ShouldTurnEnd(choice, playerScore));
 
             // different logic for dealer
             var dealer = Players[1];
             // must hit if score < 17
             var dealerScore = Score.Calculate(dealer.Hand);
             _output.WriteLine(String.Format(Messages.DealerScore, dealerScore, OutputFormatter.DisplayHand(dealer.Hand)));
-            choice = Rules.ShouldDealerHitAgain(dealerScore);
-            while (!EndTurn(choice, dealerScore))
+            do
             {
-                var dealerCard = DealCard(dealer);
-                _output.WriteLine(String.Format(Messages.DealerCard, OutputFormatter.DisplayCard(dealerCard)));
-                dealerScore = Score.Calculate(dealer.Hand);
-                _output.WriteLine(String.Format(Messages.DealerScore, dealerScore, OutputFormatter.DisplayHand(dealer.Hand)));
-            }
+                choice = Rules.ShouldDealerHitAgain(dealerScore);
+                if (choice == Choice.Hit)
+                {
+                    var dealerCard = DealCard(dealer);
+                    _output.WriteLine(String.Format(Messages.DealerCard, OutputFormatter.DisplayCard(dealerCard)));
+                    dealerScore = Score.Calculate(dealer.Hand);
+                    _output.WriteLine(String.Format(Messages.DealerScore, dealerScore, OutputFormatter.DisplayHand(dealer.Hand)));
+                }
+            } 
+            while (!ShouldTurnEnd(choice, dealerScore));
         }
 
         private void DealHand()
@@ -114,7 +118,7 @@ namespace Blackjack
             return card;
         }
 
-        private bool EndTurn(Choice choice, int score)
+        private bool ShouldTurnEnd(Choice choice, int score)
         {
             if (choice == Choice.Stay ) return true; 
             if (Rules.IsBlackjack(score)) return true;
