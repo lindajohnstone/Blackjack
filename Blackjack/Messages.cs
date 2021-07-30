@@ -12,6 +12,7 @@ namespace Blackjack
         public const string PlayerCard = "You draw {0}.";
         public const string DealerCard = "Dealer draws {0}.";
         public const string Bust = "Bust!";
+        public const string Tie = "It's a TIE!";
         public const string Choice = "Hit or stay? (Hit = 1, Stay = 0)";
         public const string GameOver = "Game over!";
     }

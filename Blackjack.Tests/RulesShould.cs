@@ -109,5 +109,41 @@ namespace Blackjack.Tests
 
             Assert.Equal(expected, result);
         }
+
+        [Fact]
+        public void ReturnPlayerWins_GivenPlayerHasBlackjack_AndDealerScoreIsLessThan21()
+        {
+            var playerScore = 21;
+            var dealerScore = 18;
+            var expected = "You beat the Dealer!";
+
+            var result = Rules.GoneBlackjack(playerScore, dealerScore);
+
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void ReturnDealerWins_GivenDealerHasBlackjack_AndPlayerScoreIsLessThan21()
+        {
+            var playerScore = 18;
+            var dealerScore = 21;
+            var expected = "Dealer wins!";
+
+            var result = Rules.GoneBlackjack(playerScore, dealerScore);
+
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void ReturnATie_GivenBothParticipantsHaveBlackjack()
+        {
+            var playerScore = 21;
+            var dealerScore = 21;
+            var expected = "It's a TIE!";
+
+            var result = Rules.GoneBlackjack(playerScore, dealerScore);
+
+            Assert.Equal(expected, result);
+        }
     }
 }

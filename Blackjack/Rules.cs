@@ -33,5 +33,12 @@ namespace Blackjack
             if (IsBust(playerScore)) return Messages.DealerWins;
             return Messages.PlayerWins;
         }
+
+        public static string GoneBlackjack(int playerScore, int dealerScore)
+        {
+            if (IsBlackjack(playerScore) && !IsBlackjack(dealerScore)) return Messages.PlayerWins;
+            if (IsBlackjack(dealerScore) && !IsBlackjack(playerScore)) return Messages.DealerWins;
+            return Messages.Tie;
+        }
     }
 }
