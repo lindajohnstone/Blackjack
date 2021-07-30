@@ -81,5 +81,33 @@ namespace Blackjack.Tests
 
             Assert.Equal(expected, result);
         }
+
+        [Theory]
+        [InlineData(23, 18)]
+        [InlineData(22, 21)]
+        [InlineData(27, 18)]
+        [InlineData(23, 8)]
+        public void ReturnDealerWins_GivenPlayerBust(int playerScore, int dealerScore)
+        {
+            var expected = "Dealer wins!";
+
+            var result = Rules.GoneBust(playerScore, dealerScore);
+
+            Assert.Equal(expected, result);
+        }
+
+        [Theory]
+        [InlineData(18, 23)]
+        [InlineData(20, 22)]
+        [InlineData(18, 27)]
+        [InlineData(19, 25)]
+        public void ReturnPlayerWins_GivenDealerBust(int playerScore, int dealerScore)
+        {
+            var expected = "You beat the Dealer!";
+
+            var result = Rules.GoneBust(playerScore, dealerScore);
+
+            Assert.Equal(expected, result);
+        }
     }
 }
