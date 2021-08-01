@@ -62,10 +62,11 @@ namespace Blackjack
             // }
             playerScore = Score.Calculate(player.Hand);
             if (Rules.IsBlackjack(playerScore))
-                _output.WriteLine(String.Format(Messages.PlayerScore, Messages.Blackjack, OutputFormatter.DisplayHand(player.Hand)));
+                _output.Write(String.Format(Messages.Player, Messages.Blackjack));
             if (Rules.IsBust(playerScore))
-                _output.WriteLine(String.Format(Messages.PlayerScore, Messages.Bust, OutputFormatter.DisplayHand(player.Hand)));
-            else _output.WriteLine(String.Format(Messages.PlayerScore, playerScore, OutputFormatter.DisplayHand(player.Hand)));
+                _output.Write(String.Format(Messages.Player, Messages.Bust));
+            else _output.Write(String.Format(Messages.Player, playerScore));
+            _output.WriteLine(string.Format(Messages.Hand, OutputFormatter.DisplayHand(player.Hand)));
             do
             {
                 _output.Write(Messages.Choice);
@@ -87,27 +88,42 @@ namespace Blackjack
                 }
                 // calculate player's score
                 playerScore = Score.Calculate(player.Hand);
-                _output.WriteLine(String.Format(Messages.PlayerScore, playerScore, OutputFormatter.DisplayHand(player.Hand)));
+                if (Rules.IsBlackjack(playerScore))
+                    _output.Write(String.Format(Messages.Player, Messages.Blackjack));
+                if (Rules.IsBust(playerScore))
+                    _output.Write(String.Format(Messages.Player, Messages.Bust));
+                else _output.Write(String.Format(Messages.Player, playerScore));
+                _output.WriteLine(string.Format(Messages.Hand, OutputFormatter.DisplayHand(player.Hand)));
             }
-            while (!EndTurn(choice, playerScore));
+            while (!ShouldTurnEnd(choice, playerScore));
 
             // different logic for dealer
             var dealer = Players[1];
             // must hit if score < 17
             dealerScore = Score.Calculate(dealer.Hand);
             if (Rules.IsBlackjack(dealerScore))
-                _output.WriteLine(String.Format(Messages.DealerScore, Messages.Blackjack, OutputFormatter.DisplayHand(dealer.Hand)));
+                _output.WriteLine(String.Format(Messages.Dealer, Messages.Blackjack));
             if (Rules.IsBust(dealerScore))
-                _output.WriteLine(String.Format(Messages.DealerScore, Messages.Bust, OutputFormatter.DisplayHand(dealer.Hand)));
-            else _output.WriteLine(String.Format(Messages.DealerScore, dealerScore, OutputFormatter.DisplayHand(dealer.Hand)));
-            choice = Rules.ShouldDealerHitAgain(dealerScore);
-            while (!EndTurn(choice, dealerScore))
+                _output.Write(String.Format(Messages.Dealer, Messages.Bust));
+            else _output.Write(String.Format(Messages.Dealer, dealerScore));
+            _output.WriteLine(String.Format(Messages.Hand, OutputFormatter.DisplayHand(dealer.Hand)));
+            do
             {
-                var dealerCard = DealCard(dealer);
-                _output.WriteLine(String.Format(Messages.DealerCard, OutputFormatter.DisplayCard(dealerCard)));
-                dealerScore = Score.Calculate(dealer.Hand);
-                _output.WriteLine(String.Format(Messages.DealerScore, dealerScore, OutputFormatter.DisplayHand(dealer.Hand)));
+                choice = Rules.ShouldDealerHitAgain(dealerScore);
+                if (choice == Choice.Hit)
+                {
+                    var dealerCard = DealCard(dealer);
+                    _output.WriteLine(String.Format(Messages.DealerCard, OutputFormatter.DisplayCard(dealerCard)));
+                    dealerScore = Score.Calculate(dealer.Hand);
+                    if (Rules.IsBlackjack(dealerScore))
+                        _output.WriteLine(String.Format(Messages.Dealer, Messages.Blackjack));
+                    if (Rules.IsBust(dealerScore))
+                        _output.Write(String.Format(Messages.Dealer, Messages.Bust));
+                    else _output.Write(String.Format(Messages.Dealer, dealerScore));
+                    _output.WriteLine(String.Format(Messages.Hand, OutputFormatter.DisplayHand(dealer.Hand)));
+                }
             }
+            while (!ShouldTurnEnd(choice, dealerScore));
         }
 
         private void DealHand()
@@ -128,7 +144,7 @@ namespace Blackjack
             return card;
         }
 
-        private bool EndTurn(Choice choice, int score)
+        private bool ShouldTurnEnd(Choice choice, int score) // TODO: name of method
         {
             if (choice == Choice.Stay ) return true; 
             if (Rules.IsBlackjack(score)) return true;
