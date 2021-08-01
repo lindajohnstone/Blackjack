@@ -81,5 +81,69 @@ namespace Blackjack.Tests
 
             Assert.Equal(expected, result);
         }
+
+        [Fact]
+        public void ReturnPlayerWins_GivenPlayerHasBlackjack_AndDealerScoreIsLessThan21()
+        {
+            var playerScore = 21;
+            var dealerScore = 18;
+            var expected = "You beat the Dealer!";
+
+            var result = Rules.GoneBlackjack(playerScore, dealerScore);
+
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void ReturnDealerWins_GivenDealerHasBlackjack_AndPlayerScoreIsLessThan21()
+        {
+            var playerScore = 18;
+            var dealerScore = 21;
+            var expected = "Dealer wins!";
+
+            var result = Rules.GoneBlackjack(playerScore, dealerScore);
+
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void ReturnATie_GivenBothParticipantsHaveBlackjack()
+        {
+            var playerScore = 21;
+            var dealerScore = 21;
+            var expected = "It's a TIE!";
+
+            var result = Rules.GoneBlackjack(playerScore, dealerScore);
+
+            Assert.Equal(expected, result);
+        }
+
+        [Theory]
+        [InlineData(23, 18)]
+        [InlineData(22, 21)]
+        [InlineData(27, 18)]
+        [InlineData(23, 8)]
+        public void ReturnDealerWins_GivenPlayerBust(int playerScore, int dealerScore)
+        {
+            var expected = "Dealer wins!";
+
+            var result = Rules.GoneBust(playerScore, dealerScore);
+
+            Assert.Equal(expected, result);
+        }
+
+        [Theory]
+        [InlineData(18, 23)]
+        [InlineData(20, 22)]
+        [InlineData(18, 27)]
+        [InlineData(19, 25)]
+        public void ReturnPlayerWins_GivenDealerBust(int playerScore, int dealerScore)
+        {
+            var expected = "You beat the Dealer!";
+
+            var result = Rules.GoneBust(playerScore, dealerScore);
+
+            Assert.Equal(expected, result);
+        }
     }
 }

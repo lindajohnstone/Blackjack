@@ -54,8 +54,18 @@ namespace Blackjack
             // this logic is for player
             var player = Players[0];
             var choice = Choice.None;
-            var playerScore = Score.Calculate(player.Hand);
-            _output.WriteLine(String.Format(Messages.PlayerScore, playerScore, OutputFormatter.DisplayHand(player.Hand)));
+            var playerScore = 0;
+            var dealerScore = 0;
+            // foreach (var participant in Players) // another word that could be used for both player & dealer
+            // {
+
+            // }
+            playerScore = Score.Calculate(player.Hand);
+            if (Rules.IsBlackjack(playerScore))
+                _output.WriteLine(String.Format(Messages.PlayerScore, Messages.Blackjack, OutputFormatter.DisplayHand(player.Hand)));
+            if (Rules.IsBust(playerScore))
+                _output.WriteLine(String.Format(Messages.PlayerScore, Messages.Bust, OutputFormatter.DisplayHand(player.Hand)));
+            else _output.WriteLine(String.Format(Messages.PlayerScore, playerScore, OutputFormatter.DisplayHand(player.Hand)));
             do
             {
                 _output.Write(Messages.Choice);
@@ -84,8 +94,12 @@ namespace Blackjack
             // different logic for dealer
             var dealer = Players[1];
             // must hit if score < 17
-            var dealerScore = Score.Calculate(dealer.Hand);
-            _output.WriteLine(String.Format(Messages.DealerScore, dealerScore, OutputFormatter.DisplayHand(dealer.Hand)));
+            dealerScore = Score.Calculate(dealer.Hand);
+            if (Rules.IsBlackjack(dealerScore))
+                _output.WriteLine(String.Format(Messages.DealerScore, Messages.Blackjack, OutputFormatter.DisplayHand(dealer.Hand)));
+            if (Rules.IsBust(dealerScore))
+                _output.WriteLine(String.Format(Messages.DealerScore, Messages.Bust, OutputFormatter.DisplayHand(dealer.Hand)));
+            else _output.WriteLine(String.Format(Messages.DealerScore, dealerScore, OutputFormatter.DisplayHand(dealer.Hand)));
             choice = Rules.ShouldDealerHitAgain(dealerScore);
             while (!EndTurn(choice, dealerScore))
             {
