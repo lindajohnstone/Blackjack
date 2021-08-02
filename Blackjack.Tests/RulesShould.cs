@@ -170,8 +170,9 @@ namespace Blackjack.Tests
 
             Assert.Equal(expected, result);
         }
-      
-      public void ReturnATie_GivenBothParticipantsHaveBlackjack()
+
+        [Fact]
+        public void ReturnATie_GivenBothParticipantsHaveBlackjack()
         {
             var playerScore = 21;
             var dealerScore = 21;
@@ -179,6 +180,30 @@ namespace Blackjack.Tests
 
             var result = Rules.GoneBlackjack(playerScore, dealerScore);
         
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void NotReturnATie_GivenNeitherPlayerNorDealerHasBlackjack()
+        {
+            var playerScore = 20;
+            var dealerScore = 19;
+            var expected = "";
+
+            var result = Rules.GoneBlackjack(playerScore, dealerScore);
+
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void testName()
+        {
+            var playerScore = 20;
+            var dealerScore = 19;
+            var expected = "";
+
+            var result = Rules.GoneBust(playerScore, dealerScore);
+
             Assert.Equal(expected, result);
         }
     }

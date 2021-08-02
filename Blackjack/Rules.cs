@@ -30,13 +30,15 @@ namespace Blackjack
         {
             if (IsBlackjack(playerScore) && IsBlackjack(dealerScore)) return Messages.Tie;
             if (IsBlackjack(playerScore)) return Messages.PlayerWins;
-            return Messages.DealerWins;
+            if (IsBlackjack(dealerScore)) return Messages.DealerWins;
+            return ""; // TODO: what to return here
         }
 
         public static string GoneBust(int playerScore, int dealerScore) // TODO: ternary operator
         {
             if (IsBust(playerScore)) return Messages.DealerWins;
-            return Messages.PlayerWins;
+            if (IsBust(dealerScore)) return Messages.PlayerWins;
+            return "";
         }
 
 

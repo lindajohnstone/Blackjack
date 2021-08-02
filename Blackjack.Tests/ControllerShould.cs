@@ -20,8 +20,8 @@ namespace Blackjack.Tests
             _mockDeck = new Mock<IDeck>();
             var player = new Player(new Hand());
             var dealer = new Dealer(new Hand());
-            var players = new List<IParticipant> { player, dealer };
-            _controller = new Controller(_mockInput.Object, _mockOutput.Object, players, _mockDeck.Object);
+            var participants = new List<IParticipant> { player, dealer };
+            _controller = new Controller(_mockInput.Object, _mockOutput.Object, participants, _mockDeck.Object);
         }
     }
 }

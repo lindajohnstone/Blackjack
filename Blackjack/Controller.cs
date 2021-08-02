@@ -108,14 +108,6 @@ namespace Blackjack
                     else _output.Write(String.Format(Messages.Player, playerScore));
                     _output.WriteLine(string.Format(Messages.Hand, OutputFormatter.DisplayHand(player.Hand)));
                 }
-                // calculate player's score
-                playerScore = Score.Calculate(player.Hand);
-                if (Rules.IsBlackjack(playerScore))
-                    _output.Write(String.Format(Messages.Player, Messages.Blackjack)); //TODO: use if statement / method to distinguish which participant so can have one method?
-                if (Rules.IsBust(playerScore))
-                    _output.Write(String.Format(Messages.Player, Messages.Bust));
-                else _output.Write(String.Format(Messages.Player, playerScore));
-                _output.WriteLine(string.Format(Messages.Hand, OutputFormatter.DisplayHand(player.Hand)));
             }
             while (!ShouldTurnEnd(choice, playerScore));
 
@@ -178,7 +170,5 @@ namespace Blackjack
             if (Rules.IsBust(score)) return true;
             return false;
         }
-
-
     }
 }
