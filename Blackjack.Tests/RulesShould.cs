@@ -153,7 +153,7 @@ namespace Blackjack.Tests
             var dealerScore = 18;
             var expected = "You beat the Dealer!";
 
-            var result = Rules.WinningParticipant(playerScore, dealerScore);
+            var result = Rules.WinningHand(playerScore, dealerScore);
 
             Assert.Equal(expected, result);
         }
@@ -165,7 +165,7 @@ namespace Blackjack.Tests
             var dealerScore = 20;
             var expected = "Dealer wins!";
 
-            var result = Rules.WinningParticipant(playerScore, dealerScore);
+            var result = Rules.WinningHand(playerScore, dealerScore);
 
             Assert.Equal(expected, result);
         }
@@ -177,7 +177,7 @@ namespace Blackjack.Tests
             var dealerScore = 20;
             var expected = "It's a TIE!";
 
-            var result = Rules.WinningParticipant(playerScore, dealerScore);
+            var result = Rules.WinningHand(playerScore, dealerScore);
 
             Assert.Equal(expected, result);
         }
