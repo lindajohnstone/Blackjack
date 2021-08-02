@@ -169,5 +169,17 @@ namespace Blackjack.Tests
 
             Assert.Equal(expected, result);
         }
+
+        [Fact]
+        public void ReturnATie_GivenBothParticipantsHaveSameScore()
+        {
+            var playerScore = 20;
+            var dealerScore = 20;
+            var expected = "It's a TIE!";
+
+            var result = Rules.WinningParticipant(playerScore, dealerScore);
+
+            Assert.Equal(expected, result);
+        }
     }
 }

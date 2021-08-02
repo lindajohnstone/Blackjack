@@ -126,6 +126,7 @@ namespace Blackjack
             while (!ShouldTurnEnd(choice, dealerScore));
             Rules.GoneBlackjack(playerScore, dealerScore);
             Rules.GoneBust(playerScore, dealerScore);
+            Rules.WinningParticipant(playerScore, dealerScore);
         }
 
         private void DealHand()
@@ -153,5 +154,7 @@ namespace Blackjack
             if (Rules.IsBust(score)) return true;
             return false;
         }
+
+        
     }
 }
