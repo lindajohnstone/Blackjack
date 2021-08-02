@@ -124,6 +124,8 @@ namespace Blackjack
                 }
             }
             while (!ShouldTurnEnd(choice, dealerScore));
+            Rules.GoneBlackjack(playerScore, dealerScore);
+            Rules.GoneBust(playerScore, dealerScore);
         }
 
         private void DealHand()
@@ -144,7 +146,7 @@ namespace Blackjack
             return card;
         }
 
-        private bool ShouldTurnEnd(Choice choice, int score) // TODO: name of method
+        private bool ShouldTurnEnd(Choice choice, int score) // TODO: name of method ?
         {
             if (choice == Choice.Stay ) return true; 
             if (Rules.IsBlackjack(score)) return true;
