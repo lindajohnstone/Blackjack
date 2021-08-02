@@ -6,9 +6,7 @@ namespace Blackjack
     {
         // Blackjack if score == 21
         // Bust if score > 21
-
         // Dealer must 'hit' if score < 17
-
         // If the player has blackjack, they win, unless the dealer also has blackjack, in which case the game is a tie.
         // If the dealer busts and the player doesn't, the player wins.
         // If the player busts, the dealer wins.
@@ -28,17 +26,25 @@ namespace Blackjack
             return score < 17 ? Choice.Hit : Choice.Stay;
         }
 
-        public static string GoneBust(int playerScore, int dealerScore)
+        public static string GoneBlackjack(int playerScore, int dealerScore) // TODO: ternary operator
+        {
+            if (IsBlackjack(playerScore) && IsBlackjack(dealerScore)) return Messages.Tie;
+            if (IsBlackjack(playerScore)) return Messages.PlayerWins;
+            return Messages.DealerWins;
+        }
+
+        public static string GoneBust(int playerScore, int dealerScore) // TODO: ternary operator
         {
             if (IsBust(playerScore)) return Messages.DealerWins;
             return Messages.PlayerWins;
         }
 
-        public static string GoneBlackjack(int playerScore, int dealerScore)
+
+        public static string WinningHand(int playerScore, int dealerScore) // TODO: name? // TODO: ternary operator
         {
-            if (IsBlackjack(playerScore) && !IsBlackjack(dealerScore)) return Messages.PlayerWins;
-            if (IsBlackjack(dealerScore) && !IsBlackjack(playerScore)) return Messages.DealerWins;
-            return Messages.Tie;
+            if (playerScore > dealerScore) return Messages.PlayerWins;
+            if (dealerScore > playerScore) return Messages.DealerWins;
+            else return Messages.Tie;
         }
     }
 }

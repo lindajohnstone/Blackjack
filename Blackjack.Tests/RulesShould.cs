@@ -82,6 +82,30 @@ namespace Blackjack.Tests
             Assert.Equal(expected, result);
         }
 
+        [Fact]
+        public void ReturnPlayerWins_GivenPlayerHasBlackjack_AndDealerScoreIsLessThan21()
+        {
+            var playerScore = 21;
+            var dealerScore = 18;
+            var expected = "You beat the Dealer!";
+
+            var result = Rules.GoneBlackjack(playerScore, dealerScore);
+
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void ReturnDealerWins_GivenDealerHasBlackjack_AndPlayerScoreIsLessThan21()
+        {
+            var playerScore = 18;
+            var dealerScore = 21;
+            var expected = "Dealer wins!";
+
+            var result = Rules.GoneBlackjack(playerScore, dealerScore);
+
+            Assert.Equal(expected, result);
+        }
+
         [Theory]
         [InlineData(23, 18)]
         [InlineData(22, 21)]
@@ -111,38 +135,50 @@ namespace Blackjack.Tests
         }
 
         [Fact]
-        public void ReturnPlayerWins_GivenPlayerHasBlackjack_AndDealerScoreIsLessThan21()
+        public void ReturnPlayerWins_GivenHigherScoreThanDealer()
         {
-            var playerScore = 21;
+            var playerScore = 20;
             var dealerScore = 18;
             var expected = "You beat the Dealer!";
 
-            var result = Rules.GoneBlackjack(playerScore, dealerScore);
+            var result = Rules.WinningHand(playerScore, dealerScore);
 
             Assert.Equal(expected, result);
         }
 
         [Fact]
-        public void ReturnDealerWins_GivenDealerHasBlackjack_AndPlayerScoreIsLessThan21()
+        public void ReturnDealerWins_GivenHigherScoreThanPlayer()
         {
             var playerScore = 18;
-            var dealerScore = 21;
+            var dealerScore = 20;
             var expected = "Dealer wins!";
 
-            var result = Rules.GoneBlackjack(playerScore, dealerScore);
+            var result = Rules.WinningHand(playerScore, dealerScore);
 
             Assert.Equal(expected, result);
         }
 
         [Fact]
-        public void ReturnATie_GivenBothParticipantsHaveBlackjack()
+
+        public void ReturnATie_GivenBothParticipantsHaveSameScore()
+        {
+            var playerScore = 20;
+            var dealerScore = 20;
+            var expected = "It's a TIE!";
+
+            var result = Rules.WinningHand(playerScore, dealerScore);
+
+            Assert.Equal(expected, result);
+        }
+      
+      public void ReturnATie_GivenBothParticipantsHaveBlackjack()
         {
             var playerScore = 21;
             var dealerScore = 21;
             var expected = "It's a TIE!";
 
             var result = Rules.GoneBlackjack(playerScore, dealerScore);
-
+        
             Assert.Equal(expected, result);
         }
     }

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Blackjack
 {
-    public interface IPlayer
+    public interface IParticipant
     {
         IHand Hand { get; }
         
