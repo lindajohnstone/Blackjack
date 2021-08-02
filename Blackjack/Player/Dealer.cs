@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Blackjack
 {
-    public class Dealer : IPlayer
+    public class Dealer : IParticipant
     {
         public IHand Hand { get; private set; }
         public Dealer(IHand hand)
