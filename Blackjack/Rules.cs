@@ -41,7 +41,8 @@ namespace Blackjack
 
         public static string WinningParticipant(int playerScore, int dealerScore) // TODO: name?
         {
-            return Messages.PlayerWins;
+            if (playerScore > dealerScore) return Messages.PlayerWins;
+            return Messages.DealerWins;
         }
     }
 }
