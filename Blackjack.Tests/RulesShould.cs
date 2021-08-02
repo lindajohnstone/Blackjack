@@ -106,18 +106,6 @@ namespace Blackjack.Tests
             Assert.Equal(expected, result);
         }
 
-        [Fact]
-        public void ReturnATie_GivenBothParticipantsHaveBlackjack()
-        {
-            var playerScore = 21;
-            var dealerScore = 21;
-            var expected = "It's a TIE!";
-
-            var result = Rules.GoneBlackjack(playerScore, dealerScore);
-
-            Assert.Equal(expected, result);
-        }
-
         [Theory]
         [InlineData(23, 18)]
         [InlineData(22, 21)]
@@ -171,6 +159,7 @@ namespace Blackjack.Tests
         }
 
         [Fact]
+
         public void ReturnATie_GivenBothParticipantsHaveSameScore()
         {
             var playerScore = 20;
@@ -179,6 +168,17 @@ namespace Blackjack.Tests
 
             var result = Rules.WinningHand(playerScore, dealerScore);
 
+            Assert.Equal(expected, result);
+        }
+      
+      public void ReturnATie_GivenBothParticipantsHaveBlackjack()
+        {
+            var playerScore = 21;
+            var dealerScore = 21;
+            var expected = "It's a TIE!";
+
+            var result = Rules.GoneBlackjack(playerScore, dealerScore);
+        
             Assert.Equal(expected, result);
         }
     }

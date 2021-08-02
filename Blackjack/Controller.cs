@@ -45,13 +45,11 @@ namespace Blackjack
 
         public void Play()
         {
-            // game starts
             _output.WriteLine(Messages.Welcome);
-            // deck shuffled
             Deck.Shuffle();
-            // deal cards - 2 cards to each player
             DealHand();
             // this logic is for player
+
             var player = Participants[0];
             var choice = Choice.None;
             var playerScore = 0;
@@ -90,21 +88,25 @@ namespace Blackjack
             do
             {
                 _output.Write(Messages.Choice);
-                // receive input
                 var input = _input.ReadLine();
-                // validate input
                 var isValid = Validator.IsValid(input);
                 while (!isValid)
                 {
                     input = _input.ReadLine();
                     isValid = Validator.IsValid(input);
                 }
-                // parse input
                 choice = ChoiceParser.ParseChoice(input);
                 if (choice == Choice.Hit) 
                 {
                     var playerCard = DealCard(player);
                     _output.WriteLine(String.Format(Messages.PlayerCard, OutputFormatter.DisplayCard(playerCard))); 
+                    playerScore = Score.Calculate(player.Hand);
+                    if (Rules.IsBlackjack(playerScore)) 
+                        _output.Write(String.Format(Messages.Player, Messages.Blackjack));
+                    if (Rules.IsBust(playerScore))
+                        _output.Write(String.Format(Messages.Player, Messages.Bust));
+                    else _output.Write(String.Format(Messages.Player, playerScore));
+                    _output.WriteLine(string.Format(Messages.Hand, OutputFormatter.DisplayHand(player.Hand)));
                 }
                 // calculate player's score
                 playerScore = Score.Calculate(player.Hand);
@@ -127,6 +129,7 @@ namespace Blackjack
                 _output.Write(String.Format(Messages.Dealer, Messages.Bust));
             else _output.Write(String.Format(Messages.Dealer, dealerScore));
             _output.WriteLine(String.Format(Messages.Hand, OutputFormatter.DisplayHand(dealer.Hand)));
+
             do
             {
                 choice = Rules.ShouldDealerHitAgain(dealerScore);
@@ -168,7 +171,7 @@ namespace Blackjack
             return card;
         }
 
-        private bool ShouldTurnEnd(Choice choice, int score) // TODO: name of method ?
+        private bool ShouldTurnEnd(Choice choice, int score) // TODO: name of method 
         {
             if (choice == Choice.Stay ) return true; 
             if (Rules.IsBlackjack(score)) return true;
