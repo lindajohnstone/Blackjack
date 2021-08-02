@@ -145,5 +145,17 @@ namespace Blackjack.Tests
 
             Assert.Equal(expected, result);
         }
+
+        [Fact]
+        public void ReturnPlayerWins_GivenHigherScoreThanDealer()
+        {
+            var playerScore = 20;
+            var dealerScore = 18;
+            var expected = "You beat the Dealer!";
+
+            var result = Rules.WinningParticipant(playerScore, dealerScore);
+
+            Assert.Equal(expected, result);
+        }
     }
 }

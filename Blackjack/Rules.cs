@@ -16,12 +16,6 @@ namespace Blackjack
             return score > 21 ? true : false;
         }
 
-        public static string GoneBust(int playerScore, int dealerScore)
-        {
-            if (IsBust(playerScore)) return Messages.DealerWins;
-            return Messages.PlayerWins;
-        }
-
         public static bool IsBlackjack(int score)
         {
             return score == 21 ? true : false;
@@ -37,6 +31,17 @@ namespace Blackjack
             if (IsBlackjack(playerScore) && !IsBlackjack(dealerScore)) return Messages.PlayerWins;
             if (IsBlackjack(dealerScore) && !IsBlackjack(playerScore)) return Messages.DealerWins;
             return Messages.Tie;
+        }
+
+        public static string GoneBust(int playerScore, int dealerScore)
+        {
+            if (IsBust(playerScore)) return Messages.DealerWins;
+            return Messages.PlayerWins;
+        }
+
+        public static string WinningParticipant(int playerScore, int dealerScore) // TODO: name?
+        {
+            return Messages.PlayerWins;
         }
     }
 }
