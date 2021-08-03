@@ -16,7 +16,6 @@ namespace Blackjack
         {
             _dealerHand = dealerHand;
             _playerHand = playerHand;
-
         }
 
         public int DealerScore { get => Score.Calculate(_dealerHand); }
