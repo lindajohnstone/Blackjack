@@ -8,17 +8,18 @@ namespace Blackjack
     {
         IInput _input;
         IOutput _output;
-        public List<IParticipant> Participants { get; private set; }
-        public IDeck Deck { get; private set; }
-
-        public Controller(IInput input, IOutput output, List<IParticipant> players, IDeck deck)
+        IParticipant _player;
+        IParticipant _dealer;
+        public Controller(IInput input, IOutput output, IParticipant player, IParticipant dealer, IDeck deck)
         {
             _input = input;
             _output = output;
-            Participants = players;
+            _player = player;
+            _dealer = dealer;
             Deck = deck;
         }
 
+        public IDeck Deck { get; private set; }
 
         // game starts
             // both dealer + player get 2 cards each
@@ -55,41 +56,15 @@ namespace Blackjack
             DealHand();
             // this logic is for player
 
-            var player = Participants[0];
             var choice = Choice.None;
-            var playerScore = 0;
-            var dealerScore = 0;
-            foreach (var participant in Participants) // another word that could be used for both player & dealer
-            {
-                // specify score for each participant 
-                // if (participant == player)
-                // {
-                //     playerScore = Score.Calculate(player.Hand);
-                //     if (Rules.IsBlackjack(playerScore))
-                //         _output.Write(String.Format(Messages.Player, Messages.Blackjack));
-                //     if (Rules.IsBust(playerScore))
-                //         _output.Write(String.Format(Messages.Player, Messages.Bust));
-                //     else _output.Write(String.Format(Messages.Player, playerScore));
-                //     _output.WriteLine(string.Format(Messages.Hand, OutputFormatter.DisplayHand(player.Hand)));
-                // }
-                // else
-                // {
-                //        dealerScore = Score.Calculate(dealer.Hand);
-                        // if (Rules.IsBlackjack(dealerScore))
-                        //     _output.WriteLine(String.Format(Messages.Dealer, Messages.Blackjack));
-                        // if (Rules.IsBust(dealerScore))
-                        //     _output.Write(String.Format(Messages.Dealer, Messages.Bust));
-                        // else _output.Write(String.Format(Messages.Dealer, dealerScore));
-                        // _output.WriteLine(String.Format(Messages.Hand, OutputFormatter.DisplayHand(dealer.Hand)));
-                // }
-            }
-            playerScore = Score.Calculate(player.Hand);
+            var playerScore = Score.Calculate(_player.Hand);
+            
             if (Rules.IsBlackjack(playerScore))
-                _output.Write(String.Format(Messages.Player, Messages.Blackjack));
+                _output.WriteLine(String.Format(Messages.Player, Messages.Blackjack, OutputFormatter.DisplayHand(_player.Hand)));
             if (Rules.IsBust(playerScore))
-                _output.Write(String.Format(Messages.Player, Messages.Bust));
-            else _output.Write(String.Format(Messages.Player, playerScore));
-            _output.WriteLine(string.Format(Messages.Hand, OutputFormatter.DisplayHand(player.Hand)));
+                _output.WriteLine(String.Format(Messages.Player, Messages.Bust, OutputFormatter.DisplayHand(_player.Hand)));
+            else 
+                _output.WriteLine(String.Format(Messages.Player, playerScore, OutputFormatter.DisplayHand(_player.Hand)));
             do
             {
                 _output.Write(Messages.Choice);
@@ -103,44 +78,43 @@ namespace Blackjack
                 choice = ChoiceParser.ParseChoice(input);
                 if (choice == Choice.Hit) 
                 {
-                    var playerCard = DealCard(player);
+                    var playerCard = DealCard(_player);
                     _output.WriteLine(String.Format(Messages.PlayerCard, OutputFormatter.DisplayCard(playerCard))); 
-                    playerScore = Score.Calculate(player.Hand);
-                    if (Rules.IsBlackjack(playerScore)) 
-                        _output.Write(String.Format(Messages.Player, Messages.Blackjack));
+                    playerScore = Score.Calculate(_player.Hand);
+                    if (Rules.IsBlackjack(playerScore))
+                        _output.WriteLine(String.Format(Messages.Player, Messages.Blackjack, OutputFormatter.DisplayHand(_player.Hand)));
                     if (Rules.IsBust(playerScore))
-                        _output.Write(String.Format(Messages.Player, Messages.Bust));
-                    else _output.Write(String.Format(Messages.Player, playerScore));
-                    _output.WriteLine(string.Format(Messages.Hand, OutputFormatter.DisplayHand(player.Hand)));
+                        _output.WriteLine(String.Format(Messages.Player, Messages.Bust, OutputFormatter.DisplayHand(_player.Hand)));
+                    else 
+                        _output.WriteLine(String.Format(Messages.Player, playerScore, OutputFormatter.DisplayHand(_player.Hand)));
                 }
             }
             while (!ShouldTurnEnd(choice, playerScore));
 
             // different logic for dealer
-            var dealer = Participants[1];
             // must hit if score < 17
-            dealerScore = Score.Calculate(dealer.Hand);
-            if (Rules.IsBlackjack(dealerScore))
-                _output.WriteLine(String.Format(Messages.Dealer, Messages.Blackjack));
-            if (Rules.IsBust(dealerScore))
-                _output.Write(String.Format(Messages.Dealer, Messages.Bust));
-            else _output.Write(String.Format(Messages.Dealer, dealerScore));
-            _output.WriteLine(String.Format(Messages.Hand, OutputFormatter.DisplayHand(dealer.Hand)));
+            var dealerScore = Score.Calculate(_dealer.Hand);
 
+            if (Rules.IsBlackjack(dealerScore))
+                _output.WriteLine(String.Format(Messages.Dealer, Messages.Blackjack, OutputFormatter.DisplayHand(_dealer.Hand)));
+            if (Rules.IsBust(dealerScore))
+                _output.WriteLine(String.Format(Messages.Dealer, Messages.Bust, OutputFormatter.DisplayHand(_dealer.Hand)));
+            else 
+                _output.WriteLine(String.Format(Messages.Dealer, dealerScore, OutputFormatter.DisplayHand(_dealer.Hand)));
             do
             {
                 choice = Rules.ShouldDealerHitAgain(dealerScore);
                 if (choice == Choice.Hit)
                 {
-                    var dealerCard = DealCard(dealer);
+                    var dealerCard = DealCard(_dealer);
                     _output.WriteLine(String.Format(Messages.DealerCard, OutputFormatter.DisplayCard(dealerCard)));
-                    dealerScore = Score.Calculate(dealer.Hand);
+                    dealerScore = Score.Calculate(_dealer.Hand);
                     if (Rules.IsBlackjack(dealerScore))
-                        _output.WriteLine(String.Format(Messages.Dealer, Messages.Blackjack));
+                        _output.WriteLine(String.Format(Messages.Dealer, Messages.Blackjack, OutputFormatter.DisplayHand(_dealer.Hand)));
                     if (Rules.IsBust(dealerScore))
-                        _output.Write(String.Format(Messages.Dealer, Messages.Bust));
-                    else _output.Write(String.Format(Messages.Dealer, dealerScore));
-                    _output.WriteLine(String.Format(Messages.Hand, OutputFormatter.DisplayHand(dealer.Hand)));
+                        _output.WriteLine(String.Format(Messages.Dealer, Messages.Bust, OutputFormatter.DisplayHand(_dealer.Hand)));
+                    else 
+                        _output.WriteLine(String.Format(Messages.Dealer, dealerScore, OutputFormatter.DisplayHand(_dealer.Hand)));
                 }
             }
             while (!ShouldTurnEnd(choice, dealerScore));
@@ -148,7 +122,12 @@ namespace Blackjack
 
         private void DealHand()
         {
-            foreach (var participant in Participants)
+            var participants = new List<IParticipant>
+            {
+                _player,
+                _dealer
+            };
+            foreach (var participant in participants)
             {
                 for (int i = 0; i < 2; i++)
                 {

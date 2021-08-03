@@ -6,9 +6,8 @@ namespace Blackjack
         public const string Blackjack = "Blackjack!!";
         public const string PlayerWins = "You beat the Dealer!";
         public const string DealerWins = "Dealer wins!";
-        public const string Player = "You are currently at {0}";
-        public const string Dealer = "Dealer is at {0}";
-        public const string Hand = " with the hand {0}.";
+        public const string Player = "You are currently at {0} with the hand {1}.";
+        public const string Dealer = "Dealer is at {0} with the hand {1}.";
         public const string PlayerCard = "You draw {0}.";
         public const string DealerCard = "Dealer draws {0}.";
         public const string Bust = "Bust!";
