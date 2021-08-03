@@ -1,9 +1,36 @@
 namespace Blackjack
 {
+    public enum Outcome
+    {
+        DealerWin,
+        PlayerWin,
+        Tie
+    }
+
     public class GameResult
     {
-        public IParticipant Winner { get; set; }
+        private IHand _dealerHand;
+        private IHand _playerHand;
 
-        public Hand Hand { get; set; }
+        public GameResult(IHand dealerHand, IHand playerHand)
+        {
+            _dealerHand = dealerHand;
+            _playerHand = playerHand;
+
+        }
+
+        public int DealerScore { get => Score.Calculate(_dealerHand); }
+        public int PlayerScore { get => Score.Calculate(_playerHand); }
+        public Outcome Outcome
+        {
+            get
+            {
+                if (PlayerScore > 21) return Outcome.DealerWin;
+                if (DealerScore > 21) return Outcome.PlayerWin;
+                if (DealerScore > PlayerScore) return Outcome.DealerWin;
+                if (PlayerScore > DealerScore) return Outcome.PlayerWin;
+                return Outcome.Tie;
+            }
+        }
     }
 }
