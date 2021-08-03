@@ -26,15 +26,15 @@ namespace Blackjack
             return score < 17 ? Choice.Hit : Choice.Stay;
         }
 
-        public static string GoneBlackjack(int playerScore, int dealerScore) // TODO: ternary operator
+        public static string GoneBlackjack(int playerScore, int dealerScore) 
         {
             if (IsBlackjack(playerScore) && IsBlackjack(dealerScore)) return Messages.Tie;
             if (IsBlackjack(playerScore)) return Messages.PlayerWins;
             if (IsBlackjack(dealerScore)) return Messages.DealerWins;
-            return ""; // TODO: what to return here
+            return ""; 
         }
 
-        public static string GoneBust(int playerScore, int dealerScore) // TODO: ternary operator
+        public static string GoneBust(int playerScore, int dealerScore) 
         {
             if (IsBust(playerScore)) return Messages.DealerWins;
             if (IsBust(dealerScore)) return Messages.PlayerWins;
@@ -42,7 +42,7 @@ namespace Blackjack
         }
 
 
-        public static string WinningHand(int playerScore, int dealerScore) // TODO: name? // TODO: ternary operator
+        public static string WinningHand(int playerScore, int dealerScore) 
         {
             if (playerScore > dealerScore) return Messages.PlayerWins;
             if (dealerScore > playerScore) return Messages.DealerWins;

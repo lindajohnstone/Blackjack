@@ -163,7 +163,7 @@ namespace Blackjack
             return card;
         }
 
-        private bool ShouldTurnEnd(Choice choice, int score) // TODO: name of method 
+        private bool ShouldTurnEnd(Choice choice, int score) 
         {
             if (choice == Choice.Stay ) return true; 
             if (Rules.IsBlackjack(score)) return true;
