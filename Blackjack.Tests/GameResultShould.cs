@@ -140,5 +140,34 @@ namespace Blackjack.Tests
 
             Assert.Equal(expected, actual);
         }
+
+        [Theory]
+        [InlineData(CardRank.Jack, CardRank.Eight, CardRank.Two)]
+        [InlineData(CardRank.Jack, CardRank.Two, CardRank.Five, CardRank.Three)]
+        public void ReturnTie_GivenBothPlayersHaveSameScore(params CardRank[] cardRanks)
+        {
+            var mockDealerHand = new Mock<IHand>();
+            mockDealerHand.Setup(h => h.Cards)
+                .Returns(
+                    cardRanks.Select(
+                        cr => new Card(cr, It.IsAny<CardSuit>())
+                    ).ToList()
+                );
+            var mockPlayerHand = new Mock<IHand>();
+            mockPlayerHand.Setup(h => h.Cards)
+                .Returns(new List<Card>
+                    {
+                        new Card(CardRank.King, It.IsAny<CardSuit>()),
+                        new Card(CardRank.Queen, It.IsAny<CardSuit>())
+                    }
+                );
+            var gameResult = new GameResult(mockDealerHand.Object, mockPlayerHand.Object);
+            var expected = Outcome.Tie;
+
+            var actual = gameResult.Outcome;
+
+            Assert.Equal(expected, actual);
+        }
+
     }
 }
