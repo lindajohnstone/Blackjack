@@ -10,6 +10,7 @@ namespace Blackjack
         IOutput _output;
         IParticipant _player;
         IParticipant _dealer;
+        GameResult _gameResult;
         public Controller(IInput input, IOutput output, IParticipant player, IParticipant dealer, IDeck deck)
         {
             _input = input;
@@ -17,6 +18,7 @@ namespace Blackjack
             _player = player;
             _dealer = dealer;
             Deck = deck;
+            _gameResult = new GameResult(_dealer.Hand, _player.Hand);
         }
 
         public IDeck Deck { get; private set; }
@@ -94,7 +96,11 @@ namespace Blackjack
             // different logic for dealer
             // must hit if score < 17
             var dealerScore = Score.Calculate(_dealer.Hand);
-
+            if (_gameResult.Outcome == Outcome.DealerWin) 
+            {
+                _output.WriteLine(Messages.DealerWins);
+                return;
+            }
             if (Rules.IsBlackjack(dealerScore))
                 _output.WriteLine(String.Format(Messages.Dealer, Messages.Blackjack, OutputFormatter.DisplayHand(_dealer.Hand)));
             if (Rules.IsBust(dealerScore))
@@ -118,6 +124,18 @@ namespace Blackjack
                 }
             }
             while (!ShouldTurnEnd(choice, dealerScore));
+            if (_gameResult.Outcome == Outcome.DealerWin)
+            {
+                _output.WriteLine(Messages.DealerWins);
+            }
+            if (_gameResult.Outcome == Outcome.PlayerWin)
+            {
+                _output.WriteLine(Messages.PlayerWins);
+            }
+            else if (_gameResult.Outcome == Outcome.Tie)
+            {
+                _output.WriteLine(Messages.Tie);
+            }
         }
 
         private void DealHand()
