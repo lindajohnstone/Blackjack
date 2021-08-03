@@ -76,9 +76,65 @@ namespace Blackjack.Tests
                         cr => new Card(cr, It.IsAny<CardSuit>())
                     ).ToList()
                 );
-            
             var gameResult = new GameResult(mockDealerHand.Object, mockPlayerHand.Object);
             var expected = Outcome.DealerWin;
+
+            var actual = gameResult.Outcome;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [InlineData(CardRank.Jack, CardRank.Eight)]
+        [InlineData(CardRank.Jack, CardRank.Two, CardRank.Five)]
+        public void ReturnPlayerWin_GivenDealerScoreIsLower(params CardRank[] cardRanks)
+        {
+            var mockDealerHand = new Mock<IHand>();
+            mockDealerHand.Setup(h => h.Cards)
+                .Returns(
+                    cardRanks.Select(
+                        cr => new Card(cr, It.IsAny<CardSuit>())
+                    ).ToList()
+                );
+            var mockPlayerHand = new Mock<IHand>();
+            mockPlayerHand.Setup(h => h.Cards)
+                .Returns(new List<Card>
+                    {
+                        new Card(CardRank.King, It.IsAny<CardSuit>()),
+                        new Card(CardRank.Queen, It.IsAny<CardSuit>())
+                    }
+                );
+            var gameResult = new GameResult(mockDealerHand.Object, mockPlayerHand.Object);
+            var expected = Outcome.PlayerWin;
+
+            var actual = gameResult.Outcome;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [InlineData(CardRank.Jack, CardRank.Eight, CardRank.Three)]
+        [InlineData(CardRank.Jack, CardRank.Two, CardRank.Five, CardRank.Four)]
+        public void ReturnTie_GivenBothPlayersHaveBlackjack(params CardRank[] cardRanks)
+        {
+            var mockDealerHand = new Mock<IHand>();
+            mockDealerHand.Setup(h => h.Cards)
+                .Returns(
+                    cardRanks.Select(
+                        cr => new Card(cr, It.IsAny<CardSuit>())
+                    ).ToList()
+                );
+            var mockPlayerHand = new Mock<IHand>();
+            mockPlayerHand.Setup(h => h.Cards)
+                .Returns(new List<Card>
+                    {
+                        new Card(CardRank.King, It.IsAny<CardSuit>()),
+                        new Card(CardRank.Queen, It.IsAny<CardSuit>()),
+                        new Card(CardRank.Ace, It.IsAny<CardSuit>())
+                    }
+                );
+            var gameResult = new GameResult(mockDealerHand.Object, mockPlayerHand.Object);
+            var expected = Outcome.Tie;
 
             var actual = gameResult.Outcome;
 
