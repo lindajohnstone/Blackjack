@@ -24,33 +24,6 @@ namespace Blackjack.Tests
         }
 
         [Fact]
-        public void ReturnDealerWin_GivenPlayerGoesBust()
-        {
-            /*
-                player receives 2 cards from deck
-                8 of Hearts, 10 Diamonds - score = 18
-                dealer receives 2 cards from deck
-                (doesn't matter which ones)
-                player hits 
-                player receives 4 of Diamonds - score = 22 BUST!
-            */
-            _mockInput.SetupSequence(_ => _.ReadLine())
-                .Returns("1")
-                .Returns("0");
-            _mockOutput.Setup(x => x.WriteLine(Messages.DealerWins)); // TODO: is this setup properly? 
-            _mockDeck.SetupSequence(d => d.DealCard())
-                .Returns(new Card(CardRank.Eight, CardSuit.Hearts))
-                .Returns(new Card(CardRank.Ten, CardSuit.Diamonds))
-                .Returns(new Card(CardRank.Two, CardSuit.Hearts))
-                .Returns(new Card(CardRank.Two, CardSuit.Clubs))
-                .Returns(new Card(CardRank.Four, CardSuit.Diamonds));
-
-            _controller.Play();
-
-            Assert.Equal("Dealer wins!", _mockOutput.ToString()); // failing
-        }
-
-        [Fact]
         public void ReturnDealerWin_GivenPlayerBust()
         {
             var output = new StubOutput();
@@ -94,5 +67,22 @@ namespace Blackjack.Tests
 
             Assert.Equal("You beat the Dealer!", output.GetLastOutput());
         }
+
+        // Welcome to Blackjack!
+        // You are currently at 15 with the hand 4 of Spades, Ace of Clubs.
+        // Hit or stay? (Hit = 1, Stay = 0)1
+        // You draw 9 of Spades.
+        // You are currently at 14 with the hand 4 of Spades, Ace of Clubs, 9 of Spades.
+        // Hit or stay? (Hit = 1, Stay = 0)1
+        // You draw 7 of Hearts.
+        // You are currently at Blackjack!! with the hand 4 of Spades, Ace of Clubs, 9 of Spades, 7 of Hearts.
+        // You are currently at 21 with the hand 4 of Spades, Ace of Clubs, 9 of Spades, 7 of Hearts.
+        // Dealer is at 20 with the hand 10 of Hearts, King of Spades.
+        // You beat the Dealer!
+
+        // Welcome to Blackjack!
+        // You are currently at 17 with the hand 7 of Diamonds, Jack of Spades.
+        // Hit or stay? (Hit = 1, Stay = 0)0
+        // Dealer wins!
     }
 }
