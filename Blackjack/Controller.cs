@@ -57,14 +57,15 @@ namespace Blackjack
             Deck.Shuffle();
             DealHand(_player);
             DealHand(_dealer);
-            // this logic is for player
 
             var choice = Choice.None;
+            
             var playerScore = Score.Calculate(_player.Hand);
-
-            DisplayPlayerInformation(playerScore);
+            DisplayPlayerInformation(playerScore); // TODO: handle situation where player is dealt Blackjack?? 
+            
             do
             {
+                if (Rules.IsBlackjack(playerScore)) ShouldTurnEnd(choice, playerScore);
                 _output.Write(Messages.Choice);
                 var input = _input.ReadLine();
                 var isValid = Validator.IsValid(input);
@@ -80,15 +81,9 @@ namespace Blackjack
                     _output.WriteLine(String.Format(Messages.PlayerCard, OutputFormatter.DisplayCard(playerCard)));
                     playerScore = Score.Calculate(_player.Hand);
                     DisplayPlayerInformation(playerScore);
-                    // TODO: if player gets Blackjack, displays info twice
-                    // "You are currently at Blackjack!! with the hand 4 of Spades, Ace of Clubs, 9 of Spades, 7 of Hearts.
-                    // You are currently at 21 with the hand 4 of Spades, Ace of Clubs, 9 of Spades, 7 of Hearts."
                 }
             }
             while (!ShouldTurnEnd(choice, playerScore));
-
-            // different logic for dealer
-            // must hit if score < 17
             
             if (_gameResult.Outcome == Outcome.DealerWin)
             {
@@ -141,9 +136,15 @@ namespace Blackjack
         private void DisplayPlayerInformation(int playerScore)
         {
             if (Rules.IsBlackjack(playerScore))
+            {
                 _output.WriteLine(String.Format(Messages.Player, Messages.Blackjack, OutputFormatter.DisplayHand(_player.Hand)));
+                return;
+            } 
             if (Rules.IsBust(playerScore))
+            {
                 _output.WriteLine(String.Format(Messages.Player, Messages.Bust, OutputFormatter.DisplayHand(_player.Hand)));
+                return;
+            }
             else
                 _output.WriteLine(String.Format(Messages.Player, playerScore, OutputFormatter.DisplayHand(_player.Hand)));
         }
@@ -159,9 +160,15 @@ namespace Blackjack
         private void DisplayDealerInformation(int dealerScore)
         {
             if (Rules.IsBlackjack(dealerScore))
+            {
                 _output.WriteLine(String.Format(Messages.Dealer, Messages.Blackjack, OutputFormatter.DisplayHand(_dealer.Hand)));
+                return;
+            }
             if (Rules.IsBust(dealerScore))
+            {
                 _output.WriteLine(String.Format(Messages.Dealer, Messages.Bust, OutputFormatter.DisplayHand(_dealer.Hand)));
+                return;
+            }
             else
                 _output.WriteLine(String.Format(Messages.Dealer, dealerScore, OutputFormatter.DisplayHand(_dealer.Hand)));
         }
