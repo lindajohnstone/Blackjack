@@ -68,7 +68,7 @@ namespace Blackjack.Tests
             Assert.Equal("You beat the Dealer!", output.GetWinner());
         }
 
-        [Fact] // TODO: rename - bug fix??
+        [Fact] 
         public void ReturnPlayerWin_GivenPlayerHasBlackjack() // fixed bug - if player had blackjack, would display lines 140 + 149
         {
             var output = new StubOutput();
@@ -92,7 +92,7 @@ namespace Blackjack.Tests
             Assert.Equal("You beat the Dealer!", output.GetWinner());
         }
 
-        [Fact] // TODO: rename - bug fix??
+        [Fact] 
         public void ReturnPlayerWin_GivenPlayerHasBlackjackFromInitialDeal() // fixed bug - if initial player hand scored Blackjack, do/while would run
         {
             var output = new StubOutput();

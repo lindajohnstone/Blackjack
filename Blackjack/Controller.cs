@@ -62,11 +62,15 @@ namespace Blackjack
             var choice = Choice.None;
             
             var playerScore = Score.Calculate(_player.Hand);
-            DisplayPlayerInformation(playerScore); 
+            DisplayInformation(_player, playerScore); 
             
             do
             {
-                if (Rules.IsBlackjack(playerScore)) ShouldTurnEnd(choice, playerScore);
+                if (Rules.IsBlackjack(playerScore)) 
+                {
+                    ShouldTurnEnd(choice, playerScore); 
+                    break;
+                }
                 _output.Write(Messages.Choice);
                 var input = _input.ReadLine();
                 var isValid = Validator.IsValid(input);
@@ -81,7 +85,7 @@ namespace Blackjack
                     var playerCard = DealCard(_player);
                     _output.WriteLine(String.Format(Messages.PlayerCard, OutputFormatter.DisplayCard(playerCard)));
                     playerScore = Score.Calculate(_player.Hand);
-                    DisplayPlayerInformation(playerScore);
+                    DisplayInformation(_player, playerScore);
                 }
             }
             while (!ShouldTurnEnd(choice, playerScore));
@@ -93,7 +97,7 @@ namespace Blackjack
                 return;
             }
             var dealerScore = Score.Calculate(_dealer.Hand);
-            DisplayDealerInformation(dealerScore);
+            DisplayInformation(_dealer, dealerScore);
             do
             {
                 choice = Rules.ShouldDealerHitAgain(dealerScore);
@@ -102,10 +106,9 @@ namespace Blackjack
                     var dealerCard = DealCard(_dealer);
                     _output.WriteLine(String.Format(Messages.DealerCard, OutputFormatter.DisplayCard(dealerCard)));
                     dealerScore = Score.Calculate(_dealer.Hand);
-                    DisplayDealerInformation(dealerScore);
+                    DisplayInformation(_dealer, dealerScore);
                 }
-            }
-            while (!ShouldTurnEnd(choice, dealerScore));
+            } while (!ShouldTurnEnd(choice, dealerScore));
 
             if (_gameResult.Outcome == Outcome.DealerWin)
             {
@@ -139,20 +142,22 @@ namespace Blackjack
             return card;
         }
 
-        private void DisplayPlayerInformation(int playerScore)
+        private void DisplayInformation(IParticipant participant,int score) 
         {
-            if (Rules.IsBlackjack(playerScore))
+            var message = ""; 
+            message = participant == _player ? Messages.Player : Messages.Dealer;
+            if (Rules.IsBlackjack(score))
             {
-                _output.WriteLine(String.Format(Messages.Player, Messages.Blackjack, OutputFormatter.DisplayHand(_player.Hand)));
+                _output.WriteLine(String.Format(message, Messages.Blackjack, OutputFormatter.DisplayHand(_player.Hand)));
                 return;
             } 
-            if (Rules.IsBust(playerScore))
+            if (Rules.IsBust(score))
             {
-                _output.WriteLine(String.Format(Messages.Player, Messages.Bust, OutputFormatter.DisplayHand(_player.Hand)));
+                _output.WriteLine(String.Format(message, Messages.Bust, OutputFormatter.DisplayHand(_player.Hand)));
                 return;
             }
             else
-                _output.WriteLine(String.Format(Messages.Player, playerScore, OutputFormatter.DisplayHand(_player.Hand)));
+                _output.WriteLine(String.Format(message, score, OutputFormatter.DisplayHand(_player.Hand)));
         }
 
         private bool ShouldTurnEnd(Choice choice, int score)
@@ -161,22 +166,6 @@ namespace Blackjack
             if (Rules.IsBlackjack(score)) return true;
             if (Rules.IsBust(score)) return true;
             return false;
-        }
-
-        private void DisplayDealerInformation(int dealerScore)
-        {
-            if (Rules.IsBlackjack(dealerScore))
-            {
-                _output.WriteLine(String.Format(Messages.Dealer, Messages.Blackjack, OutputFormatter.DisplayHand(_dealer.Hand)));
-                return;
-            }
-            if (Rules.IsBust(dealerScore))
-            {
-                _output.WriteLine(String.Format(Messages.Dealer, Messages.Bust, OutputFormatter.DisplayHand(_dealer.Hand)));
-                return;
-            }
-            else
-                _output.WriteLine(String.Format(Messages.Dealer, dealerScore, OutputFormatter.DisplayHand(_dealer.Hand)));
         }
     }
 }
