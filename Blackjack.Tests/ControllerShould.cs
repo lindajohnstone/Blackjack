@@ -42,7 +42,7 @@ namespace Blackjack.Tests
 
             controller.Play();
 
-            Assert.Equal("Dealer wins!", output.GetLastOutput()); 
+            Assert.Equal("Dealer wins!", output.GetWinner()); 
         }
 
         [Fact]
@@ -171,7 +171,7 @@ namespace Blackjack.Tests
 
             controller.Play();
 
-            Assert.Equal("Dealer wins!", output.GetLastOutput());
+            Assert.Equal("Dealer wins!", output.GetWinner());
         }
     }
 }
