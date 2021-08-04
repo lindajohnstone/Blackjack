@@ -87,8 +87,7 @@ namespace Blackjack
                     playerScore = Score.Calculate(_player.Hand);
                     DisplayInformation(_player, playerScore);
                 }
-            }
-            while (!ShouldTurnEnd(choice, playerScore));
+            } while (!ShouldTurnEnd(choice, playerScore));
             
             if (_gameResult.Outcome == Outcome.DealerWin)
             {
