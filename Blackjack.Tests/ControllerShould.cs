@@ -134,9 +134,8 @@ namespace Blackjack.Tests
             Assert.Equal("Dealer wins!", output.GetLastOutput());
         }
 
-        [Theory]
-        [InlineData(CardRank.Nine, CardRank.Ten, CardRank.Jack, CardRank.Seven)]
-        public void ReturnPlayerWins_GivenDealerHasLowerScore(params CardRank[] cardRanks)
+        [Fact]
+        public void ReturnPlayerWins_GivenDealerHasLowerScore()
         {
             var output = new StubOutput();
             var player = new Player(new Hand());
@@ -144,21 +143,16 @@ namespace Blackjack.Tests
             var controller = new Controller(_mockInput.Object, output, player, dealer, _mockDeck.Object);
             _mockInput.SetupSequence(_ => _.ReadLine())
                 .Returns("0");
-            _mockDeck.Setup(d => d.Cards)
-                .Returns(
-                    cardRanks.Select(
-                        cr => new Card(cr, It.IsAny<CardSuit>())
-                    ).ToList());
-            player.ReceiveCard(_mockDeck.Object.Cards[0]);
-            player.ReceiveCard(_mockDeck.Object.Cards[1]);
-            dealer.ReceiveCard(_mockDeck.Object.Cards[2]);
-            dealer.ReceiveCard(_mockDeck.Object.Cards[3]);
+            _mockDeck.SetupSequence(d => d.DealCard())
+                .Returns(new Card(CardRank.Nine, CardSuit.Hearts))
+                .Returns(new Card(CardRank.Ten, CardSuit.Diamonds))
+                .Returns(new Card(CardRank.Ten, CardSuit.Hearts))
+                .Returns(new Card(CardRank.Seven, CardSuit.Clubs));
 
             controller.Play();
 
             Assert.Equal("You beat the Dealer!", output.GetLastOutput());
         }
-
 
         // test dealer wins if player score is lower 
     }
