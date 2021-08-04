@@ -65,7 +65,7 @@ namespace Blackjack.Tests
 
             controller.Play();
 
-            Assert.Equal("You beat the Dealer!", output.GetLastOutput());
+            Assert.Equal("You beat the Dealer!", output.GetWinner());
         }
 
         [Fact] // TODO: rename - bug fix??
@@ -89,7 +89,7 @@ namespace Blackjack.Tests
 
             controller.Play();
 
-            Assert.Equal("You beat the Dealer!", output.GetLastOutput());
+            Assert.Equal("You beat the Dealer!", output.GetWinner());
         }
 
         [Fact] // TODO: rename - bug fix??
@@ -110,7 +110,7 @@ namespace Blackjack.Tests
 
             controller.Play();
 
-            Assert.Equal("You beat the Dealer!", output.GetLastOutput());
+            Assert.Equal("You beat the Dealer!", output.GetWinner());
         }
 
         [Fact]
@@ -131,7 +131,7 @@ namespace Blackjack.Tests
 
             controller.Play();
 
-            Assert.Equal("Dealer wins!", output.GetLastOutput());
+            Assert.Equal("Dealer wins!", output.GetWinner());
         }
 
         [Fact]
@@ -151,7 +151,7 @@ namespace Blackjack.Tests
 
             controller.Play();
 
-            Assert.Equal("You beat the Dealer!", output.GetLastOutput());
+            Assert.Equal("You beat the Dealer!", output.GetWinner());
         }
 
         [Fact]

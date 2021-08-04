@@ -20,5 +20,10 @@ namespace Blackjack.Tests
         {
             return OutputList[^1];
         }
+
+        public string GetWinner()
+        {
+            return OutputList[^2];
+        }
     }
 }

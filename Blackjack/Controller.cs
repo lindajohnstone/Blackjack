@@ -32,6 +32,7 @@ namespace Blackjack
                 // they choose to stay
         // player has a score
             // they could be <21, blackjack, or bust
+            // if player is bust, their turn ends
             // we only care if the player is bust because dealer's phase of play only goes ahead if player isn't bust
         
         // if player is bust i.e. has score > 21:
@@ -61,7 +62,7 @@ namespace Blackjack
             var choice = Choice.None;
             
             var playerScore = Score.Calculate(_player.Hand);
-            DisplayPlayerInformation(playerScore); // TODO: handle situation where player is dealt Blackjack?? 
+            DisplayPlayerInformation(playerScore); 
             
             do
             {
@@ -88,6 +89,7 @@ namespace Blackjack
             if (_gameResult.Outcome == Outcome.DealerWin)
             {
                 _output.WriteLine(Messages.DealerWins);
+                _output.WriteLine(Messages.GameOver);
                 return;
             }
             var dealerScore = Score.Calculate(_dealer.Hand);
@@ -104,17 +106,21 @@ namespace Blackjack
                 }
             }
             while (!ShouldTurnEnd(choice, dealerScore));
+
             if (_gameResult.Outcome == Outcome.DealerWin)
             {
                 _output.WriteLine(Messages.DealerWins);
+                _output.WriteLine(Messages.GameOver);
             }
             if (_gameResult.Outcome == Outcome.PlayerWin)
             {
                 _output.WriteLine(Messages.PlayerWins);
+                _output.WriteLine(Messages.GameOver);
             }
             else if (_gameResult.Outcome == Outcome.Tie)
             {
                 _output.WriteLine(Messages.Tie);
+                _output.WriteLine(Messages.GameOver);
             }
         }
 
