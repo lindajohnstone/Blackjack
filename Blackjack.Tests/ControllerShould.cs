@@ -149,10 +149,10 @@ namespace Blackjack.Tests
                     cardRanks.Select(
                         cr => new Card(cr, It.IsAny<CardSuit>())
                     ).ToList());
-            foreach (var card in _mockDeck.Object.Cards)
+            for (var i = 0; i < _mockDeck.Object.Cards.Count; i++)
             {
                 _mockDeck.Setup(c => c.DealCard())
-                .Returns(card);
+                .Returns(_mockDeck.Object.Cards[i]);
             }
 
             controller.Play();
