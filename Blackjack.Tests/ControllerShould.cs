@@ -135,7 +135,7 @@ namespace Blackjack.Tests
         }
 
         [Theory]
-        [InlineData(CardRank.Nine, CardRank.Ten, CardRank.Ten, CardRank.Seven)]
+        [InlineData(CardRank.Nine, CardRank.Ten, CardRank.Jack, CardRank.Seven)]
         public void ReturnPlayerWins_GivenDealerHasLowerScore(params CardRank[] cardRanks)
         {
             var output = new StubOutput();
@@ -149,11 +149,10 @@ namespace Blackjack.Tests
                     cardRanks.Select(
                         cr => new Card(cr, It.IsAny<CardSuit>())
                     ).ToList());
-            for (var i = 0; i < _mockDeck.Object.Cards.Count; i++)
-            {
-                _mockDeck.Setup(c => c.DealCard())
-                .Returns(_mockDeck.Object.Cards[i]);
-            }
+            player.ReceiveCard(_mockDeck.Object.Cards[0]);
+            player.ReceiveCard(_mockDeck.Object.Cards[1]);
+            dealer.ReceiveCard(_mockDeck.Object.Cards[2]);
+            dealer.ReceiveCard(_mockDeck.Object.Cards[3]);
 
             controller.Play();
 
