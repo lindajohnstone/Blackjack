@@ -154,6 +154,24 @@ namespace Blackjack.Tests
             Assert.Equal("You beat the Dealer!", output.GetLastOutput());
         }
 
-        // test dealer wins if player score is lower 
+        [Fact]
+        public void ReturnDealerWins_GivenPlayerHasLowerScore()
+        {
+            var output = new StubOutput();
+            var player = new Player(new Hand());
+            var dealer = new Dealer(new Hand());
+            var controller = new Controller(_mockInput.Object, output, player, dealer, _mockDeck.Object);
+            _mockInput.SetupSequence(_ => _.ReadLine())
+                .Returns("0");
+            _mockDeck.SetupSequence(d => d.DealCard())
+                .Returns(new Card(CardRank.Ten, CardSuit.Hearts))
+                .Returns(new Card(CardRank.Seven, CardSuit.Clubs))
+                .Returns(new Card(CardRank.Nine, CardSuit.Hearts))
+                .Returns(new Card(CardRank.Ten, CardSuit.Diamonds));
+
+            controller.Play();
+
+            Assert.Equal("Dealer wins!", output.GetLastOutput());
+        }
     }
 }
