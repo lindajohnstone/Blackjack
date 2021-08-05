@@ -28,7 +28,7 @@ namespace Blackjack.Tests
         {
             var output = new StubOutput();
             var player = new Player(new Hand());
-            var dealer = new Dealer(new Hand()); 
+            var dealer = new Dealer(new Hand());
             var controller = new Controller(_mockInput.Object, output, player, dealer, _mockDeck.Object);
             _mockInput.SetupSequence(_ => _.ReadLine())
                 .Returns("1")
@@ -42,7 +42,7 @@ namespace Blackjack.Tests
 
             controller.Play();
 
-            Assert.Equal("Dealer wins!", output.GetWinner()); 
+            Assert.Equal("Dealer wins!", output.GetWinner());
         }
 
         [Fact]
@@ -68,7 +68,7 @@ namespace Blackjack.Tests
             Assert.Equal("You beat the Dealer!", output.GetWinner());
         }
 
-        [Fact] 
+        [Fact]
         public void ReturnPlayerWin_GivenPlayerHasBlackjack() // fixed bug - if player had blackjack, would display lines 140 + 149
         {
             var output = new StubOutput();
@@ -80,19 +80,26 @@ namespace Blackjack.Tests
                 .Returns("1")
                 .Returns("0");
             _mockDeck.SetupSequence(d => d.DealCard())
-                .Returns(new Card(CardRank.Four, CardSuit.Spades))
-                .Returns(new Card(CardRank.Ace, CardSuit.Clubs))
-                .Returns(new Card(CardRank.Ten, CardSuit.Hearts))
-                .Returns(new Card(CardRank.King, CardSuit.Spades))
-                .Returns(new Card(CardRank.Nine, CardSuit.Spades))
-                .Returns(new Card(CardRank.Seven, CardSuit.Hearts));
+                .Returns(new Card(CardRank.Four, CardSuit.Spades)) // player
+                .Returns(new Card(CardRank.Ace, CardSuit.Clubs)) // player
+                .Returns(new Card(CardRank.Ten, CardSuit.Hearts)) // dealer
+                .Returns(new Card(CardRank.King, CardSuit.Spades)) // dealer
+                .Returns(new Card(CardRank.Nine, CardSuit.Spades)) // player
+                .Returns(new Card(CardRank.Seven, CardSuit.Hearts)); // player
 
-            controller.Play();
+            var playerHand = player.Hand;
+            var dealerHand = dealer.Hand;
+            var expectedGameResult = new GameResult(dealerHand, playerHand);
 
-            Assert.Equal("You beat the Dealer!", output.GetWinner());
+            var expectedOutcome = Outcome.PlayerWin;
+
+            var result = controller.Play();
+
+            Assert.Equal(expectedGameResult, result); // failing here - not equal
+            Assert.Equal(expectedOutcome, result.Outcome);
         }
 
-        [Fact] 
+        [Fact]
         public void ReturnPlayerWin_GivenPlayerHasBlackjackFromInitialDeal() // fixed bug - if initial player hand scored Blackjack, do/while would run
         {
             var output = new StubOutput();
@@ -123,10 +130,10 @@ namespace Blackjack.Tests
             _mockInput.SetupSequence(_ => _.ReadLine())
                 .Returns("0");
             _mockDeck.SetupSequence(d => d.DealCard())
-                .Returns(new Card(CardRank.Jack, CardSuit.Hearts)) 
-                .Returns(new Card(CardRank.Ten, CardSuit.Diamonds)) 
-                .Returns(new Card(CardRank.Ten, CardSuit.Hearts)) 
-                .Returns(new Card(CardRank.Six, CardSuit.Clubs)) 
+                .Returns(new Card(CardRank.Jack, CardSuit.Hearts))
+                .Returns(new Card(CardRank.Ten, CardSuit.Diamonds))
+                .Returns(new Card(CardRank.Ten, CardSuit.Hearts))
+                .Returns(new Card(CardRank.Six, CardSuit.Clubs))
                 .Returns(new Card(CardRank.Five, CardSuit.Diamonds));
 
             controller.Play();
