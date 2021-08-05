@@ -24,35 +24,35 @@ namespace Blackjack
         public IDeck Deck { get; private set; }
 
         // game starts
-            // both dealer + player get 2 cards each
+        // both dealer + player get 2 cards each
         // player's phase of play
-            // player chooses to hit repeatedly until
-                // they hit blackjack
-                // they go bust
-                // they choose to stay
+        // player chooses to hit repeatedly until
+        // they hit blackjack
+        // they go bust
+        // they choose to stay
         // player has a score
-            // they could be <21, blackjack, or bust
-            // if player is bust, their turn ends
-            // we only care if the player is bust because dealer's phase of play only goes ahead if player isn't bust
-        
+        // they could be <21, blackjack, or bust
+        // if player is bust, their turn ends
+        // we only care if the player is bust because dealer's phase of play only goes ahead if player isn't bust
+
         // if player is bust i.e. has score > 21:
-            // end game, create gameresult
+        // end game, create gameresult
 
         // if player isn't bust i.e. has score 2-21:
-            // dealer's phase of play
-                // dealer chooses to hit repeatedly until
-                    // they hit blackjack
-                    // they go bust
-                    // they choose to stay because score is >= 17
-            // if dealer goes bust
-                // end game, create gameresult
-            // else compare score with player
-                // higher score wins, create gameresult
-                // same score ties, create gameresult
+        // dealer's phase of play
+        // dealer chooses to hit repeatedly until
+        // they hit blackjack
+        // they go bust
+        // they choose to stay because score is >= 17
+        // if dealer goes bust
+        // end game, create gameresult
+        // else compare score with player
+        // higher score wins, create gameresult
+        // same score ties, create gameresult
 
         // output gameresult
 
-        public void Play()
+        public GameResult Play()
         {
             _output.WriteLine(Messages.Welcome);
             Deck.Shuffle();
@@ -60,40 +60,33 @@ namespace Blackjack
             DealHand(_dealer);
 
             var choice = Choice.None;
-            
+
             var playerScore = Score.Calculate(_player.Hand);
-            DisplayPlayerInformation(playerScore); 
-            
+            var dealerScore = Score.Calculate(_dealer.Hand);
+            DisplayInformation(_player, playerScore);
+
             do
             {
-                if (Rules.IsBlackjack(playerScore)) ShouldTurnEnd(choice, playerScore);
-                _output.Write(Messages.Choice);
-                var input = _input.ReadLine();
-                var isValid = Validator.IsValid(input);
-                while (!isValid)
+                if (Rules.IsBlackjack(playerScore))
                 {
-                    input = _input.ReadLine();
-                    isValid = Validator.IsValid(input);
+                    break;
                 }
-                choice = ChoiceParser.ParseChoice(input);
+                choice = GetPlayerChoice();
                 if (choice == Choice.Hit)
                 {
                     var playerCard = DealCard(_player);
                     _output.WriteLine(String.Format(Messages.PlayerCard, OutputFormatter.DisplayCard(playerCard)));
                     playerScore = Score.Calculate(_player.Hand);
-                    DisplayPlayerInformation(playerScore);
+                    DisplayInformation(_player, playerScore);
                 }
-            }
-            while (!ShouldTurnEnd(choice, playerScore));
-            
-            if (_gameResult.Outcome == Outcome.DealerWin)
+            } while (!ShouldTurnEnd(choice, playerScore));
+
+            if (ShouldGameEnd(playerScore, dealerScore))
             {
-                _output.WriteLine(Messages.DealerWins);
-                _output.WriteLine(Messages.GameOver);
-                return;
+                return new GameResult(_dealer.Hand, _player.Hand);
             }
-            var dealerScore = Score.Calculate(_dealer.Hand);
-            DisplayDealerInformation(dealerScore);
+
+            DisplayInformation(_dealer, dealerScore);
             do
             {
                 choice = Rules.ShouldDealerHitAgain(dealerScore);
@@ -102,26 +95,11 @@ namespace Blackjack
                     var dealerCard = DealCard(_dealer);
                     _output.WriteLine(String.Format(Messages.DealerCard, OutputFormatter.DisplayCard(dealerCard)));
                     dealerScore = Score.Calculate(_dealer.Hand);
-                    DisplayDealerInformation(dealerScore);
+                    DisplayInformation(_dealer, dealerScore);
                 }
-            }
-            while (!ShouldTurnEnd(choice, dealerScore));
+            } while (!ShouldTurnEnd(choice, dealerScore));
 
-            if (_gameResult.Outcome == Outcome.DealerWin)
-            {
-                _output.WriteLine(Messages.DealerWins);
-                _output.WriteLine(Messages.GameOver);
-            }
-            if (_gameResult.Outcome == Outcome.PlayerWin)
-            {
-                _output.WriteLine(Messages.PlayerWins);
-                _output.WriteLine(Messages.GameOver);
-            }
-            else if (_gameResult.Outcome == Outcome.Tie)
-            {
-                _output.WriteLine(Messages.Tie);
-                _output.WriteLine(Messages.GameOver);
-            }
+            return new GameResult(_dealer.Hand, _player.Hand);
         }
 
         private void DealHand(IParticipant participant)
@@ -139,20 +117,37 @@ namespace Blackjack
             return card;
         }
 
-        private void DisplayPlayerInformation(int playerScore)
+        private void DisplayInformation(IParticipant participant, int score)
         {
-            if (Rules.IsBlackjack(playerScore))
+            var message = "";
+            message = participant == _player ? Messages.Player : Messages.Dealer;
+            if (Rules.IsBlackjack(score))
             {
-                _output.WriteLine(String.Format(Messages.Player, Messages.Blackjack, OutputFormatter.DisplayHand(_player.Hand)));
+                _output.WriteLine(String.Format(message, Messages.Blackjack, OutputFormatter.DisplayHand(_player.Hand)));
                 return;
-            } 
-            if (Rules.IsBust(playerScore))
+            }
+            if (Rules.IsBust(score))
             {
-                _output.WriteLine(String.Format(Messages.Player, Messages.Bust, OutputFormatter.DisplayHand(_player.Hand)));
+                _output.WriteLine(String.Format(message, Messages.Bust, OutputFormatter.DisplayHand(_player.Hand)));
                 return;
             }
             else
-                _output.WriteLine(String.Format(Messages.Player, playerScore, OutputFormatter.DisplayHand(_player.Hand)));
+                _output.WriteLine(String.Format(message, score, OutputFormatter.DisplayHand(_player.Hand)));
+        }
+
+        private Choice GetPlayerChoice()
+        {
+            Choice choice;
+            _output.Write(Messages.Choice);
+            var input = _input.ReadLine();
+            var isValid = Validator.IsValid(input);
+            while (!isValid)
+            {
+                input = _input.ReadLine();
+                isValid = Validator.IsValid(input);
+            }
+            choice = ChoiceParser.ParseChoice(input);
+            return choice;
         }
 
         private bool ShouldTurnEnd(Choice choice, int score)
@@ -163,20 +158,30 @@ namespace Blackjack
             return false;
         }
 
-        private void DisplayDealerInformation(int dealerScore)
+        private bool ShouldGameEnd(int playerScore, int dealerScore)
         {
-            if (Rules.IsBlackjack(dealerScore))
+            if (Rules.IsBust(playerScore)) return true;
+            if (Rules.IsBust(dealerScore)) return true;
+            return false;
+        }
+
+        public void DisplayGameResult()
+        {
+            if (_gameResult.Outcome == Outcome.DealerWin)
             {
-                _output.WriteLine(String.Format(Messages.Dealer, Messages.Blackjack, OutputFormatter.DisplayHand(_dealer.Hand)));
-                return;
+                _output.WriteLine(Messages.DealerWins);
+                _output.WriteLine(Messages.GameOver);
             }
-            if (Rules.IsBust(dealerScore))
+            if (_gameResult.Outcome == Outcome.PlayerWin)
             {
-                _output.WriteLine(String.Format(Messages.Dealer, Messages.Bust, OutputFormatter.DisplayHand(_dealer.Hand)));
-                return;
+                _output.WriteLine(Messages.PlayerWins);
+                _output.WriteLine(Messages.GameOver);
             }
-            else
-                _output.WriteLine(String.Format(Messages.Dealer, dealerScore, OutputFormatter.DisplayHand(_dealer.Hand)));
+            else if (_gameResult.Outcome == Outcome.Tie)
+            {
+                _output.WriteLine(Messages.Tie);
+                _output.WriteLine(Messages.GameOver);
+            }
         }
     }
 }

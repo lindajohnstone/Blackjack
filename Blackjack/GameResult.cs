@@ -20,7 +20,7 @@ namespace Blackjack
 
         public int DealerScore { get => Score.Calculate(_dealerHand); }
         public int PlayerScore { get => Score.Calculate(_playerHand); }
-        public Outcome Outcome // TODO: look at changing this to a method
+        public Outcome Outcome
         {
             get
             {
