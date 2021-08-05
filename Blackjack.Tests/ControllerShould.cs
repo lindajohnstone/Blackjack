@@ -40,9 +40,16 @@ namespace Blackjack.Tests
                 .Returns(new Card(CardRank.Two, CardSuit.Clubs))
                 .Returns(new Card(CardRank.Four, CardSuit.Diamonds));
 
-            controller.Play();
+            var playerHand = player.Hand;
+            var dealerHand = dealer.Hand;
+            var expectedGameResult = new GameResult(dealerHand, playerHand);
 
-            Assert.Equal("Dealer wins!", output.GetWinner());
+            var expectedOutcome = Outcome.DealerWin;
+
+            var result = controller.Play();
+
+            Assert.True(GameResultHelper.GameResultsAreEqual(expectedGameResult, result));
+            Assert.Equal(expectedOutcome, result.Outcome);
         }
 
         [Fact]
@@ -63,9 +70,16 @@ namespace Blackjack.Tests
                 .Returns(new Card(CardRank.Two, CardSuit.Diamonds))
                 .Returns(new Card(CardRank.Six, CardSuit.Diamonds));
 
-            controller.Play();
+            var playerHand = player.Hand;
+            var dealerHand = dealer.Hand;
+            var expectedGameResult = new GameResult(dealerHand, playerHand);
 
-            Assert.Equal("You beat the Dealer!", output.GetWinner());
+            var expectedOutcome = Outcome.PlayerWin;
+
+            var result = controller.Play();
+
+            Assert.True(GameResultHelper.GameResultsAreEqual(expectedGameResult, result));
+            Assert.Equal(expectedOutcome, result.Outcome);
         }
 
         [Fact]
@@ -95,7 +109,7 @@ namespace Blackjack.Tests
 
             var result = controller.Play();
 
-            Assert.Equal(expectedGameResult, result); // failing here - not equal
+            Assert.True(GameResultHelper.GameResultsAreEqual(expectedGameResult, result)); 
             Assert.Equal(expectedOutcome, result.Outcome);
         }
 
@@ -115,9 +129,16 @@ namespace Blackjack.Tests
                 .Returns(new Card(CardRank.Three, CardSuit.Diamonds))
                 .Returns(new Card(CardRank.King, CardSuit.Spades));
 
-            controller.Play();
+            var playerHand = player.Hand;
+            var dealerHand = dealer.Hand;
+            var expectedGameResult = new GameResult(dealerHand, playerHand);
 
-            Assert.Equal("You beat the Dealer!", output.GetWinner());
+            var expectedOutcome = Outcome.PlayerWin;
+
+            var result = controller.Play();
+
+            Assert.True(GameResultHelper.GameResultsAreEqual(expectedGameResult, result));
+            Assert.Equal(expectedOutcome, result.Outcome);
         }
 
         [Fact]
@@ -136,9 +157,16 @@ namespace Blackjack.Tests
                 .Returns(new Card(CardRank.Six, CardSuit.Clubs))
                 .Returns(new Card(CardRank.Five, CardSuit.Diamonds));
 
-            controller.Play();
+            var playerHand = player.Hand;
+            var dealerHand = dealer.Hand;
+            var expectedGameResult = new GameResult(dealerHand, playerHand);
 
-            Assert.Equal("Dealer wins!", output.GetWinner());
+            var expectedOutcome = Outcome.DealerWin;
+
+            var result = controller.Play();
+
+            Assert.True(GameResultHelper.GameResultsAreEqual(expectedGameResult, result));
+            Assert.Equal(expectedOutcome, result.Outcome);
         }
 
         [Fact]
@@ -156,9 +184,16 @@ namespace Blackjack.Tests
                 .Returns(new Card(CardRank.Ten, CardSuit.Hearts))
                 .Returns(new Card(CardRank.Seven, CardSuit.Clubs));
 
-            controller.Play();
+            var playerHand = player.Hand;
+            var dealerHand = dealer.Hand;
+            var expectedGameResult = new GameResult(dealerHand, playerHand);
 
-            Assert.Equal("You beat the Dealer!", output.GetWinner());
+            var expectedOutcome = Outcome.PlayerWin;
+
+            var result = controller.Play();
+
+            Assert.True(GameResultHelper.GameResultsAreEqual(expectedGameResult, result));
+            Assert.Equal(expectedOutcome, result.Outcome);
         }
 
         [Fact]
@@ -176,9 +211,16 @@ namespace Blackjack.Tests
                 .Returns(new Card(CardRank.Nine, CardSuit.Hearts))
                 .Returns(new Card(CardRank.Ten, CardSuit.Diamonds));
 
-            controller.Play();
+            var playerHand = player.Hand;
+            var dealerHand = dealer.Hand;
+            var expectedGameResult = new GameResult(dealerHand, playerHand);
 
-            Assert.Equal("Dealer wins!", output.GetWinner());
+            var expectedOutcome = Outcome.DealerWin;
+
+            var result = controller.Play();
+
+            Assert.True(GameResultHelper.GameResultsAreEqual(expectedGameResult, result));
+            Assert.Equal(expectedOutcome, result.Outcome);
         }
     }
 }
