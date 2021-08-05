@@ -40,8 +40,19 @@ namespace Blackjack.Tests
                 .Returns(new Card(CardRank.Two, CardSuit.Clubs))
                 .Returns(new Card(CardRank.Four, CardSuit.Diamonds));
 
-            var playerHand = player.Hand;
-            var dealerHand = dealer.Hand;
+            var playerHand = new Hand(new List<Card>
+                {
+                    new Card(CardRank.Eight, CardSuit.Hearts),
+                    new Card(CardRank.Ten, CardSuit.Diamonds),
+                    new Card(CardRank.Four, CardSuit.Diamonds)
+                }
+            );
+            var dealerHand = new Hand(new List<Card>
+                {
+                    new Card(CardRank.Two, CardSuit.Hearts),
+                    new Card(CardRank.Two, CardSuit.Clubs)
+                }
+            );
             var expectedGameResult = new GameResult(dealerHand, playerHand);
 
             var expectedOutcome = Outcome.DealerWin;
@@ -70,8 +81,20 @@ namespace Blackjack.Tests
                 .Returns(new Card(CardRank.Two, CardSuit.Diamonds))
                 .Returns(new Card(CardRank.Six, CardSuit.Diamonds));
 
-            var playerHand = player.Hand;
-            var dealerHand = dealer.Hand;
+            var playerHand = new Hand(new List<Card>
+                {
+                    new Card(CardRank.Eight, CardSuit.Hearts),
+                    new Card(CardRank.Ten, CardSuit.Diamonds),
+                    new Card(CardRank.Two, CardSuit.Diamonds)
+                }
+            );
+            var dealerHand = new Hand(new List<Card>
+                {
+                    new Card(CardRank.Ten, CardSuit.Hearts),
+                    new Card(CardRank.Six, CardSuit.Clubs),
+                    new Card(CardRank.Six, CardSuit.Diamonds)
+                }
+            );
             var expectedGameResult = new GameResult(dealerHand, playerHand);
 
             var expectedOutcome = Outcome.PlayerWin;
@@ -94,15 +117,27 @@ namespace Blackjack.Tests
                 .Returns("1")
                 .Returns("0");
             _mockDeck.SetupSequence(d => d.DealCard())
-                .Returns(new Card(CardRank.Four, CardSuit.Spades)) // player
-                .Returns(new Card(CardRank.Ace, CardSuit.Clubs)) // player
-                .Returns(new Card(CardRank.Ten, CardSuit.Hearts)) // dealer
-                .Returns(new Card(CardRank.King, CardSuit.Spades)) // dealer
-                .Returns(new Card(CardRank.Nine, CardSuit.Spades)) // player
-                .Returns(new Card(CardRank.Seven, CardSuit.Hearts)); // player
+                .Returns(new Card(CardRank.Four, CardSuit.Spades)) 
+                .Returns(new Card(CardRank.Ace, CardSuit.Clubs)) 
+                .Returns(new Card(CardRank.Ten, CardSuit.Hearts)) 
+                .Returns(new Card(CardRank.King, CardSuit.Spades)) 
+                .Returns(new Card(CardRank.Nine, CardSuit.Spades)) 
+                .Returns(new Card(CardRank.Seven, CardSuit.Hearts)); 
 
-            var playerHand = player.Hand;
-            var dealerHand = dealer.Hand;
+            var playerHand = new Hand(new List<Card>
+                {
+                    new Card(CardRank.Four, CardSuit.Spades),
+                    new Card(CardRank.Ace, CardSuit.Clubs),
+                    new Card(CardRank.Nine, CardSuit.Spades),
+                    new Card(CardRank.Seven, CardSuit.Hearts)
+                }
+            );
+            var dealerHand = new Hand(new List<Card>
+                {
+                    new Card(CardRank.Ten, CardSuit.Hearts),
+                    new Card(CardRank.King, CardSuit.Spades)
+                }
+            );
             var expectedGameResult = new GameResult(dealerHand, playerHand);
 
             var expectedOutcome = Outcome.PlayerWin;
@@ -129,8 +164,19 @@ namespace Blackjack.Tests
                 .Returns(new Card(CardRank.Three, CardSuit.Diamonds))
                 .Returns(new Card(CardRank.King, CardSuit.Spades));
 
-            var playerHand = player.Hand;
-            var dealerHand = dealer.Hand;
+            var playerHand = new Hand(new List<Card>
+                {
+                    new Card(CardRank.Jack, CardSuit.Diamonds),
+                    new Card(CardRank.Ace, CardSuit.Diamonds)
+                }
+            );
+            var dealerHand = new Hand(new List<Card>
+                {
+                    new Card(CardRank.Five, CardSuit.Spades),
+                    new Card(CardRank.Three, CardSuit.Diamonds),
+                    new Card(CardRank.King, CardSuit.Spades)
+                }
+            );
             var expectedGameResult = new GameResult(dealerHand, playerHand);
 
             var expectedOutcome = Outcome.PlayerWin;
@@ -157,8 +203,19 @@ namespace Blackjack.Tests
                 .Returns(new Card(CardRank.Six, CardSuit.Clubs))
                 .Returns(new Card(CardRank.Five, CardSuit.Diamonds));
 
-            var playerHand = player.Hand;
-            var dealerHand = dealer.Hand;
+            var playerHand = new Hand(new List<Card>
+                {
+                    new Card(CardRank.Jack, CardSuit.Hearts),
+                    new Card(CardRank.Ten, CardSuit.Diamonds)
+                }
+            );
+            var dealerHand = new Hand(new List<Card>
+                {
+                    new Card(CardRank.Ten, CardSuit.Hearts),
+                    new Card(CardRank.Six, CardSuit.Clubs),
+                    new Card(CardRank.Five, CardSuit.Diamonds)
+                }
+            );
             var expectedGameResult = new GameResult(dealerHand, playerHand);
 
             var expectedOutcome = Outcome.DealerWin;
@@ -184,8 +241,18 @@ namespace Blackjack.Tests
                 .Returns(new Card(CardRank.Ten, CardSuit.Hearts))
                 .Returns(new Card(CardRank.Seven, CardSuit.Clubs));
 
-            var playerHand = player.Hand;
-            var dealerHand = dealer.Hand;
+            var playerHand = new Hand(new List<Card>
+                {
+                    new Card(CardRank.Nine, CardSuit.Hearts),
+                    new Card(CardRank.Ten, CardSuit.Diamonds)
+                } 
+            );
+            var dealerHand = new Hand(new List<Card>
+                {
+                    new Card(CardRank.Ten, CardSuit.Hearts),
+                    new Card(CardRank.Seven, CardSuit.Clubs)
+                }
+            );
             var expectedGameResult = new GameResult(dealerHand, playerHand);
 
             var expectedOutcome = Outcome.PlayerWin;
@@ -211,8 +278,18 @@ namespace Blackjack.Tests
                 .Returns(new Card(CardRank.Nine, CardSuit.Hearts))
                 .Returns(new Card(CardRank.Ten, CardSuit.Diamonds));
 
-            var playerHand = player.Hand;
-            var dealerHand = dealer.Hand;
+            var playerHand = new Hand(new List<Card>
+                {
+                    new Card(CardRank.Ten, CardSuit.Hearts),
+                    new Card(CardRank.Seven, CardSuit.Clubs)
+                }
+            );
+            var dealerHand = new Hand(new List<Card>
+                {
+                    new Card(CardRank.Nine, CardSuit.Hearts),
+                    new Card(CardRank.Ten, CardSuit.Diamonds)
+                }
+            );
             var expectedGameResult = new GameResult(dealerHand, playerHand);
 
             var expectedOutcome = Outcome.DealerWin;
