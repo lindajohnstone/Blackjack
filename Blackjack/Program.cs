@@ -20,7 +20,8 @@ namespace Blackjack
             var players = new List<IParticipant> { player, dealer };
             var deck = new Deck();
             var controller = new Controller(input, output, player, dealer, deck);
-            controller.Play();
+            controller.Play(); // TODO: should lines 23 - 24 be a method on Controller?
+            controller.DisplayGameResult();
         }
     }
 }
