@@ -102,40 +102,6 @@ namespace Blackjack
             return new GameResult(_dealer.Hand, _player.Hand);
         }
 
-        public void DisplayGameResult()
-        {
-            if (_gameResult.Outcome == Outcome.DealerWin)
-            {
-                _output.WriteLine(Messages.DealerWins);
-                _output.WriteLine(Messages.GameOver);
-            }
-            if (_gameResult.Outcome == Outcome.PlayerWin)
-            {
-                _output.WriteLine(Messages.PlayerWins);
-                _output.WriteLine(Messages.GameOver);
-            }
-            else if (_gameResult.Outcome == Outcome.Tie)
-            {
-                _output.WriteLine(Messages.Tie);
-                _output.WriteLine(Messages.GameOver);
-            }
-        }
-
-        private Choice GetPlayerChoice()
-        {
-            Choice choice;
-            _output.Write(Messages.Choice);
-            var input = _input.ReadLine();
-            var isValid = Validator.IsValid(input);
-            while (!isValid)
-            {
-                input = _input.ReadLine();
-                isValid = Validator.IsValid(input);
-            }
-            choice = ChoiceParser.ParseChoice(input);
-            return choice;
-        }
-
         private void DealHand(IParticipant participant)
         {
             for (int i = 0; i < 2; i++)
@@ -169,6 +135,21 @@ namespace Blackjack
                 _output.WriteLine(String.Format(message, score, OutputFormatter.DisplayHand(_player.Hand)));
         }
 
+        private Choice GetPlayerChoice()
+        {
+            Choice choice;
+            _output.Write(Messages.Choice);
+            var input = _input.ReadLine();
+            var isValid = Validator.IsValid(input);
+            while (!isValid)
+            {
+                input = _input.ReadLine();
+                isValid = Validator.IsValid(input);
+            }
+            choice = ChoiceParser.ParseChoice(input);
+            return choice;
+        }
+
         private bool ShouldTurnEnd(Choice choice, int score)
         {
             if (choice == Choice.Stay) return true;
@@ -182,6 +163,25 @@ namespace Blackjack
             if (Rules.IsBust(playerScore)) return true;
             if (Rules.IsBust(dealerScore)) return true;
             return false;
+        }
+
+        public void DisplayGameResult()
+        {
+            if (_gameResult.Outcome == Outcome.DealerWin)
+            {
+                _output.WriteLine(Messages.DealerWins);
+                _output.WriteLine(Messages.GameOver);
+            }
+            if (_gameResult.Outcome == Outcome.PlayerWin)
+            {
+                _output.WriteLine(Messages.PlayerWins);
+                _output.WriteLine(Messages.GameOver);
+            }
+            else if (_gameResult.Outcome == Outcome.Tie)
+            {
+                _output.WriteLine(Messages.Tie);
+                _output.WriteLine(Messages.GameOver);
+            }
         }
     }
 }
