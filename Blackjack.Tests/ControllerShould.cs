@@ -199,5 +199,26 @@ namespace Blackjack.Tests
 
             Assert.Equal(expected, _output.GetWinner());
         }
+
+        [Fact]
+        public void ReturnDealerWins_AtGameEnd_AfterDealerGoesBlackjack()
+        {
+            _mockInput.SetupSequence(_ => _.ReadLine())
+                .Returns("1")
+                .Returns("0");
+            _mockDeck.SetupSequence(d => d.DealCard())
+                .Returns(new Card(CardRank.Ten, CardSuit.Hearts))
+                .Returns(new Card(CardRank.Seven, CardSuit.Clubs))
+                .Returns(new Card(CardRank.Four, CardSuit.Hearts))
+                .Returns(new Card(CardRank.Ten, CardSuit.Diamonds))
+                .Returns(new Card(CardRank.Ace, CardSuit.Diamonds))
+                .Returns(new Card(CardRank.Seven, CardSuit.Spades));
+            var expected = "Dealer wins!";
+
+            _controller.Play();
+            _controller.DisplayGameResult();
+
+            Assert.Equal(expected, _output.GetWinner());
+        }
     }
 }
