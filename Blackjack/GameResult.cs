@@ -4,7 +4,8 @@ namespace Blackjack
     {
         DealerWin,
         PlayerWin,
-        Tie
+        Tie,
+        InvalidResult
     }
 
     public class GameResult
@@ -24,6 +25,7 @@ namespace Blackjack
         {
             get
             {
+                if (PlayerScore > 21 && DealerScore > 21) return Outcome.InvalidResult; // TODO: test this // TODO: use Rules
                 if (PlayerScore > 21) return Outcome.DealerWin;
                 if (DealerScore > 21) return Outcome.PlayerWin;
                 if (DealerScore > PlayerScore) return Outcome.DealerWin;
