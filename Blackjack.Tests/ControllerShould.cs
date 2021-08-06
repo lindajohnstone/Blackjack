@@ -159,5 +159,45 @@ namespace Blackjack.Tests
 
             Assert.Equal(expectedOutcome, result.Outcome);
         }
+
+        [Fact]
+        public void ReturnDealerWins_AtGameEnd_AfterScoreGreaterThanPlayer()
+        {
+            _mockInput.SetupSequence(_ => _.ReadLine())
+                .Returns("1")
+                .Returns("0");
+            _mockDeck.SetupSequence(d => d.DealCard())
+                .Returns(new Card(CardRank.Ten, CardSuit.Hearts))
+                .Returns(new Card(CardRank.Seven, CardSuit.Clubs))
+                .Returns(new Card(CardRank.Nine, CardSuit.Hearts))
+                .Returns(new Card(CardRank.Ten, CardSuit.Diamonds))
+                .Returns(new Card(CardRank.Ace, CardSuit.Diamonds));
+            var expected = "Dealer wins!";
+
+            _controller.Play();
+            _controller.DisplayGameResult();
+
+            Assert.Equal(expected, _output.GetWinner());
+        }
+
+        [Fact]
+        public void ReturnDealerWins_AtGameEnd_AfterPlayerGoesBust()
+        {
+            _mockInput.SetupSequence(_ => _.ReadLine())
+                .Returns("1")
+                .Returns("0");
+            _mockDeck.SetupSequence(d => d.DealCard())
+                .Returns(new Card(CardRank.Ten, CardSuit.Hearts))
+                .Returns(new Card(CardRank.Seven, CardSuit.Clubs))
+                .Returns(new Card(CardRank.Nine, CardSuit.Hearts))
+                .Returns(new Card(CardRank.Ten, CardSuit.Diamonds))
+                .Returns(new Card(CardRank.Five, CardSuit.Diamonds));
+            var expected = "Dealer wins!";
+
+            _controller.Play();
+            _controller.DisplayGameResult();
+
+            Assert.Equal(expected, _output.GetWinner());
+        }
     }
 }
