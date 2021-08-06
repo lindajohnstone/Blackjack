@@ -11,25 +11,21 @@ namespace Blackjack.Tests
     {
         Controller _controller;
         Mock<IInput> _mockInput;
-        Mock<IOutput> _mockOutput;
+        StubOutput _output;
         Mock<IDeck> _mockDeck;
         public ControllerShould()
         {
             _mockInput = new Mock<IInput>();
-            _mockOutput = new Mock<IOutput>();
+            _output = new StubOutput();
             _mockDeck = new Mock<IDeck>();
             var player = new Player(new Hand());
             var dealer = new Dealer(new Hand());
-            _controller = new Controller(_mockInput.Object, _mockOutput.Object, player, dealer, _mockDeck.Object);
+            _controller = new Controller(_mockInput.Object, _output, player, dealer, _mockDeck.Object);
         }
 
         [Fact]
         public void ReturnDealerWin_GivenPlayerBust()
         {
-            var output = new StubOutput();
-            var player = new Player(new Hand());
-            var dealer = new Dealer(new Hand());
-            var controller = new Controller(_mockInput.Object, output, player, dealer, _mockDeck.Object);
             _mockInput.SetupSequence(_ => _.ReadLine())
                 .Returns("1")
                 .Returns("0");
@@ -42,7 +38,7 @@ namespace Blackjack.Tests
 
             var expectedOutcome = Outcome.DealerWin;
 
-            var result = controller.Play();
+            var result = _controller.Play();
 
             Assert.Equal(expectedOutcome, result.Outcome);
         }
@@ -50,10 +46,6 @@ namespace Blackjack.Tests
         [Fact]
         public void ReturnPlayerWin_GivenDealerBust()
         {
-            var output = new StubOutput();
-            var player = new Player(new Hand());
-            var dealer = new Dealer(new Hand());
-            var controller = new Controller(_mockInput.Object, output, player, dealer, _mockDeck.Object);
             _mockInput.SetupSequence(_ => _.ReadLine())
                 .Returns("1")
                 .Returns("0");
@@ -67,7 +59,7 @@ namespace Blackjack.Tests
 
             var expectedOutcome = Outcome.PlayerWin;
 
-            var result = controller.Play();
+            var result = _controller.Play();
 
             Assert.Equal(expectedOutcome, result.Outcome);
         }
@@ -75,10 +67,6 @@ namespace Blackjack.Tests
         [Fact]
         public void ReturnPlayerWin_GivenPlayerHasBlackjack() // fixed bug - if player had blackjack, would display lines 140 + 149
         {
-            var output = new StubOutput();
-            var player = new Player(new Hand());
-            var dealer = new Dealer(new Hand());
-            var controller = new Controller(_mockInput.Object, output, player, dealer, _mockDeck.Object);
             _mockInput.SetupSequence(_ => _.ReadLine())
                 .Returns("1")
                 .Returns("1")
@@ -93,7 +81,7 @@ namespace Blackjack.Tests
 
             var expectedOutcome = Outcome.PlayerWin;
 
-            var result = controller.Play();
+            var result = _controller.Play();
 
             Assert.Equal(expectedOutcome, result.Outcome);
         }
@@ -101,11 +89,7 @@ namespace Blackjack.Tests
         [Fact]
         public void ReturnPlayerWin_GivenPlayerHasBlackjackFromInitialDeal() // fixed bug - if initial player hand scored Blackjack, do/while would run
         {
-            var output = new StubOutput();
-            var player = new Player(new Hand());
-            var dealer = new Dealer(new Hand());
-            var controller = new Controller(_mockInput.Object, output, player, dealer, _mockDeck.Object);
-            _mockInput.SetupSequence(_ => _.ReadLine())
+            _mockInput.Setup(_ => _.ReadLine())
                 .Returns("0");
             _mockDeck.SetupSequence(d => d.DealCard())
                 .Returns(new Card(CardRank.Jack, CardSuit.Diamonds))
@@ -116,7 +100,7 @@ namespace Blackjack.Tests
 
             var expectedOutcome = Outcome.PlayerWin;
 
-            var result = controller.Play();
+            var result = _controller.Play();
 
             Assert.Equal(expectedOutcome, result.Outcome);
         }
@@ -124,11 +108,7 @@ namespace Blackjack.Tests
         [Fact]
         public void ReturnDealerWin_GivenDealerHasBlackjack()
         {
-            var output = new StubOutput();
-            var player = new Player(new Hand());
-            var dealer = new Dealer(new Hand());
-            var controller = new Controller(_mockInput.Object, output, player, dealer, _mockDeck.Object);
-            _mockInput.SetupSequence(_ => _.ReadLine())
+            _mockInput.Setup(_ => _.ReadLine())
                 .Returns("0");
             _mockDeck.SetupSequence(d => d.DealCard())
                 .Returns(new Card(CardRank.Jack, CardSuit.Hearts))
@@ -139,7 +119,7 @@ namespace Blackjack.Tests
 
             var expectedOutcome = Outcome.DealerWin;
 
-            var result = controller.Play();
+            var result = _controller.Play();
 
             Assert.Equal(expectedOutcome, result.Outcome);
         }
@@ -147,11 +127,7 @@ namespace Blackjack.Tests
         [Fact]
         public void ReturnPlayerWins_GivenDealerHasLowerScore()
         {
-            var output = new StubOutput();
-            var player = new Player(new Hand());
-            var dealer = new Dealer(new Hand());
-            var controller = new Controller(_mockInput.Object, output, player, dealer, _mockDeck.Object);
-            _mockInput.SetupSequence(_ => _.ReadLine())
+            _mockInput.Setup(_ => _.ReadLine())
                 .Returns("0");
             _mockDeck.SetupSequence(d => d.DealCard())
                 .Returns(new Card(CardRank.Nine, CardSuit.Hearts))
@@ -161,7 +137,7 @@ namespace Blackjack.Tests
 
             var expectedOutcome = Outcome.PlayerWin;
 
-            var result = controller.Play();
+            var result = _controller.Play();
 
             Assert.Equal(expectedOutcome, result.Outcome);
         }
@@ -169,11 +145,7 @@ namespace Blackjack.Tests
         [Fact]
         public void ReturnDealerWins_GivenPlayerHasLowerScore()
         {
-            var output = new StubOutput();
-            var player = new Player(new Hand());
-            var dealer = new Dealer(new Hand());
-            var controller = new Controller(_mockInput.Object, output, player, dealer, _mockDeck.Object);
-            _mockInput.SetupSequence(_ => _.ReadLine())
+            _mockInput.Setup(_ => _.ReadLine())
                 .Returns("0");
             _mockDeck.SetupSequence(d => d.DealCard())
                 .Returns(new Card(CardRank.Ten, CardSuit.Hearts))
@@ -183,7 +155,7 @@ namespace Blackjack.Tests
 
             var expectedOutcome = Outcome.DealerWin;
 
-            var result = controller.Play();
+            var result = _controller.Play();
 
             Assert.Equal(expectedOutcome, result.Outcome);
         }

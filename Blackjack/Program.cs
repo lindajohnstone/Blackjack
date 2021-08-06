@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Blackjack
 {
+    [ExcludeFromCodeCoverage]
     class Program
     {
         static void Main(string[] args)
