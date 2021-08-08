@@ -250,6 +250,7 @@ coverage*.xml
 # Visual Studio code coverage results
 *.coverage
 *.coveragexml
+coveragereport/
 
 # NCrunch
 _NCrunch_*
@@ -467,4 +468,5 @@ FodyWeavers.xsd
 *.tlog
 
 *.docx
+
 # End of https://www.toptal.com/developers/gitignore/api/dotnetcore,visualstudiocode,visualstudio,rider

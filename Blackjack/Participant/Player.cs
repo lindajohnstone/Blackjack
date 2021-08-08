@@ -14,10 +14,5 @@ namespace Blackjack
         {
             Hand.AddCard(card);
         }
-
-        public bool Choice()// ChoiceParser.ParseChoice(input); - string as parameter
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

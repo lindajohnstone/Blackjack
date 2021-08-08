@@ -11,25 +11,21 @@ namespace Blackjack.Tests
     {
         Controller _controller;
         Mock<IInput> _mockInput;
-        Mock<IOutput> _mockOutput;
+        StubOutput _output;
         Mock<IDeck> _mockDeck;
         public ControllerShould()
         {
             _mockInput = new Mock<IInput>();
-            _mockOutput = new Mock<IOutput>();
+            _output = new StubOutput();
             _mockDeck = new Mock<IDeck>();
             var player = new Player(new Hand());
             var dealer = new Dealer(new Hand());
-            _controller = new Controller(_mockInput.Object, _mockOutput.Object, player, dealer, _mockDeck.Object);
+            _controller = new Controller(_mockInput.Object, _output, player, dealer, _mockDeck.Object);
         }
 
         [Fact]
         public void ReturnDealerWin_GivenPlayerBust()
         {
-            var output = new StubOutput();
-            var player = new Player(new Hand());
-            var dealer = new Dealer(new Hand());
-            var controller = new Controller(_mockInput.Object, output, player, dealer, _mockDeck.Object);
             _mockInput.SetupSequence(_ => _.ReadLine())
                 .Returns("1")
                 .Returns("0");
@@ -40,25 +36,16 @@ namespace Blackjack.Tests
                 .Returns(new Card(CardRank.Two, CardSuit.Clubs))
                 .Returns(new Card(CardRank.Four, CardSuit.Diamonds));
 
-            var playerHand = player.Hand;
-            var dealerHand = dealer.Hand;
-            var expectedGameResult = new GameResult(dealerHand, playerHand);
-
             var expectedOutcome = Outcome.DealerWin;
 
-            var result = controller.Play();
+            var result = _controller.Play();
 
-            Assert.True(GameResultHelper.GameResultsAreEqual(expectedGameResult, result));
             Assert.Equal(expectedOutcome, result.Outcome);
         }
 
         [Fact]
         public void ReturnPlayerWin_GivenDealerBust()
         {
-            var output = new StubOutput();
-            var player = new Player(new Hand());
-            var dealer = new Dealer(new Hand());
-            var controller = new Controller(_mockInput.Object, output, player, dealer, _mockDeck.Object);
             _mockInput.SetupSequence(_ => _.ReadLine())
                 .Returns("1")
                 .Returns("0");
@@ -70,57 +57,39 @@ namespace Blackjack.Tests
                 .Returns(new Card(CardRank.Two, CardSuit.Diamonds))
                 .Returns(new Card(CardRank.Six, CardSuit.Diamonds));
 
-            var playerHand = player.Hand;
-            var dealerHand = dealer.Hand;
-            var expectedGameResult = new GameResult(dealerHand, playerHand);
-
             var expectedOutcome = Outcome.PlayerWin;
 
-            var result = controller.Play();
+            var result = _controller.Play();
 
-            Assert.True(GameResultHelper.GameResultsAreEqual(expectedGameResult, result));
             Assert.Equal(expectedOutcome, result.Outcome);
         }
 
         [Fact]
         public void ReturnPlayerWin_GivenPlayerHasBlackjack() // fixed bug - if player had blackjack, would display lines 140 + 149
         {
-            var output = new StubOutput();
-            var player = new Player(new Hand());
-            var dealer = new Dealer(new Hand());
-            var controller = new Controller(_mockInput.Object, output, player, dealer, _mockDeck.Object);
             _mockInput.SetupSequence(_ => _.ReadLine())
                 .Returns("1")
                 .Returns("1")
                 .Returns("0");
             _mockDeck.SetupSequence(d => d.DealCard())
-                .Returns(new Card(CardRank.Four, CardSuit.Spades)) // player
-                .Returns(new Card(CardRank.Ace, CardSuit.Clubs)) // player
-                .Returns(new Card(CardRank.Ten, CardSuit.Hearts)) // dealer
-                .Returns(new Card(CardRank.King, CardSuit.Spades)) // dealer
-                .Returns(new Card(CardRank.Nine, CardSuit.Spades)) // player
-                .Returns(new Card(CardRank.Seven, CardSuit.Hearts)); // player
-
-            var playerHand = player.Hand;
-            var dealerHand = dealer.Hand;
-            var expectedGameResult = new GameResult(dealerHand, playerHand);
+                .Returns(new Card(CardRank.Four, CardSuit.Spades)) 
+                .Returns(new Card(CardRank.Ace, CardSuit.Clubs)) 
+                .Returns(new Card(CardRank.Ten, CardSuit.Hearts)) 
+                .Returns(new Card(CardRank.King, CardSuit.Spades)) 
+                .Returns(new Card(CardRank.Nine, CardSuit.Spades)) 
+                .Returns(new Card(CardRank.Seven, CardSuit.Hearts)); 
 
             var expectedOutcome = Outcome.PlayerWin;
 
-            var result = controller.Play();
+            var result = _controller.Play();
 
-            Assert.True(GameResultHelper.GameResultsAreEqual(expectedGameResult, result)); 
             Assert.Equal(expectedOutcome, result.Outcome);
         }
 
         [Fact]
         public void ReturnPlayerWin_GivenPlayerHasBlackjackFromInitialDeal() // fixed bug - if initial player hand scored Blackjack, do/while would run
         {
-            var output = new StubOutput();
-            var player = new Player(new Hand());
-            var dealer = new Dealer(new Hand());
-            var controller = new Controller(_mockInput.Object, output, player, dealer, _mockDeck.Object);
-            _mockInput.SetupSequence(_ => _.ReadLine())
+            _mockInput.Setup(_ => _.ReadLine())
                 .Returns("0");
             _mockDeck.SetupSequence(d => d.DealCard())
                 .Returns(new Card(CardRank.Jack, CardSuit.Diamonds))
@@ -129,26 +98,17 @@ namespace Blackjack.Tests
                 .Returns(new Card(CardRank.Three, CardSuit.Diamonds))
                 .Returns(new Card(CardRank.King, CardSuit.Spades));
 
-            var playerHand = player.Hand;
-            var dealerHand = dealer.Hand;
-            var expectedGameResult = new GameResult(dealerHand, playerHand);
-
             var expectedOutcome = Outcome.PlayerWin;
 
-            var result = controller.Play();
+            var result = _controller.Play();
 
-            Assert.True(GameResultHelper.GameResultsAreEqual(expectedGameResult, result));
             Assert.Equal(expectedOutcome, result.Outcome);
         }
 
         [Fact]
         public void ReturnDealerWin_GivenDealerHasBlackjack()
         {
-            var output = new StubOutput();
-            var player = new Player(new Hand());
-            var dealer = new Dealer(new Hand());
-            var controller = new Controller(_mockInput.Object, output, player, dealer, _mockDeck.Object);
-            _mockInput.SetupSequence(_ => _.ReadLine())
+            _mockInput.Setup(_ => _.ReadLine())
                 .Returns("0");
             _mockDeck.SetupSequence(d => d.DealCard())
                 .Returns(new Card(CardRank.Jack, CardSuit.Hearts))
@@ -157,26 +117,17 @@ namespace Blackjack.Tests
                 .Returns(new Card(CardRank.Six, CardSuit.Clubs))
                 .Returns(new Card(CardRank.Five, CardSuit.Diamonds));
 
-            var playerHand = player.Hand;
-            var dealerHand = dealer.Hand;
-            var expectedGameResult = new GameResult(dealerHand, playerHand);
-
             var expectedOutcome = Outcome.DealerWin;
 
-            var result = controller.Play();
+            var result = _controller.Play();
 
-            Assert.True(GameResultHelper.GameResultsAreEqual(expectedGameResult, result));
             Assert.Equal(expectedOutcome, result.Outcome);
         }
 
         [Fact]
         public void ReturnPlayerWins_GivenDealerHasLowerScore()
         {
-            var output = new StubOutput();
-            var player = new Player(new Hand());
-            var dealer = new Dealer(new Hand());
-            var controller = new Controller(_mockInput.Object, output, player, dealer, _mockDeck.Object);
-            _mockInput.SetupSequence(_ => _.ReadLine())
+            _mockInput.Setup(_ => _.ReadLine())
                 .Returns("0");
             _mockDeck.SetupSequence(d => d.DealCard())
                 .Returns(new Card(CardRank.Nine, CardSuit.Hearts))
@@ -184,26 +135,17 @@ namespace Blackjack.Tests
                 .Returns(new Card(CardRank.Ten, CardSuit.Hearts))
                 .Returns(new Card(CardRank.Seven, CardSuit.Clubs));
 
-            var playerHand = player.Hand;
-            var dealerHand = dealer.Hand;
-            var expectedGameResult = new GameResult(dealerHand, playerHand);
-
             var expectedOutcome = Outcome.PlayerWin;
 
-            var result = controller.Play();
+            var result = _controller.Play();
 
-            Assert.True(GameResultHelper.GameResultsAreEqual(expectedGameResult, result));
             Assert.Equal(expectedOutcome, result.Outcome);
         }
 
         [Fact]
         public void ReturnDealerWins_GivenPlayerHasLowerScore()
         {
-            var output = new StubOutput();
-            var player = new Player(new Hand());
-            var dealer = new Dealer(new Hand());
-            var controller = new Controller(_mockInput.Object, output, player, dealer, _mockDeck.Object);
-            _mockInput.SetupSequence(_ => _.ReadLine())
+            _mockInput.Setup(_ => _.ReadLine())
                 .Returns("0");
             _mockDeck.SetupSequence(d => d.DealCard())
                 .Returns(new Card(CardRank.Ten, CardSuit.Hearts))
@@ -211,16 +153,175 @@ namespace Blackjack.Tests
                 .Returns(new Card(CardRank.Nine, CardSuit.Hearts))
                 .Returns(new Card(CardRank.Ten, CardSuit.Diamonds));
 
-            var playerHand = player.Hand;
-            var dealerHand = dealer.Hand;
-            var expectedGameResult = new GameResult(dealerHand, playerHand);
-
             var expectedOutcome = Outcome.DealerWin;
 
-            var result = controller.Play();
+            var result = _controller.Play();
 
-            Assert.True(GameResultHelper.GameResultsAreEqual(expectedGameResult, result));
             Assert.Equal(expectedOutcome, result.Outcome);
+        }
+
+        [Fact]
+        public void ReturnDealerWins_AtGameEnd_AfterScoreGreaterThanPlayer()
+        {
+            _mockInput.SetupSequence(_ => _.ReadLine())
+                .Returns("1")
+                .Returns("0");
+            _mockDeck.SetupSequence(d => d.DealCard())
+                .Returns(new Card(CardRank.Ten, CardSuit.Hearts))
+                .Returns(new Card(CardRank.Seven, CardSuit.Clubs))
+                .Returns(new Card(CardRank.Nine, CardSuit.Hearts))
+                .Returns(new Card(CardRank.Ten, CardSuit.Diamonds))
+                .Returns(new Card(CardRank.Ace, CardSuit.Diamonds));
+            var expected = "Dealer wins!";
+
+            _controller.Play();
+            _controller.DisplayGameResult();
+
+            Assert.Equal(expected, _output.GetWinner());
+        }
+
+        [Fact]
+        public void ReturnDealerWins_AtGameEnd_AfterPlayerGoesBust()
+        {
+            _mockInput.SetupSequence(_ => _.ReadLine())
+                .Returns("1")
+                .Returns("0");
+            _mockDeck.SetupSequence(d => d.DealCard())
+                .Returns(new Card(CardRank.Ten, CardSuit.Hearts))
+                .Returns(new Card(CardRank.Seven, CardSuit.Clubs))
+                .Returns(new Card(CardRank.Nine, CardSuit.Hearts))
+                .Returns(new Card(CardRank.Ten, CardSuit.Diamonds))
+                .Returns(new Card(CardRank.Five, CardSuit.Diamonds));
+            var expected = "Dealer wins!";
+
+            _controller.Play();
+            _controller.DisplayGameResult();
+
+            Assert.Equal(expected, _output.GetWinner());
+        }
+
+        [Fact]
+        public void ReturnDealerWins_AtGameEnd_AfterDealerGoesBlackjack()
+        {
+            _mockInput.SetupSequence(_ => _.ReadLine())
+                .Returns("1")
+                .Returns("0");
+            _mockDeck.SetupSequence(d => d.DealCard())
+                .Returns(new Card(CardRank.Ten, CardSuit.Hearts))
+                .Returns(new Card(CardRank.Seven, CardSuit.Clubs))
+                .Returns(new Card(CardRank.Four, CardSuit.Hearts))
+                .Returns(new Card(CardRank.Ten, CardSuit.Diamonds))
+                .Returns(new Card(CardRank.Ace, CardSuit.Diamonds))
+                .Returns(new Card(CardRank.Seven, CardSuit.Spades));
+            var expected = "Dealer wins!";
+
+            _controller.Play();
+            _controller.DisplayGameResult();
+
+            Assert.Equal(expected, _output.GetWinner());
+        }
+
+        [Fact]
+        public void ReturnPlayerWins_AtGameEnd_AfterScoreGreaterThanDealer()
+        {
+            _mockInput.SetupSequence(_ => _.ReadLine())
+                .Returns("1")
+                .Returns("0");
+            _mockDeck.SetupSequence(d => d.DealCard())
+                .Returns(new Card(CardRank.Ten, CardSuit.Hearts))
+                .Returns(new Card(CardRank.Seven, CardSuit.Clubs))
+                .Returns(new Card(CardRank.Nine, CardSuit.Hearts))
+                .Returns(new Card(CardRank.Ten, CardSuit.Diamonds))
+                .Returns(new Card(CardRank.Four, CardSuit.Diamonds));
+            var expected = "You beat the Dealer!";
+
+            _controller.Play();
+            _controller.DisplayGameResult();
+
+            Assert.Equal(expected, _output.GetWinner());
+        }
+
+        [Fact]
+        public void ReturnPlayerWins_AtGameEnd_AfterDealerGoesBust()
+        {
+            _mockInput.SetupSequence(_ => _.ReadLine())
+                .Returns("1")
+                .Returns("0");
+            _mockDeck.SetupSequence(d => d.DealCard())
+                .Returns(new Card(CardRank.Ten, CardSuit.Hearts))
+                .Returns(new Card(CardRank.Seven, CardSuit.Clubs))
+                .Returns(new Card(CardRank.Nine, CardSuit.Hearts))
+                .Returns(new Card(CardRank.Ten, CardSuit.Diamonds))
+                .Returns(new Card(CardRank.Ace, CardSuit.Diamonds))
+                .Returns(new Card(CardRank.Four, CardSuit.Clubs));
+            var expected = "Dealer wins!";
+
+            _controller.Play();
+            _controller.DisplayGameResult();
+
+            Assert.Equal(expected, _output.GetWinner());
+        }
+
+        [Fact]
+        public void ReturnPlayerWins_AtGameEnd_AfterPlayerGoesBlackjack()
+        {
+            _mockInput.SetupSequence(_ => _.ReadLine())
+                .Returns("1")
+                .Returns("0");
+            _mockDeck.SetupSequence(d => d.DealCard())
+                .Returns(new Card(CardRank.Ten, CardSuit.Hearts))
+                .Returns(new Card(CardRank.Seven, CardSuit.Clubs))
+                .Returns(new Card(CardRank.Nine, CardSuit.Hearts))
+                .Returns(new Card(CardRank.Ten, CardSuit.Diamonds))
+                .Returns(new Card(CardRank.Four, CardSuit.Diamonds));
+            var expected = "You beat the Dealer!";
+
+            _controller.Play();
+            _controller.DisplayGameResult();
+
+            Assert.Equal(expected, _output.GetWinner());
+        }
+
+        [Fact]
+        public void ReturnTiedGame_AtGameEnd_AfterPlayerAndDealerBlackjack()
+        {
+            _mockInput.SetupSequence(_ => _.ReadLine())
+                .Returns("1")
+                .Returns("0");
+            _mockDeck.SetupSequence(d => d.DealCard())
+                .Returns(new Card(CardRank.Ten, CardSuit.Hearts))
+                .Returns(new Card(CardRank.Seven, CardSuit.Clubs))
+                .Returns(new Card(CardRank.Six, CardSuit.Hearts))
+                .Returns(new Card(CardRank.Ten, CardSuit.Diamonds))
+                .Returns(new Card(CardRank.Four, CardSuit.Diamonds))
+                .Returns(new Card(CardRank.Five, CardSuit.Spades));
+            var expected = "It's a TIE!";
+
+            _controller.Play();
+            _controller.DisplayGameResult();
+
+            Assert.Equal(expected, _output.GetWinner());
+        }
+
+        [Fact]
+        public void ReturnTiedGame_AtGameEnd_AfterPlayerAndDealerHaveSameScore()
+        {
+            _mockInput.SetupSequence(_ => _.ReadLine())
+                .Returns("1")
+                .Returns("0");
+            _mockDeck.SetupSequence(d => d.DealCard())
+                .Returns(new Card(CardRank.Ten, CardSuit.Hearts))
+                .Returns(new Card(CardRank.Seven, CardSuit.Clubs))
+                .Returns(new Card(CardRank.Six, CardSuit.Hearts))
+                .Returns(new Card(CardRank.Ten, CardSuit.Diamonds))
+                .Returns(new Card(CardRank.Three, CardSuit.Diamonds))
+                .Returns(new Card(CardRank.Four, CardSuit.Spades));
+            var expected = "It's a TIE!";
+
+            _controller.Play();
+            _controller.DisplayGameResult();
+
+            Assert.Equal(expected, _output.GetWinner());
         }
     }
 }

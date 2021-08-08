@@ -123,12 +123,12 @@ namespace Blackjack
             message = participant == _player ? Messages.Player : Messages.Dealer;
             if (Rules.IsBlackjack(score))
             {
-                _output.WriteLine(String.Format(message, Messages.Blackjack, OutputFormatter.DisplayHand(_player.Hand)));
+                _output.WriteLine(String.Format(message, Messages.Blackjack, OutputFormatter.DisplayHand(participant.Hand)));
                 return;
             }
             if (Rules.IsBust(score))
             {
-                _output.WriteLine(String.Format(message, Messages.Bust, OutputFormatter.DisplayHand(_player.Hand)));
+                _output.WriteLine(String.Format(message, Messages.Bust, OutputFormatter.DisplayHand(participant.Hand)));
                 return;
             }
             else

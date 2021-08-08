@@ -21,7 +21,7 @@ namespace Blackjack.Tests
         [Theory]
         [InlineData(CardRank.Jack, CardRank.Queen, CardRank.King)]
         [InlineData(CardRank.Jack, CardRank.Two, CardRank.Ten)]
-        public void ReturnDealerWin_GivenPlayerGoneBust(params CardRank[] cardRanks)
+        public void ReturnDealerWin_GivenPlayerGoneBust(params CardRank[] cardRanks) 
         {
             _mockPlayerHand.Setup(h => h.Cards)
                 .Returns(
@@ -29,7 +29,14 @@ namespace Blackjack.Tests
                         cr => new Card(cr, It.IsAny<CardSuit>())
                     ).ToList()
                 );
-            var gameResult = new GameResult(It.IsAny<IHand>(), _mockPlayerHand.Object);
+            _mockDealerHand.Setup(h => h.Cards)
+                .Returns(new List<Card>
+                    {
+                        new Card(CardRank.Ace, It.IsAny<CardSuit>()),
+                        new Card(CardRank.Ace, It.IsAny<CardSuit>())
+                    }
+                );
+            var gameResult = new GameResult(_mockDealerHand.Object, _mockPlayerHand.Object);
             var expected = Outcome.DealerWin;
 
             var actual = gameResult.Outcome;
@@ -163,5 +170,30 @@ namespace Blackjack.Tests
             Assert.Equal(expected, actual);
         }
 
+        [Fact]
+        public void ReturnInvalidResult_GivenPlayerAndDealerGoneBust()
+        {
+            _mockDealerHand.Setup(h => h.Cards)
+                .Returns(new List<Card>
+                    {
+                        new Card(CardRank.Jack, It.IsAny<CardSuit>()),
+                        new Card(CardRank.Six, It.IsAny<CardSuit>()),
+                        new Card(CardRank.Eight, It.IsAny<CardSuit>())
+                    }
+                );
+            _mockPlayerHand.Setup(h => h.Cards)
+                .Returns(new List<Card>
+                    {
+                        new Card(CardRank.Ten, It.IsAny<CardSuit>()),
+                        new Card(CardRank.Six, It.IsAny<CardSuit>()),
+                        new Card(CardRank.Nine, It.IsAny<CardSuit>())
+                    }
+                );
+            var expected = Outcome.InvalidResult;
+
+            var actual = _gameResult.Outcome;
+
+            Assert.Equal(expected, actual);
+        }
     }
 }

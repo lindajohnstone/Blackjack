@@ -14,11 +14,5 @@ namespace Blackjack
         {
             Hand.AddCard(card);
         }
-
-        public bool Choice() // ShouldDealerHitAgain(dealerScore) - int as parameter // TODO: 
-        {
-            throw new System.NotImplementedException();
-            // return score < 17 ? Choice.Hit : Choice.Stay; 
-        }
     }
 }
