@@ -131,8 +131,7 @@ namespace Blackjack
                 _output.WriteLine(String.Format(message, Messages.Bust, OutputFormatter.DisplayHand(participant.Hand)));
                 return;
             }
-            else
-                _output.WriteLine(String.Format(message, score, OutputFormatter.DisplayHand(_player.Hand)));
+            _output.WriteLine(String.Format(message, score, OutputFormatter.DisplayHand(_player.Hand)));
         }
 
         private Choice GetPlayerChoice()
