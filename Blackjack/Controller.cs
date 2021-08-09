@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 
 namespace Blackjack
 {
@@ -22,35 +20,6 @@ namespace Blackjack
         }
 
         public IDeck Deck { get; private set; }
-
-        // game starts
-        // both dealer + player get 2 cards each
-        // player's phase of play
-        // player chooses to hit repeatedly until
-        // they hit blackjack
-        // they go bust
-        // they choose to stay
-        // player has a score
-        // they could be <21, blackjack, or bust
-        // if player is bust, their turn ends
-        // we only care if the player is bust because dealer's phase of play only goes ahead if player isn't bust
-
-        // if player is bust i.e. has score > 21:
-        // end game, create gameresult
-
-        // if player isn't bust i.e. has score 2-21:
-        // dealer's phase of play
-        // dealer chooses to hit repeatedly until
-        // they hit blackjack
-        // they go bust
-        // they choose to stay because score is >= 17
-        // if dealer goes bust
-        // end game, create gameresult
-        // else compare score with player
-        // higher score wins, create gameresult
-        // same score ties, create gameresult
-
-        // output gameresult
 
         public GameResult Play()
         {
@@ -131,7 +100,7 @@ namespace Blackjack
                 _output.WriteLine(String.Format(message, Messages.Bust, OutputFormatter.DisplayHand(participant.Hand)));
                 return;
             }
-            _output.WriteLine(String.Format(message, score, OutputFormatter.DisplayHand(_player.Hand)));
+            _output.WriteLine(String.Format(message, score, OutputFormatter.DisplayHand(participant.Hand)));
         }
 
         private Choice GetPlayerChoice()
