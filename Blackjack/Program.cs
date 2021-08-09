@@ -15,7 +15,6 @@ namespace Blackjack
             var player = new Player(playerHand);
             var dealerHand = new Hand();
             var dealer = new Dealer(dealerHand);
-            var players = new List<IParticipant> { player, dealer };
             var deck = new Deck();
             var controller = new Controller(input, output, player, dealer, deck);
             controller.Play(); 
